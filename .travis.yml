@@ -5,4 +5,4 @@ sudo: false
 install:
  - pip install tox
 script:
- - tox -e py27,style 
+ - tox -e py27,flake8 
