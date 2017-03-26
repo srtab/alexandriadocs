@@ -1,0 +1,11 @@
+[run]
+source = alexandria_docs
+omit =
+    *tests*
+    *settings*
+
+[report]
+skip_covered = True
+show_missing = True
+ignore_errors = True
+sort = Cover
