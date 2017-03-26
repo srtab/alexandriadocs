@@ -1,5 +1,7 @@
 FROM centos:7
 
+LABEL maintainer "srtabs@gmail.com"
+
 RUN yum -y install epel-release
 RUN yum -y update
 RUN yum -y install python-devel
@@ -18,7 +20,7 @@ RUN mkdir /app
 WORKDIR /app
 
 # Add all files [Except the ones in dockerignore file]
-ADD . /app/
+COPY . /app/
 
 # update pip and setuptools
 RUN pip install pip setuptools --upgrade
