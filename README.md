@@ -6,3 +6,34 @@
 ## Purpose
 Alexandria is a documentation centralizer statically generated. Receive, store, index and serve documentation generated using tools like sphinx, mkdocs, etc...
 
+## Starting development
+Steps to start developing and contributing:
+
+```
+// clone the project
+$ git clone https://github.com/srtab/alexandria-docs.git
+$ cd alexandria-docs
+
+// build the image
+$ docker build -t alexandria .
+
+// run the container
+$ docker run -d -p 8000:8000 -v $(pwd):/app --name alexandria alexandria
+
+// stop container
+$ docker stop alexandria
+
+// start container
+$ docker start alexandria
+```
+
+## Running tests
+To run unit tests we use tox. You need to access the container bash and run tox:
+
+```
+// access to container bash
+$ docker exec -it alexandria bash
+
+// run unit tests inside the container
+$ tox -e py27
+```
