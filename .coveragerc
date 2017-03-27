@@ -1,5 +1,5 @@
 [run]
-source = alexandria_docs
+source = .
 omit =
     *tests*
     *settings*

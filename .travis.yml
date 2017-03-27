@@ -5,4 +5,5 @@ sudo: false
 install:
  - pip install tox
 script:
- - tox -e flake8,coveralls
+ - tox -e flake8
+ - tox -e travis
