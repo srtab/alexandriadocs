@@ -40,8 +40,10 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'django_extensions',
+    'taggit',
 
     'projects',
+    'api',
 ]
 
 MIDDLEWARE = [
@@ -123,3 +125,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# TAGGIT
+
+TAGGIT_CASE_INSENSITIVE = True
+
+
+# REST_FRAMEWORK
+
+REST_FRAMEWORK = {
+    'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.URLPathVersioning'
+}
