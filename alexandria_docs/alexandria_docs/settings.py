@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'taggit',
 
     'projects',
+    'api',
 ]
 
 MIDDLEWARE = [
@@ -125,5 +126,13 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+# TAGGIT
 
 TAGGIT_CASE_INSENSITIVE = True
+
+
+# REST_FRAMEWORK
+
+REST_FRAMEWORK = {
+    'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.URLPathVersioning'
+}
