@@ -9,4 +9,4 @@ class ProjectArchiveSerializer(serializers.ModelSerializer):
     """ """
     class Meta:
         model = ProjectArchive
-        fields = ('project_id', 'archive')
+        fields = ('project', 'archive')

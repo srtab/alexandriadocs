@@ -11,6 +11,7 @@ from django_extensions.db.models import (
 from taggit.managers import TaggableManager
 
 from projects.utils import projects_upload_to
+from projects.validators import MimeTypeValidator
 
 
 @python_2_unicode_compatible
@@ -55,7 +56,11 @@ class ProjectArchive(TimeStampedModel):
     project = models.ForeignKey(Project, verbose_name=_('project'))
     archive = models.FileField(
         _('archive'), upload_to=projects_upload_to,
-        help_text=_('archive with project documentation'))
+        help_text=_('archive with project documentation'),
+        validators=[
+            MimeTypeValidator(
+                allowed_mimetypes=settings.PROJECTS_ALLOWED_MIMETYPES)
+        ])
 
     class Meta:
         verbose_name = _('project archive')

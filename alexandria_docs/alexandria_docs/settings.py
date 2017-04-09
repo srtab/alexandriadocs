@@ -11,9 +11,15 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
+import mimetypes
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
+# to serve svg images on development mode
+mimetypes.add_type("image/svg+xml", ".svg", True)
+mimetypes.add_type("image/svg+xml", ".svgz", True)
 
 
 # Quick-start development settings - unsuitable for production
@@ -136,3 +142,8 @@ TAGGIT_CASE_INSENSITIVE = True
 REST_FRAMEWORK = {
     'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.URLPathVersioning'
 }
+
+
+# PROJECTS SETTINGS
+
+PROJECTS_ALLOWED_MIMETYPES = ('application/x-gzip',)
