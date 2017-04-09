@@ -1,0 +1,17 @@
+# Django stuff:
+*.log
+
+# PyBuilder
+target/
+
+# local settings
+env/
+data/
+.tox/
+
+.editorconfig
+.gitignore
+.git
+LICENSE
+README.md
+Dockerfile
