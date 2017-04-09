@@ -13,8 +13,11 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
+from __future__ import unicode_literals
+
 from django.conf.urls import url, include
 from django.contrib import admin
+
 
 urlpatterns = [
     url(
@@ -23,5 +26,10 @@ urlpatterns = [
     ),
     url(
         regex=r'^api-auth/',
-        view=include('rest_framework.urls', namespace='rest_framework'))
+        view=include('rest_framework.urls', namespace='rest_framework')
+    ),
+    url(
+        regex=r'^api/(?P<version>v1)/',
+        view=include('api.urls', namespace='api')
+    )
 ]
