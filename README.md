@@ -5,7 +5,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/srtab/alexandria-docs/badge.svg?branch=master)](https://coveralls.io/github/srtab/alexandria-docs?branch=master)
 
 ## Purpose
-Alexandria is a documentation centralizer statically generated. Receive, store, index and serve documentation generated using tools like sphinx, mkdocs, etc...
+Alexandria is a static generated documentation centralizer. Receive, store, index and serve documentation generated using tools like sphinx, mkdocs, etc...
 
 ## Starting development
 Steps to start developing and contributing:
