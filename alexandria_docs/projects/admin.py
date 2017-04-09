@@ -18,7 +18,6 @@ class ProjectArchiveInline(admin.TabularInline):
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
     """ """
-
     inlines = [
         ProjectArchiveInline,
     ]
