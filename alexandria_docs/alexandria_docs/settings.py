@@ -152,3 +152,5 @@ REST_FRAMEWORK = {
 # PROJECTS SETTINGS
 
 PROJECTS_ALLOWED_MIMETYPES = ('application/x-gzip',)
+PROJECTS_SERVE_URL = "/docs/"
+PROJECTS_SERVE_ROOT = os.path.join(BASE_DIR, '..', 'data', 'staticsites')

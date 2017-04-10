@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 
 from django.utils.translation import ugettext_lazy as _
+from django.db.models.signals import post_save
 from django.utils.encoding import python_2_unicode_compatible
 from django.conf import settings
 from django.db import models
@@ -10,8 +11,8 @@ from django_extensions.db.models import (
     TitleSlugDescriptionModel, TimeStampedModel)
 from taggit.managers import TaggableManager
 
-from projects.utils import projects_upload_to
 from projects.validators import MimeTypeValidator
+from projects.utils import projects_upload_to, extract_files
 
 
 @python_2_unicode_compatible
@@ -37,7 +38,6 @@ class Project(TitleSlugDescriptionModel, TimeStampedModel):
         settings.AUTH_USER_MODEL, verbose_name=_('author'),
         help_text=_('project author'))
     repo = models.CharField(_('repository URL'), max_length=255)
-    project_url = models.URLField(_('project URL'))
     tags = TaggableManager(blank=True)
 
     class Meta:
@@ -45,6 +45,9 @@ class Project(TitleSlugDescriptionModel, TimeStampedModel):
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return "{}{}/".format(settings.PROJECTS_SERVE_URL, self.slug)
 
 
 @python_2_unicode_compatible
@@ -67,3 +70,11 @@ class ProjectArchive(TimeStampedModel):
 
     def __str__(self):
         return self.project.__str__()
+
+    @staticmethod
+    def post_save(sender, instance, **kwargs):
+        """Extract the archive and put files to be served"""
+        extract_files(instance.project.slug, instance.archive)
+
+
+post_save.connect(ProjectArchive.post_save, sender=ProjectArchive)
