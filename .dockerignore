@@ -12,6 +12,7 @@ data/
 .editorconfig
 .gitignore
 .git
+.travis.yml
 LICENSE
 README.md
 Dockerfile

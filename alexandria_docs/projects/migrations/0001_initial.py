@@ -43,7 +43,6 @@ class Migration(migrations.Migration):
                 ('description', models.TextField(blank=True, null=True, verbose_name='description')),
                 ('slug', django_extensions.db.fields.AutoSlugField(blank=True, editable=False, populate_from=b'title', verbose_name='slug')),
                 ('repo', models.CharField(max_length=255, verbose_name='Repository URL')),
-                ('project_url', models.URLField(verbose_name='Project url')),
                 ('author', models.ForeignKey(help_text='Project author', on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, verbose_name='author')),
                 ('organization', models.ForeignKey(help_text='Project organization', on_delete=django.db.models.deletion.CASCADE, to='projects.Organization', verbose_name='organization')),
                 ('tags', taggit.managers.TaggableManager(blank=True, help_text='A comma-separated list of tags.', through='taggit.TaggedItem', to='taggit.Tag', verbose_name='Tags')),
