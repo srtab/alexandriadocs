@@ -29,7 +29,7 @@ class UploadProjectArchiveViewTest(TestCase):
         """must be athenticated to access api"""
         request = self.factory.post('/test/', {})
         response = self.view(request).render()
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, 401)
 
     def test_post_with_authenticated_user(self):
         """"""
