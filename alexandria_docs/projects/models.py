@@ -47,7 +47,7 @@ class Project(TitleSlugDescriptionModel, TimeStampedModel):
         return self.title
 
     def get_absolute_url(self):
-        return "{}{}/".format(settings.PROJECTS_SERVE_URL, self.slug)
+        return "{}{}/index.html".format(settings.PROJECTS_SERVE_URL, self.slug)
 
 
 @python_2_unicode_compatible
