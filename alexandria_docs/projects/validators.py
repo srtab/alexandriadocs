@@ -3,9 +3,11 @@ from __future__ import unicode_literals
 import magic
 
 from django.utils.translation import ugettext_lazy as _
+from django.utils.deconstruct import deconstructible
 from django.core.exceptions import ValidationError
 
 
+@deconstructible
 class MimeTypeValidator(object):
     """Validator for files, checking the mimetype."""
 

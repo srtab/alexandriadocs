@@ -27,7 +27,8 @@ class ProjectModelTest(SimpleTestCase):
     def test_get_absolute_url(self):
         project = Project(slug="slug")
         with self.settings(PROJECTS_SERVE_URL="/docs/"):
-            self.assertEqual(project.get_absolute_url(), "/docs/slug/")
+            self.assertEqual(project.get_absolute_url(),
+                             "/docs/slug/index.html")
 
 
 class ProjectArchiveModelTest(SimpleTestCase):
