@@ -1,3 +1,4 @@
+psycopg2~=2.7.1
 python-magic~=0.4.13
 
 django~=1.11.0

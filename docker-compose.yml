@@ -1,0 +1,27 @@
+version: "2"
+services:
+    db:
+      image: postgres:latest
+      restart: on-failure
+      environment:
+        - POSTGRES_PASSWORD=dbrootpass
+        - POSTGRES_DB=alexandria
+      ports:
+        - "5432"
+      volumes:
+        - ./data/db:/var/lib/postgresql
+
+    app:
+      build: .
+      restart: on-failure
+      environment:
+        - C_FORCE_ROOT=true
+        - DJANGO_SETTINGS_MODULE=alexandria_docs.settings.docker
+      depends_on:
+        - db
+      volumes:
+        - ./data/static:/data/static
+        - ./data/media:/data/media
+        - .:/app
+      ports:
+        - "8000:8000"
