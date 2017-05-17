@@ -1,5 +1,7 @@
 from __future__ import unicode_literals
 
+import os
+
 from django.utils.translation import ugettext_lazy as _
 from django.db.models.signals import post_save
 from django.utils.encoding import python_2_unicode_compatible
@@ -32,10 +34,10 @@ class Organization(TimeStampedModel):
 class Project(TitleSlugDescriptionModel, TimeStampedModel):
     """ """
     organization = models.ForeignKey(
-        Organization, verbose_name=_('organization'),
+        Organization, models.PROTECT, verbose_name=_('organization'),
         help_text=_('project organization'))
     author = models.ForeignKey(
-        settings.AUTH_USER_MODEL, verbose_name=_('author'),
+        settings.AUTH_USER_MODEL, models.PROTECT, verbose_name=_('author'),
         help_text=_('project author'))
     repo = models.CharField(_('repository URL'), max_length=255)
     tags = TaggableManager(blank=True)
@@ -54,9 +56,11 @@ class Project(TitleSlugDescriptionModel, TimeStampedModel):
 class ImportedArchive(TimeStampedModel):
     """ """
     uploaded_by = models.ForeignKey(
-        settings.AUTH_USER_MODEL, verbose_name=_('who uploaded'),
+        settings.AUTH_USER_MODEL, models.PROTECT,
+        verbose_name=_('who uploaded'),
         help_text=_('who uploaded the documentation'))
-    project = models.ForeignKey(Project, verbose_name=_('project'))
+    project = models.ForeignKey(
+        Project, models.CASCADE, verbose_name=_('project'))
     archive = models.FileField(
         _('archive'), upload_to=projects_upload_to,
         help_text=_('archive with project documentation'),
@@ -66,14 +70,36 @@ class ImportedArchive(TimeStampedModel):
         ])
 
     class Meta:
-        verbose_name = _('project archive')
+        verbose_name = _('imported archive')
 
     def __str__(self):
         return self.project.__str__()
 
+    @property
+    def extract_path(self):
+        return os.path.join(settings.PROJECTS_SERVE_ROOT, self.project.slug)
+
     @staticmethod
     def post_save(sender, instance, **kwargs):
         """Extract the archive and put files to be served"""
-        extract_files(instance.project.slug, instance.archive)
+        extract_files(instance.extract_path, instance.archive)
 
 post_save.connect(ImportedArchive.post_save, sender=ImportedArchive)
+
+
+@python_2_unicode_compatible
+class ImportedFile(TimeStampedModel):
+    """ """
+    imported_archive = models.ForeignKey(
+        settings.AUTH_USER_MODEL, models.CASCADE, verbose_name=_('archive'))
+    name = models.CharField(_('Name'), max_length=255)
+    path = models.FilePathField(
+        path=settings.PROJECTS_SERVE_ROOT, match=".*\.html$", recursive=True,
+        max_length=255)
+    md5 = models.CharField(_('MD5 checksum'), max_length=255)
+
+    class Meta:
+        verbose_name = _('imported file')
+
+    def __str__(self):
+        return self.name

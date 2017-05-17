@@ -8,7 +8,7 @@ from django.test import SimpleTestCase
 
 from projects.validators import MimeTypeValidator
 from projects.models import Organization, Project, ImportedArchive
-from projects.utils import projects_upload_to, extract_to, extract_files
+from projects.utils import projects_upload_to, extract_files
 
 
 class OrganizationModelTest(SimpleTestCase):
@@ -40,11 +40,15 @@ class ImportedArchiveModelTest(SimpleTestCase):
     def test_str(self):
         self.assertEqual(str(self.archive), self.project.title)
 
+    def test_extract_path(self):
+        with self.settings(PROJECTS_SERVE_ROOT="/test/"):
+            self.assertEqual(self.archive.extract_path, "/test/slug")
+
     @patch("projects.models.extract_files")
     def test_post_save(self, extract_files):
         ImportedArchive.post_save(ImportedArchive, self.archive)
         extract_files.assert_called_with(
-            self.project.slug, self.archive.archive)
+            self.archive.extract_path, self.archive.archive)
 
 
 class UtilsTest(SimpleTestCase):
@@ -55,16 +59,10 @@ class UtilsTest(SimpleTestCase):
         result = projects_upload_to(archive, "test.zip")
         self.assertRegexpMatches(result, r"^projects/\d+/\d+/title/test\.zip$")
 
-    def test_extract_to(self):
-        with self.settings(PROJECTS_SERVE_ROOT="/test/"):
-            result = extract_to("unit")
-        self.assertEqual(result, "/test/unit")
-
     @patch('projects.utils.tarfile')
-    @patch('projects.utils.extract_to', return_value='/extractto')
-    def test_extract_files(self, extract_to, tarfile):
+    def test_extract_files(self, tarfile):
         archive = Mock(path='/path/')
-        extract_files('unit', archive)
+        extract_files('/extractto', archive)
         tarfile.open.assert_called_with('/path/', 'r:gz')
         tarfile.open().__enter__().extractall.assert_called_with('/extractto')
 

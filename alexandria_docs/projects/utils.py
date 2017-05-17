@@ -1,10 +1,8 @@
 from __future__ import unicode_literals
 
-import os
 import tarfile
 
 from django.utils import timezone
-from django.conf import settings
 
 
 def projects_upload_to(instance, filename):
@@ -14,12 +12,7 @@ def projects_upload_to(instance, filename):
         date=today, slug=instance.project.slug, filename=filename)
 
 
-def extract_to(name):
-    """ """
-    return os.path.join(settings.PROJECTS_SERVE_ROOT, name)
-
-
-def extract_files(name, archive):
+def extract_files(extract_path, archive):
     """ """
     with tarfile.open(archive.path, "r:gz") as tar:
-        tar.extractall(extract_to(name))
+        tar.extractall(extract_path)
