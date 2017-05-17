@@ -51,7 +51,7 @@ class Project(TitleSlugDescriptionModel, TimeStampedModel):
 
 
 @python_2_unicode_compatible
-class ProjectArchive(TimeStampedModel):
+class ImportedArchive(TimeStampedModel):
     """ """
     uploaded_by = models.ForeignKey(
         settings.AUTH_USER_MODEL, verbose_name=_('who uploaded'),
@@ -76,5 +76,4 @@ class ProjectArchive(TimeStampedModel):
         """Extract the archive and put files to be served"""
         extract_files(instance.project.slug, instance.archive)
 
-
-post_save.connect(ProjectArchive.post_save, sender=ProjectArchive)
+post_save.connect(ImportedArchive.post_save, sender=ImportedArchive)

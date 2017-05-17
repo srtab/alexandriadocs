@@ -7,7 +7,7 @@ from django.core.exceptions import ValidationError
 from django.test import SimpleTestCase
 
 from projects.validators import MimeTypeValidator
-from projects.models import Organization, Project, ProjectArchive
+from projects.models import Organization, Project, ImportedArchive
 from projects.utils import projects_upload_to, extract_to, extract_files
 
 
@@ -31,18 +31,18 @@ class ProjectModelTest(SimpleTestCase):
                              "/docs/slug/index.html")
 
 
-class ProjectArchiveModelTest(SimpleTestCase):
+class ImportedArchiveModelTest(SimpleTestCase):
 
     def setUp(self):
         self.project = Project(title="title", slug="slug")
-        self.archive = ProjectArchive(project=self.project)
+        self.archive = ImportedArchive(project=self.project)
 
     def test_str(self):
         self.assertEqual(str(self.archive), self.project.title)
 
     @patch("projects.models.extract_files")
     def test_post_save(self, extract_files):
-        ProjectArchive.post_save(ProjectArchive, self.archive)
+        ImportedArchive.post_save(ImportedArchive, self.archive)
         extract_files.assert_called_with(
             self.project.slug, self.archive.archive)
 
@@ -51,7 +51,7 @@ class UtilsTest(SimpleTestCase):
 
     def test_projects_upload_to(self):
         project = Project(slug="title")
-        archive = ProjectArchive(project=project)
+        archive = ImportedArchive(project=project)
         result = projects_upload_to(archive, "test.zip")
         self.assertRegexpMatches(result, r"^projects/\d+/\d+/title/test\.zip$")
 

@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 
 from django.contrib import admin
 
-from projects.models import Organization, Project, ProjectArchive
+from projects.models import Organization, Project, ImportedArchive
 
 
 @admin.register(Organization)
@@ -10,14 +10,14 @@ class OrganizationAdmin(admin.ModelAdmin):
     """ """
 
 
-class ProjectArchiveInline(admin.TabularInline):
+class ImportedArchiveInline(admin.TabularInline):
     """ """
-    model = ProjectArchive
+    model = ImportedArchive
 
 
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
     """ """
     inlines = [
-        ProjectArchiveInline,
+        ImportedArchiveInline,
     ]

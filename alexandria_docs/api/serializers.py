@@ -2,11 +2,11 @@ from __future__ import unicode_literals
 
 from rest_framework import serializers
 
-from projects.models import ProjectArchive
+from projects.models import ImportedArchive
 
 
-class ProjectArchiveSerializer(serializers.ModelSerializer):
+class ImportedArchiveSerializer(serializers.ModelSerializer):
     """ """
     class Meta:
-        model = ProjectArchive
+        model = ImportedArchive
         fields = ('project', 'archive')
