@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'haystack',
     'rest_framework',
     'rest_framework.authtoken',
     'django_extensions',

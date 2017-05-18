@@ -1,5 +1,7 @@
 from __future__ import unicode_literals
 
+import tarfile
+import hashlib
 import os
 
 from django.utils.translation import ugettext_lazy as _
@@ -14,7 +16,7 @@ from django_extensions.db.models import (
 from taggit.managers import TaggableManager
 
 from projects.validators import MimeTypeValidator
-from projects.utils import projects_upload_to, extract_files
+from projects.utils import projects_upload_to
 
 
 @python_2_unicode_compatible
@@ -82,7 +84,22 @@ class ImportedArchive(TimeStampedModel):
     @staticmethod
     def post_save(sender, instance, **kwargs):
         """Extract the archive and put files to be served"""
-        extract_files(instance.extract_path, instance.archive)
+        with tarfile.open(instance.archive.path, "r:gz") as tar:
+            tar.extractall(instance.extract_path)
+
+        for root, __, filenames in os.walk(instance.extract_path):
+            for filename in filenames:
+                full_path = os.path.join(root, filename)
+                md5 = hashlib.md5(open(full_path, 'rb').read()).hexdigest()
+                obj, __ = ImportedFile.objects.update_or_create(
+                    imported_archive=instance,
+                    name=filename,
+                    path=full_path,
+                    defaults={
+                        'md5': md5
+                    }
+                )
+
 
 post_save.connect(ImportedArchive.post_save, sender=ImportedArchive)
 

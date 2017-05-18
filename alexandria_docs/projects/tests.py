@@ -1,14 +1,14 @@
 from __future__ import unicode_literals
 
 from StringIO import StringIO
-from mock import patch, Mock
+from mock import patch
 
 from django.core.exceptions import ValidationError
 from django.test import SimpleTestCase
 
 from projects.validators import MimeTypeValidator
 from projects.models import Organization, Project, ImportedArchive
-from projects.utils import projects_upload_to, extract_files
+from projects.utils import projects_upload_to
 
 
 class OrganizationModelTest(SimpleTestCase):
@@ -44,11 +44,12 @@ class ImportedArchiveModelTest(SimpleTestCase):
         with self.settings(PROJECTS_SERVE_ROOT="/test/"):
             self.assertEqual(self.archive.extract_path, "/test/slug")
 
-    @patch("projects.models.extract_files")
-    def test_post_save(self, extract_files):
+    @patch('projects.models.tarfile')
+    def test_post_save(self, tarfile):
         ImportedArchive.post_save(ImportedArchive, self.archive)
-        extract_files.assert_called_with(
-            self.archive.extract_path, self.archive.archive)
+        tarfile.open.assert_called_with(self.archive.archive.path, 'r:gz')
+        tarfile.open().__enter__().extractall.assert_called_with(
+            self.archive.extract_path)
 
 
 class UtilsTest(SimpleTestCase):
@@ -58,13 +59,6 @@ class UtilsTest(SimpleTestCase):
         archive = ImportedArchive(project=project)
         result = projects_upload_to(archive, "test.zip")
         self.assertRegexpMatches(result, r"^projects/\d+/\d+/title/test\.zip$")
-
-    @patch('projects.utils.tarfile')
-    def test_extract_files(self, tarfile):
-        archive = Mock(path='/path/')
-        extract_files('/extractto', archive)
-        tarfile.open.assert_called_with('/path/', 'r:gz')
-        tarfile.open().__enter__().extractall.assert_called_with('/extractto')
 
 
 class MimeTypeValidatorTest(SimpleTestCase):
