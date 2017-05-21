@@ -2,7 +2,8 @@ from __future__ import unicode_literals
 
 from django.contrib import admin
 
-from projects.models import Organization, Project, ImportedArchive
+from projects.models import (
+    Organization, Project, ImportedArchive, ImportedFile)
 
 
 @admin.register(Organization)
@@ -21,3 +22,8 @@ class ProjectAdmin(admin.ModelAdmin):
     inlines = [
         ImportedArchiveInline,
     ]
+
+
+@admin.register(ImportedFile)
+class ImportedFileAdmin(admin.ModelAdmin):
+    """ """
