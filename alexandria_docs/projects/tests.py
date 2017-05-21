@@ -7,7 +7,8 @@ from django.core.exceptions import ValidationError
 from django.test import SimpleTestCase
 
 from projects.validators import MimeTypeValidator
-from projects.models import Organization, Project, ImportedArchive
+from projects.models import (
+    Organization, Project, ImportedArchive, ImportedFile)
 from projects.utils import projects_upload_to
 
 
@@ -50,6 +51,15 @@ class ImportedArchiveModelTest(SimpleTestCase):
         tarfile.open.assert_called_with(self.archive.archive.path, 'r:gz')
         tarfile.open().__enter__().extractall.assert_called_with(
             self.archive.extract_path)
+
+
+class ImportedFileModelTest(SimpleTestCase):
+
+    def setUp(self):
+        self.imported_file = ImportedFile(name="test")
+
+    def test_str(self):
+        self.assertEqual(str(self.imported_file), "test")
 
 
 class UtilsTest(SimpleTestCase):
