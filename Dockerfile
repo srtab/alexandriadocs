@@ -21,12 +21,15 @@ WORKDIR /app
 # Add all files [Except the ones in dockerignore file]
 COPY . /app/
 
+RUN chmod +x /app/docker/docker-entrypoint.sh
+
 # update pip and setuptools
 RUN pip install pip setuptools --upgrade
-
 # install project dependencies
 RUN pip install -r requirements/docker.txt --upgrade
 
 EXPOSE 8000
+
+ENTRYPOINT ["/app/docker/docker-entrypoint.sh"]
 
 CMD ["python", "alexandria_docs/manage.py", "runserver", "0.0.0.0:8000"]
