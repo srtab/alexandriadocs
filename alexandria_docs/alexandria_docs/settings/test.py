@@ -27,3 +27,22 @@ HAYSTACK_CONNECTIONS = {
         'ENGINE': 'haystack.backends.simple_backend.SimpleEngine',
     },
 }
+
+
+# LOGGING
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'handlers': {
+        'null': {
+            'class': 'logging.NullHandler',
+        }
+    },
+    'loggers': {
+        'evote': {
+            'level': 'INFO',
+            'handlers': ['null']
+        }
+    },
+}
