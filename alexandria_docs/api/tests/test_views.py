@@ -6,15 +6,15 @@ from django.test import TestCase
 
 from rest_framework.test import force_authenticate, APIRequestFactory
 
-from projects.models import Project, ProjectArchive, Organization
-from api.views import UploadProjectArchiveView
+from projects.models import Project, ImportedArchive, Organization
+from api.views import ImportArchiveView
 
 
-class UploadProjectArchiveViewTest(TestCase):
+class ImportedArchiveViewTest(TestCase):
 
     def setUp(self):
         self.factory = APIRequestFactory()
-        self.view = UploadProjectArchiveView.as_view()
+        self.view = ImportArchiveView.as_view()
         self.user = get_user_model().objects.create_user(
             username='test',
             email='t@t.c',
@@ -34,7 +34,7 @@ class UploadProjectArchiveViewTest(TestCase):
     def test_post_with_authenticated_user(self):
         """"""
         # to avoid files extraction
-        post_save.disconnect(ProjectArchive.post_save, sender=ProjectArchive)
+        post_save.disconnect(ImportedArchive.post_save, sender=ImportedArchive)
         data = {
             'project': self.project.pk,
             'archive': open('api/tests/test.tar.gz')

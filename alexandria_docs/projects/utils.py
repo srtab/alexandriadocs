@@ -1,10 +1,8 @@
+# -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import os
-import tarfile
-
+from django.utils.html import strip_tags
 from django.utils import timezone
-from django.conf import settings
 
 
 def projects_upload_to(instance, filename):
@@ -14,12 +12,5 @@ def projects_upload_to(instance, filename):
         date=today, slug=instance.project.slug, filename=filename)
 
 
-def extract_to(name):
-    """ """
-    return os.path.join(settings.PROJECTS_SERVE_ROOT, name)
-
-
-def extract_files(name, archive):
-    """ """
-    with tarfile.open(archive.path, "r:gz") as tar:
-        tar.extractall(extract_to(name))
+def clean_html(value):
+    return strip_tags(value).replace('¶', '')

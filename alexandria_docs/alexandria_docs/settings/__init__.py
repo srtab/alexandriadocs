@@ -7,7 +7,8 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DATA_DIR = os.path.join(BASE_DIR, '..', '..', 'data')
+LOGS_DIR = os.path.abspath(os.path.join(BASE_DIR, '..', '..', 'logs'))
+DATA_DIR = os.path.abspath(os.path.join(BASE_DIR, '..', '..', 'data'))
 
 
 # SECURITY WARNING: keep the secret key used in production secret!
@@ -29,6 +30,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'haystack',
     'rest_framework',
     'rest_framework.authtoken',
     'django_extensions',
@@ -90,16 +92,16 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',  # NOQA
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',  # NOQA
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',  # NOQA
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',  # NOQA
     },
 ]
 
@@ -148,3 +150,68 @@ REST_FRAMEWORK = {
 PROJECTS_ALLOWED_MIMETYPES = ('application/x-gzip',)
 PROJECTS_SERVE_URL = "/docs/"
 PROJECTS_SERVE_ROOT = os.path.join(DATA_DIR, 'staticsites')
+PROJECTS_VALID_IMPORT_EXTENSION = ['.html']
+
+# LOGGING
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'filters': {
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse',
+        },
+    },
+    'formatters': {
+        'verbose': {
+            'format': "[%(asctime)s %(levelname)s %(name)s] %(pathname)s in %(funcName)s at line %(lineno)d - %(message)s",  # NOQA
+            'datefmt': '%d-%m-%Y %H:%M:%S'
+        },
+        'simple': {
+            'format': '[%(asctime)s %(levelname)s] %(message)s',
+            'datefmt': '%d-%m-%Y %H:%M:%S'
+        },
+    },
+    'handlers': {
+        'null': {
+            'class': 'logging.NullHandler',
+        },
+        'console': {
+            'level': 'DEBUG',
+            'filters': ['require_debug_true'],
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+        },
+        'mail_admins': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            'class': 'django.utils.log.AdminEmailHandler'
+        },
+        'main_file': {
+            'level': 'INFO',
+            'filters': ['require_debug_false'],
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(LOGS_DIR, 'alexandria.log'),
+            'maxBytes': 10 * 1024 * 1024,
+            'backupCount': 5,
+            'formatter': 'verbose'
+        },
+    },
+    'loggers': {
+        'alexandria': {
+            'level': 'INFO',
+            'handlers': ['console', 'mail_admins', 'main_file']
+        },
+        'django': {
+            'level': 'INFO',
+            'handlers': ['console', 'mail_admins']
+        },
+        'celery': {
+            'level': 'INFO',
+            'handlers': ['console', 'mail_admins']
+        }
+    },
+}
