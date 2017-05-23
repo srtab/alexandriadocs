@@ -1,0 +1,71 @@
+{% load i18n staticfiles compress %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE|default:"pt" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
+<head>
+    <meta name="viewport" content="width=1250">
+    <link rel="shortcut icon" type="image/ico" href="{% static 'images/favicon.ico' %}"/>
+
+    <title>{% block title %} Alexandria Docs{% endblock title %}</title>
+
+    <!-- BEGIN: stylesheets from vendors -->
+    {% compress css %}
+        <link rel="stylesheet" type="text/css" href="{% static 'vendor/uikit/dist/css/uikit.min.css' %}">
+    {% endcompress %}
+    <!-- END: stylesheets from vendors -->
+
+    <!-- BEGIN: internal stylesheets -->
+    {% compress css %}
+        <!--link rel="stylesheet" type="text/x-scss" href="{% static 'styles/main.scss' %}"-->
+    {% endcompress %}
+    <!-- END: internal stylesheets -->
+
+    {% block extrastyle %}{% endblock extrastyle %}
+</head>
+<body class="default {% block bodyextraclass %}{% endblock bodyextraclass %}">
+
+    {% block header %}
+        <header class="site-header">
+        </header>
+    {% endblock header %}
+
+    {% block breadcrumbs_wrapper %}
+        <ul class="pure-breadcrumbs wrap">
+            {% block breadcrumbs %}
+            {% endblock breadcrumbs %}
+        </ul>
+    {% endblock breadcrumbs_wrapper %}
+
+    <!-- Container -->
+    {% block container %}
+        <main class="wrap">
+            <h1>Alexandria Docs</h1>
+        </main>
+    {% endblock container %}
+    <!-- END Container -->
+
+    <!-- Footer -->
+    {% block footer %}
+        <footer class="site-footer">
+        </footer>
+    {% endblock footer %}
+    <!-- END Footer -->
+
+    <!-- BEGIN: javascripts from vendors -->
+    {% compress js %}
+        <script type="text/javascript" charset="utf-8" src="{% static 'vendor/jquery/dist/jquery.min.js' %}"></script>
+        <script type="text/javascript" charset="utf-8" src="{% static 'vendor/uikit/dist/js/uikit.min.js' %}"></script>
+    {% endcompress %}
+    <!-- END: javascripts from vendors -->
+
+    {% block extrajs %}{% endblock extrajs %}
+
+    <!-- BEGIN: internal javascripts -->
+    <!-- script type="text/javascript" charset="utf-8" src="{% url 'javascript-catalog' %}"></script-->
+
+    {% compress js %}
+        <!--script type="text/javascript" charset="utf-8" src="{% static 'js/main.jquery.js' %}"></script-->
+    {% endcompress %}
+    <!-- END: internal javascripts -->
+
+</body>
+</html>
