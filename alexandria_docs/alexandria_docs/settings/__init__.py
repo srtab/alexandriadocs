@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'django_extensions',
     'taggit',
+    'compressor',
 
     'projects',
     'api',
@@ -129,6 +130,11 @@ STATIC_ROOT = os.path.join(DATA_DIR, 'static')
 STATICFILES_DIRS = [
     os.path.join(PROJECT_DIR, 'static'),
 ]
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder',
+]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(DATA_DIR, 'media')
@@ -149,12 +155,20 @@ REST_FRAMEWORK = {
 }
 
 
+# COMPRESSOR
+
+COMPRESS_PRECOMPILERS = (
+    ('text/x-scss', 'django_libsass.SassCompiler'),
+)
+
+
 # PROJECTS SETTINGS
 
 PROJECTS_ALLOWED_MIMETYPES = ('application/x-gzip',)
 PROJECTS_SERVE_URL = "/docs/"
 PROJECTS_SERVE_ROOT = os.path.join(DATA_DIR, 'staticsites')
 PROJECTS_VALID_IMPORT_EXTENSION = ['.html']
+
 
 # LOGGING
 
