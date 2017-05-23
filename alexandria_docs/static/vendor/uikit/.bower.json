@@ -1,0 +1,15 @@
+{
+  "name": "uikit",
+  "homepage": "https://github.com/uikit/uikit",
+  "version": "3.0.0-beta.24",
+  "_release": "3.0.0-beta.24",
+  "_resolution": {
+    "type": "version",
+    "tag": "v3.0.0-beta.24",
+    "commit": "b07e74fa2710be56b354b1e4e0572e23cdbcc7f1"
+  },
+  "_source": "https://github.com/uikit/uikit.git",
+  "_target": "^3.0.0",
+  "_originalSource": "uikit",
+  "_direct": true
+}

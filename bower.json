@@ -1,0 +1,27 @@
+{
+  "name": "alexandria-docs",
+  "homepage": "https://github.com/srtab/alexandria-docs",
+  "description": "Centralized static generated sites",
+  "main": "",
+  "keywords": [
+    "django",
+    "static-sites"
+  ],
+  "authors": [
+    "Sandro Rodrigues"
+  ],
+  "license": "Apache-2.0",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "alexandria_docs/static/vendor/",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.0",
+    "uikit": "^3.0.0"
+  }
+}

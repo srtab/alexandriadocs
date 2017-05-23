@@ -8,6 +8,11 @@ RUN yum -y install python-devel
 RUN yum -y install python-pip
 RUN yum -y install gcc-c++
 RUN yum -y install gettext
+RUN yum -y install npm
+RUN yum -y install git
+
+# install bower
+RUN npm install --global bower
 
 # Disable Python Output Buffer
 ENV PYTHONUNBUFFERED 1

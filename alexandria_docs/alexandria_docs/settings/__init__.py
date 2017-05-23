@@ -7,8 +7,9 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-LOGS_DIR = os.path.abspath(os.path.join(BASE_DIR, '..', '..', 'logs'))
-DATA_DIR = os.path.abspath(os.path.join(BASE_DIR, '..', '..', 'data'))
+PROJECT_DIR = os.path.abspath(os.path.join(BASE_DIR, '..'))
+LOGS_DIR = os.path.abspath(os.path.join(PROJECT_DIR, '..', 'logs'))
+DATA_DIR = os.path.abspath(os.path.join(PROJECT_DIR, '..', 'data'))
 
 
 # SECURITY WARNING: keep the secret key used in production secret!
@@ -125,6 +126,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(DATA_DIR, 'static')
+STATICFILES_DIRS = [
+    os.path.join(PROJECT_DIR, 'static'),
+]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(DATA_DIR, 'media')
