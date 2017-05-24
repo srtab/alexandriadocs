@@ -1,0 +1,3 @@
+{{object.object.project.name}}
+{{object.title|striptags|safe}}
+{{object.body|striptags|safe}}
