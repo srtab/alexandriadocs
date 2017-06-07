@@ -2,66 +2,76 @@
 <!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE|default:"pt" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
 <head>
-    <meta name="viewport" content="width=1250">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="shortcut icon" type="image/ico" href="{% static 'images/favicon.ico' %}"/>
 
     <title>{% block title %} Alexandria Docs{% endblock title %}</title>
 
     <!-- BEGIN: stylesheets from vendors -->
     {% compress css %}
-        <link rel="stylesheet" type="text/css" href="{% static 'vendor/uikit/dist/css/uikit.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'vendor/font-awesome/css/font-awesome.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/dist/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'vendor/tether/dist/css/tether.min.css' %}">
     {% endcompress %}
     <!-- END: stylesheets from vendors -->
 
     <!-- BEGIN: internal stylesheets -->
     {% compress css %}
-        <!--link rel="stylesheet" type="text/x-scss" href="{% static 'styles/main.scss' %}"-->
+        <link rel="stylesheet" type="text/x-scss" href="{% static 'styles/main.scss' %}">
     {% endcompress %}
     <!-- END: internal stylesheets -->
 
     {% block extrastyle %}{% endblock extrastyle %}
 </head>
-<body class="default {% block bodyextraclass %}{% endblock bodyextraclass %}">
+<body class="{% block bodyextraclass %}{% endblock bodyextraclass %}">
 
     {% block header %}
-        <header class="site-header">
-        </header>
+        <nav class="navbar navbar-toggleable-md navbar-inverse bg-primary">
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand" href="{% url 'homepage' %}"><i class="fa fa-sitemap fa-fw" aria-hidden="true"></i> Alexandria Docs</a>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'homepage' %}">{% trans "Home" %}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'search:index' %}">{% trans "Search" %}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#">{% trans "Docs" %}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'admin:index' %}">{% trans "Manage" %}</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
     {% endblock header %}
 
-    {% block breadcrumbs_wrapper %}
-        <ul class="pure-breadcrumbs wrap">
-            {% block breadcrumbs %}
-            {% endblock breadcrumbs %}
-        </ul>
-    {% endblock breadcrumbs_wrapper %}
-
     <!-- Container -->
-    {% block container %}
-        <main class="wrap">
-            <h1>Alexandria Docs</h1>
-        </main>
-    {% endblock container %}
+    {% block container %}{% endblock container %}
     <!-- END Container -->
 
     <!-- Footer -->
     {% block footer %}
-        <footer class="site-footer">
-        </footer>
+        <footer class="site-footer"></footer>
     {% endblock footer %}
     <!-- END Footer -->
 
     <!-- BEGIN: javascripts from vendors -->
     {% compress js %}
         <script type="text/javascript" charset="utf-8" src="{% static 'vendor/jquery/dist/jquery.min.js' %}"></script>
-        <script type="text/javascript" charset="utf-8" src="{% static 'vendor/uikit/dist/js/uikit.min.js' %}"></script>
+        <script type="text/javascript" charset="utf-8" src="{% static 'vendor/tether/dist/js/tether.min.js' %}"></script>
+        <script type="text/javascript" charset="utf-8" src="{% static 'vendor/bootstrap/dist/js/bootstrap.min.js' %}"></script>
     {% endcompress %}
     <!-- END: javascripts from vendors -->
 
     {% block extrajs %}{% endblock extrajs %}
 
     <!-- BEGIN: internal javascripts -->
-    <!-- script type="text/javascript" charset="utf-8" src="{% url 'javascript-catalog' %}"></script-->
-
     {% compress js %}
         <!--script type="text/javascript" charset="utf-8" src="{% static 'js/main.jquery.js' %}"></script-->
     {% endcompress %}

@@ -6,8 +6,19 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.conf import settings
 
+from core.views import HomepageView
+
 
 urlpatterns = [
+    url(
+        regex=r'^$',
+        view=HomepageView.as_view(),
+        name="homepage"
+    ),
+    url(
+        regex=r'^search/',
+        view=include('search.urls', namespace='search')
+    ),
     url(
         regex=r'^admin/',
         view=admin.site.urls

@@ -17,7 +17,7 @@ class ProjectIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(
         document=True, use_template=True,
         template_name="projects/search/project.txt")
-    title = indexes.CharField(model_attr='title', boost=1.125)
+    title = indexes.CharField(model_attr='title')
     absolute_url = indexes.CharField()
 
     def get_model(self):
@@ -32,7 +32,7 @@ class ImportedFileIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(
         document=True, template_name="projects/search/imported_file.txt")
     created = indexes.DateTimeField(model_attr='created')
-    title = indexes.CharField(boost=1.125)
+    title = indexes.CharField()
     absolute_url = indexes.CharField()
 
     def get_model(self):

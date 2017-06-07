@@ -1,0 +1,19 @@
+
+.avatar-container {
+    overflow: hidden;
+    display: flex;
+    border-radius: 50%;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    width: 30px;
+    height: 30px;
+    text-align: center;
+
+    .avatar {
+        border-radius: 0;
+        border: none;
+        width: 100%;
+        height: auto;
+        margin: 0;
+        align-self: center;
+    }
+}

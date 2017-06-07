@@ -1,0 +1,18 @@
+/*
+Print rules
+*/
+
+@media print {
+    @page {
+        size: A4;
+    }
+
+    html, body {
+        width: 210mm;
+        height: 297mm;
+    }
+    main {
+        width: 100%;
+        max-width: 100%;
+    }
+}

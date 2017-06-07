@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load i18n highlight %}
+
+
+{% block bodyextraclass %}homepage{% endblock bodyextraclass %}
+
+
+{% block container %}
+    <div class="jumbotron jumbotron-fluid bg-primary text-white">
+        <div class="container text-center">
+            <h1 class="display-3"><i class="fa fa-sitemap fa-fw" aria-hidden="true"></i> {% trans "Alexandria Docs" %}</h1>
+            <p class="lead">{% trans "Hosting for static generated documentation." %}</p>
+
+            <hr class="my-4">
+
+            <form method="GET" action="{% url 'search:index' %}">
+                {% trans 'Search projects...' as search_placeholder %}
+                {% include "includes/search-form.html" with placeholder=search_placeholder only %}
+            </form>
+        </div>
+    </div>
+
+    <main class="container">
+
+        <p class="lead">{% trans "Latest projects:" %}</p>
+
+        <div class="card-deck mb-5">
+            {% for result in object_list %}
+                <div class="card card-outline-secondary">
+                    <div class="card-block">
+                        <h4 class="card-title"><i class="fa fa-book fa-fw" aria-hidden="true"></i> {{result.title|safe}}</h4>
+                        <p class="card-text text-muted">{{result.description|safe|truncatewords:35}}</p>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted align-middle mr-2">
+                            <i class="fa fa-user-circle-o fa-fw" aria-hidden="true"></i> {{result.author.username}}
+                        </small>
+                        <small class="text-muted">
+                            <i class="fa fa-clock-o fa-fw" aria-hidden="true"></i>
+                            <time datetime="{{result.created|date}}">{{result.created|timesince}}</time>
+                        </small>
+                        <a class="pull-right btn btn-outline-primary btn-sm" href="{{ result.get_absolute_url }}">{% trans "View project" %} <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
+                    </div>
+                </div>
+
+                {% if forloop.counter|divisibleby:3 %}
+                    </div>
+                    <div class="card-deck">
+                {% endif %}
+            {% empty %}
+                <li>{% trans 'No results found.' %}</li>
+            {% endfor %}
+        </div>
+
+        {% include "includes/pagination.html" %}
+
+    </main>
+
+{% endblock container %}
