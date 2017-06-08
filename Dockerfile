@@ -17,7 +17,7 @@ RUN yum -y install git
 RUN npm install --global bower
 
 # Disable Python Output Buffer
-ENV PYTHONUNBUFFERED 1
+ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONPATH $PYTHONPATH:/app/alexandria_docs
 ENV TERM=linux
 
