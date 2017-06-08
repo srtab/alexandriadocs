@@ -91,4 +91,3 @@ ENV/
 db.sqlite3
 
 data
-vendor
