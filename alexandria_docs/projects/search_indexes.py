@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
 import codecs
@@ -59,7 +60,8 @@ class ImportedFileIndex(indexes.SearchIndex, indexes.Indexable):
             with codecs.open(obj.path, encoding='utf-8', mode='r') as f:
                 content = f.read()
             doc = PyQuery(content)
-            rich_content['title'] = doc('head title').html()
+            title = ImportedFileIndex.extract_title(doc)
+            rich_content['title'] = title
             rich_content['body'] = doc('body').html()
         except IOError as e:
             logger.error(
@@ -75,3 +77,17 @@ class ImportedFileIndex(indexes.SearchIndex, indexes.Indexable):
         logger.info('Search Index: indexing file project=%s path=%s length=%s',
                     obj.project, obj.path, len(rich_content['body']))
         return rich_content
+
+    @staticmethod
+    def extract_title(doc):
+        title = None
+        try:
+            title = doc('body h1').text().strip()
+        except ValueError:
+            pass
+        if not title:
+            try:
+                title = doc('head title').text().strip()
+            except ValueError:
+                raise
+        return title.replace('¶', '')
