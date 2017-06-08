@@ -53,7 +53,7 @@ class ImportedFileIndex(indexes.SearchIndex, indexes.Indexable):
         return data
 
     @staticmethod
-    def extract_rich_content(self, obj):
+    def extract_rich_content(obj):
         rich_content = {}
         try:
             with codecs.open(obj.path, encoding='utf-8', mode='r') as f:
