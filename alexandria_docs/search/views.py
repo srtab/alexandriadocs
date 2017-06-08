@@ -5,13 +5,10 @@ from haystack.generic_views import SearchView
 
 from projects.models import Project
 
-from .forms import SearchForm
-
 
 class SearchView(SearchView):
     """ """
     template_name = "search/index.html"
-    form_class = SearchForm
 
     def get_queryset(self):
         """
