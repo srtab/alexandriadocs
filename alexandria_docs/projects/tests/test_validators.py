@@ -1,6 +1,6 @@
 from __future__ import unicode_literals
 
-from StringIO import StringIO
+import io
 from mock import patch
 
 from django.core.exceptions import ValidationError
@@ -13,7 +13,7 @@ class MimeTypeValidatorTest(SimpleTestCase):
     """ """
 
     def setUp(self):
-        self.archive = StringIO("test unit")
+        self.archive = io.StringIO("test unit")
 
     @patch('projects.validators.magic')
     def test_empty_allowed_mimetype(self, magic):
