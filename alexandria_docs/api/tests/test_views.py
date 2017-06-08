@@ -37,7 +37,7 @@ class ImportedArchiveViewTest(TestCase):
         post_save.disconnect(ImportedArchive.post_save, sender=ImportedArchive)
         data = {
             'project': self.project.pk,
-            'archive': open('api/tests/test.tar.gz')
+            'archive': open('api/tests/test.tar.gz', 'rb')
         }
         request = self.factory.post('/test/', data)
         force_authenticate(request, user=self.user)
