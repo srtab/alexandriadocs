@@ -44,7 +44,7 @@ class ImportedFileIndex(indexes.SearchIndex, indexes.Indexable):
     def prepare(self, obj):
         """Open the expected .html file and extract body and title to index"""
         data = super(ImportedFileIndex, self).prepare(obj)
-        rich_content = self.extract_rich_content(obj)
+        rich_content = ImportedFileIndex.extract_rich_content(obj)
         if rich_content:
             # inject the object to the template with the rich content extracted
             rich_content['object'] = obj
@@ -52,6 +52,7 @@ class ImportedFileIndex(indexes.SearchIndex, indexes.Indexable):
             data['text'] = self.fields['text'].prepare_template(rich_content)
         return data
 
+    @staticmethod
     def extract_rich_content(self, obj):
         rich_content = {}
         try:
