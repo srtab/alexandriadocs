@@ -6,6 +6,8 @@ RUN yum -y install epel-release
 RUN yum -y update
 RUN yum -y install python-devel
 RUN yum -y install python-pip
+RUN yum -y install python34
+RUN yum -y install python34-devel
 RUN yum -y install gcc-c++
 RUN yum -y install gettext
 
