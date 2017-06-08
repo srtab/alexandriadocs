@@ -10,9 +10,14 @@ RUN yum -y install python34
 RUN yum -y install python34-devel
 RUN yum -y install gcc-c++
 RUN yum -y install gettext
+RUN yum -y install npm
+RUN yum -y install git
+
+# install bower
+RUN npm install --global bower
 
 # Disable Python Output Buffer
-ENV PYTHONUNBUFFERED 1
+ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONPATH $PYTHONPATH:/app/alexandria_docs
 ENV TERM=linux
 

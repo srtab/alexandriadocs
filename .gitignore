@@ -11,7 +11,7 @@ __pycache__/
 env/
 build/
 develop-eggs/
-dist/
+# dist/
 downloads/
 eggs/
 .eggs/
@@ -91,4 +91,3 @@ ENV/
 db.sqlite3
 
 data
-vendor

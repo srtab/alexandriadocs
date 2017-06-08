@@ -1,0 +1,77 @@
+$prefixes: ("-webkit-", "-moz-", "-ms-", "-o-", "" );
+
+/*
+TRANSITION
+---
+usage:
+    - @include transition(all 0.2s ease-in-out);
+*/
+@mixin transition($transition...) {
+    @each $prefix in $prefixes {
+        #{$prefix}transition: $transition;
+    }
+}
+
+@mixin transform($transform...) {
+    @each $prefix in $prefixes {
+        #{$prefix}transform: $transform;
+    }
+}
+
+/*
+TRANSLATE
+---
+usage:
+   - @include translate(-50%, -50%);
+*/
+@mixin translate($x, $y) {
+    @each $prefix in $prefixes {
+        #{$prefix}transform: translate($x, $y);
+    }
+}
+
+/*
+Animation STYLE
+---
+usage:
+   - @include animation(rotating 2s linear infinite);
+*/
+@mixin animation($val) {
+    @each $prefix in $prefixes {
+        #{$prefix}animation: $val;
+    }
+}
+
+/*
+Placehoder STYLE
+---
+usage:
+   - @include placeholder {
+        font-style:italic;
+        color: white;
+        font-weight:100;
+     }
+*/
+@mixin placeholder {
+  &::-webkit-input-placeholder {@content}
+  &:-moz-placeholder           {@content}
+  &::-moz-placeholder          {@content}
+  &:-ms-input-placeholder      {@content}
+}
+
+/*
+opacity STYLE
+---
+*/
+@mixin opacity($value){
+  $IEValue: $value*100;
+  opacity: $value;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity="+$IEValue+")";
+  filter: alpha(opacity=$IEValue);
+}
+
+@mixin filter($value){
+  -webkit-filter: grayscale(1); /* Webkit */
+  filter: gray; /* IE6-9 */
+  filter: grayscale(1); /* W3C */
+}

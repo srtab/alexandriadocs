@@ -1,0 +1,7 @@
+@function calc-font-size($original_value){
+
+    // Define this variable with the '!global' attr to override.
+    $font_mult: 1 !default;
+
+    @return $original_value * $font_mult;
+}

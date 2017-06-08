@@ -1,33 +1,33 @@
 version: "2"
 services:
-    db:
-      image: postgres:latest
-      restart: on-failure
-      environment:
-        - POSTGRES_PASSWORD=dbrootpass
-        - POSTGRES_DB=alexandria
-      ports:
-        - 5432
-      volumes:
-        - ./data/db:/var/lib/postgresql/data
+  db:
+    image: postgres:latest
+    restart: on-failure
+    environment:
+      - POSTGRES_PASSWORD=dbrootpass
+      - POSTGRES_DB=alexandria
+    ports:
+      - 5432
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
 
-    elasticsearch:
-      image: elasticsearch:2.4.5
-      ports:
-        - 9200:9200
+  elasticsearch:
+    image: elasticsearch:2.4.5
+    ports:
+      - 9200
 
-    app:
-      build: .
-      restart: on-failure
-      environment:
-        - C_FORCE_ROOT=true
-        - DJANGO_SETTINGS_MODULE=alexandria_docs.settings.docker
-      depends_on:
-        - db
-        - elasticsearch
-      volumes:
-        - ./data/static:/data/static
-        - ./data/media:/data/media
-        - .:/app
-      ports:
-        - "8000:8000"
+  app:
+    build: .
+    restart: on-failure
+    environment:
+      - C_FORCE_ROOT=true
+      - DJANGO_SETTINGS_MODULE=alexandria_docs.settings.docker
+    depends_on:
+      - db
+      - elasticsearch
+    volumes:
+      - ./data/static:/data/static
+      - ./data/media:/data/media
+      - .:/app
+    ports:
+      - 8000:8000
