@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'taggit',
     'compressor',
 
+    'core',
     'projects',
     'search',
     'api',

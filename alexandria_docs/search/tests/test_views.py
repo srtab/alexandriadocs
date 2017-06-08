@@ -5,12 +5,12 @@ from django.urls import reverse
 from django.test import TestCase
 
 
-class HomepageTest(TestCase):
+class SearchViewTest(TestCase):
 
     def setUp(self):
-        self.url = reverse('homepage')
+        self.url = reverse('search:index')
 
     def test_template_used(self):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed("homepage.html")
+        self.assertTemplateUsed("search/index.html")
