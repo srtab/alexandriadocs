@@ -1,2 +1,2 @@
 {{object.object.project.name}}
-{{object.body|striptags|safe}}
+{{object.body|striptags}}

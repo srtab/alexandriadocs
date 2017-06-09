@@ -20,31 +20,51 @@
 
              <ul class="nav nav-tabs mb-3">
                 <li class="nav-item">
-                    <a class="nav-link active" href="#">Projects <span class="badge badge-pill badge-default">{{paginator.count}}</span></a>
+                    <a class="nav-link {% if request.resolver_match.url_name == 'index' %}active{% endif %}" href="{% url 'search:index' %}">
+                        <i class="fa fa-book fa-fw" aria-hidden="true"></i>
+                        {% trans 'Projects' %} <span class="badge badge-pill badge-default ml-1">{{projects_count}}</span>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Pages <span class="badge badge-pill badge-default">0</span></a>
+                    <a class="nav-link {% if request.resolver_match.url_name == 'pages' %}active{% endif %}" href="{% url 'search:pages' %}">
+                        <i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i>
+                        {% trans 'Pages' %} <span class="badge badge-pill badge-default ml-1">{{pages_count}}</span>
+                    </a>
                 </li>
             </ul>
 
             {% for result in object_list %}
-                <div class="card card-outline-secondary mb-3">
-                    <div class="card-block">
-                        <h4 class="card-title"><i class="fa fa-book fa-fw" aria-hidden="true"></i> {{result.title|safe}}</h4>
-                        <p class="card-text text-muted">{{result.object.description|safe|truncatewords:35}}</p>
-                    </div>
-                </div>
 
-                {% if forloop.counter|divisibleby:3 %}
+                {% ifequal result.content_type 'projects.project' %}
+                    <div class="card card-outline-secondary mb-3">
+                        <div class="card-block">
+                            <h4 class="card-title">
+                                <a href="{{ result.object.get_absolute_url }}"><i class="fa fa-book fa-fw" aria-hidden="true"></i> {{result.title|safe}}</a>
+                            </h4>
+                            <p class="card-text text-muted">{{result.object.description|safe|truncatewords:35}}</p>
+                        </div>
                     </div>
-                    <div class="card-deck">
-                {% endif %}
+                {% endifequal %}
+
+                {% ifequal result.content_type 'projects.importedfile' %}
+                    <div class="card card-outline-secondary mb-3">
+                        <div class="card-block">
+                            <h4 class="card-title">
+                                <a href="{{ result.object.get_absolute_url }}"><i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i> {{result.title|safe}}</a>
+                            </h4>
+                            <p class="card-text text-muted">{{result.text|safe|truncatewords:70}}</p>
+                        </div>
+                    </div>
+                {% endifequal %}
+
             {% empty %}
                 <p class="lead text-center">
                     <i class="fa fa-search fa-fw fa-3x text-muted" aria-hidden="true"></i><br>
-                    {% blocktrans %}We couldn't find any project matching <strong>"{{query}}"</strong>! {% endblocktrans %}
+                    {% trans "We couldn't find any project matching" %} <strong>"{{query}}"</strong>
                 </p>
             {% endfor %}
+
+            {% include "includes/pagination.html" %}
 
         </main>
     </form>
