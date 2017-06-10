@@ -16,6 +16,10 @@ urlpatterns = [
         name="homepage"
     ),
     url(
+        regex=r'^projects/',
+        view=include('projects.urls', namespace='projects')
+    ),
+    url(
         regex=r'^search/',
         view=include('search.urls', namespace='search')
     ),
