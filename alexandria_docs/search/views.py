@@ -1,42 +1,38 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals, absolute_import
 
-from haystack.generic_views import SearchView
+from haystack.generic_views import SearchView as HaystackSearchView
+from haystack.inputs import Clean
 
 from projects.models import Project, ImportedFile
 
-from .forms import SearchForm
 
-
-class SearchMixin(object):
+class SearchView(HaystackSearchView):
     """ """
     template_name = "search/index.html"
-    form_class = SearchForm
     search_model = None
 
-    def get_queryset(self):
-        """Filter queryset to only show results from Project models"""
-        qs = super(SearchView, self).get_queryset()
-        if self.search_model:
-            return qs.models(self.search_model)
-        return qs
-
-    def get_context_data(self, **kwargs):
-        """Add countings of projects and pages to context data"""
-        context = super(SearchView, self).get_context_data(**kwargs)
-        original_qs = super(SearchView, self).get_queryset()
-        context.update({
-            'projects_count': original_qs.models(Project).count(),
-            'pages_count': original_qs.models(ImportedFile).count()
+    def form_valid(self, form):
+        query = form.cleaned_data.get(self.search_field)
+        queryset = self.search(query)
+        context = self.get_context_data(**{
+            self.form_name: form,
+            'query': query,
+            'object_list': queryset.models(self.search_model),
+            'projects_count': queryset.models(Project).count(),
+            'pages_count': queryset.models(ImportedFile).count()
         })
-        return context
+        return self.render_to_response(context)
+
+    def search(self, query):
+        return self.get_queryset().filter(content__contains=Clean(query))
 
 
-class SearchProjectView(SearchMixin, SearchView):
+class SearchProjectView(SearchView):
     """ """
     search_model = Project
 
 
-class SearchPageView(SearchMixin, SearchView):
+class SearchPageView(SearchView):
     """ """
     search_model = ImportedFile

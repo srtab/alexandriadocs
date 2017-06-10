@@ -6,7 +6,7 @@
 
 
 {% block container %}
-    <form method="GET" action="{% url 'search:index' %}">
+    <form method="GET" action="">
         <div class="jumbotron jumbotron-fluid bg-faded pt-5 mb-4">
             <div class="container">
                 <h1 class="display-4">{% trans 'Search' %}</h1>
@@ -20,13 +20,13 @@
 
              <ul class="nav nav-tabs mb-3">
                 <li class="nav-item">
-                    <a class="nav-link {% if request.resolver_match.url_name == 'index' %}active{% endif %}" href="{% url 'search:index' %}">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'index' %}active{% endif %}" href="{% url 'search:index' %}?q={{query}}">
                         <i class="fa fa-book fa-fw" aria-hidden="true"></i>
                         {% trans 'Projects' %} <span class="badge badge-pill badge-default ml-1">{{projects_count}}</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {% if request.resolver_match.url_name == 'pages' %}active{% endif %}" href="{% url 'search:pages' %}">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'pages' %}active{% endif %}" href="{% url 'search:pages' %}?q={{query}}">
                         <i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i>
                         {% trans 'Pages' %} <span class="badge badge-pill badge-default ml-1">{{pages_count}}</span>
                     </a>
@@ -39,9 +39,9 @@
                     <div class="card card-outline-secondary mb-3">
                         <div class="card-block">
                             <h4 class="card-title">
-                                <a href="{{ result.object.get_absolute_url }}"><i class="fa fa-book fa-fw" aria-hidden="true"></i> {{result.title|safe}}</a>
+                                <a href="{{ result.absolute_url }}"><i class="fa fa-book fa-fw" aria-hidden="true"></i> {{result.title|safe}}</a>
                             </h4>
-                            <p class="card-text text-muted">{{result.object.description|safe|truncatewords:35}}</p>
+                            <p class="card-text text-muted">{{result.description|safe|truncatewords:35}}</p>
                         </div>
                     </div>
                 {% endifequal %}
@@ -50,9 +50,9 @@
                     <div class="card card-outline-secondary mb-3">
                         <div class="card-block">
                             <h4 class="card-title">
-                                <a href="{{ result.object.get_absolute_url }}"><i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i> {{result.title|safe}}</a>
+                                <a href="{{ result.absolute_url }}"><i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i> {{result.title|safe}}</a>
                             </h4>
-                            <p class="card-text text-muted">{{result.text|safe|truncatewords:70}}</p>
+                            <p class="card-text text-muted">{{result.body|safe|truncatewords:70}}</p>
                         </div>
                     </div>
                 {% endifequal %}
