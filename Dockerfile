@@ -18,7 +18,7 @@ RUN npm install --global bower
 
 # Disable Python Output Buffer
 ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONPATH $PYTHONPATH:/app/alexandria_docs
+ENV PYTHONPATH $PYTHONPATH:/app/alexandriadocs
 ENV TERM=linux
 
 # Create app directory

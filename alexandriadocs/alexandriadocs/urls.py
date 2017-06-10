@@ -1,4 +1,4 @@
-"""alexandria_docs URL Configuration
+"""alexandriadocs URL Configuration
 """
 from __future__ import unicode_literals
 

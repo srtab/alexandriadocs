@@ -12,8 +12,8 @@ Steps to start developing and contributing:
 
 ```
 // clone the project
-$ git clone https://github.com/srtab/alexandria-docs.git
-$ cd alexandria-docs
+$ git clone https://github.com/srtab/alexandriadocs.git
+$ cd alexandriadocs
 
 // build the image
 $ docker build -t alexandria .
