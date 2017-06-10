@@ -25,7 +25,7 @@ class SearchView(ListView):
         context = super(SearchView, self).get_context_data(**kwargs)
         queryset = self.search(self.get_query())
         context.update({
-            'query': Clean(self.get_query()),
+            'query': self.get_query(),
             'projects_count': queryset.models(Project).count(),
             'pages_count': queryset.models(ImportedFile).count()
         })
