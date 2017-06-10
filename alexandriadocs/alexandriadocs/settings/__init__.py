@@ -1,5 +1,5 @@
 """
-Django settings for alexandria_docs project.
+Django settings for alexandriadocs project.
 """
 from __future__ import unicode_literals
 
@@ -75,9 +75,9 @@ TEMPLATES = [
     },
 ]
 
-ROOT_URLCONF = 'alexandria_docs.urls'
+ROOT_URLCONF = 'alexandriadocs.urls'
 
-WSGI_APPLICATION = 'alexandria_docs.wsgi.application'
+WSGI_APPLICATION = 'alexandriadocs.wsgi.application'
 
 
 # Database

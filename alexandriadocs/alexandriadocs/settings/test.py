@@ -1,6 +1,6 @@
 from __future__ import unicode_literals
 
-from alexandria_docs.settings import *  # NOQA
+from alexandriadocs.settings import *  # NOQA
 
 
 DEBUG = False

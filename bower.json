@@ -1,6 +1,6 @@
 {
-  "name": "alexandria-docs",
-  "homepage": "https://github.com/srtab/alexandria-docs",
+  "name": "alexandriadocs",
+  "homepage": "https://github.com/srtab/alexandriadocs",
   "description": "Centralized static generated sites",
   "main": "",
   "keywords": [
@@ -16,7 +16,7 @@
     "**/.*",
     "node_modules",
     "bower_components",
-    "alexandria_docs/static/vendor/",
+    "alexandriadocs/static/vendor/",
     "test",
     "tests"
   ],

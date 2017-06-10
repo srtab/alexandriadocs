@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 
 import mimetypes
 
-from alexandria_docs.settings import *  # NOQA
+from alexandriadocs.settings import *  # NOQA
 
 
 # to serve svg images on development mode

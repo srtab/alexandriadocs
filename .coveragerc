@@ -3,7 +3,7 @@ source = .
 omit =
     *tests*
     *settings*
-    alexandria_docs/wsgi.py
+    alexandriadocs/wsgi.py
 
 [report]
 skip_covered = True

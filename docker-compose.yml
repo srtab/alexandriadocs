@@ -21,7 +21,7 @@ services:
     restart: on-failure
     environment:
       - C_FORCE_ROOT=true
-      - DJANGO_SETTINGS_MODULE=alexandria_docs.settings.docker
+      - DJANGO_SETTINGS_MODULE=alexandriadocs.settings.docker
     depends_on:
       - db
       - elasticsearch
