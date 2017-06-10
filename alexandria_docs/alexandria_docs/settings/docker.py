@@ -25,6 +25,6 @@ HAYSTACK_CONNECTIONS = {
     'default': {
         'ENGINE': 'haystack.backends.elasticsearch2_backend.Elasticsearch2SearchEngine',  # noqa
         'URL': 'http://elasticsearch:9200/',
-        'INDEX_NAME': 'haystack',
+        'INDEX_NAME': 'alexandria',
     },
 }
