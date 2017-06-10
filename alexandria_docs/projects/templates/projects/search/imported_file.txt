@@ -1,2 +1,2 @@
-{{object.object.project.name}}
+{{object.object.project.title}}
 {{object.body}}
