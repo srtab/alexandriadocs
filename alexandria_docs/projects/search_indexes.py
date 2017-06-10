@@ -5,8 +5,8 @@ import codecs
 import logging
 
 from haystack import indexes
-from pyquery import PyQuery
 
+from search.extractors import HtmlExtractor
 from projects.models import Project, ImportedFile
 
 
@@ -32,8 +32,8 @@ class ImportedFileIndex(indexes.SearchIndex, indexes.Indexable):
     """Index imported files"""
     text = indexes.CharField(
         document=True, template_name="projects/search/imported_file.txt")
-    created = indexes.DateTimeField(model_attr='created')
     title = indexes.CharField()
+    body = indexes.CharField()
     absolute_url = indexes.CharField()
 
     def get_model(self):
@@ -45,49 +45,27 @@ class ImportedFileIndex(indexes.SearchIndex, indexes.Indexable):
     def prepare(self, obj):
         """Open the expected .html file and extract body and title to index"""
         data = super(ImportedFileIndex, self).prepare(obj)
-        rich_content = ImportedFileIndex.extract_rich_content(obj)
-        if rich_content:
-            # inject the object to the template with the rich content extracted
-            rich_content['object'] = obj
-            data['title'] = rich_content['title']
-            data['text'] = self.fields['text'].prepare_template(rich_content)
+        html = self.get_file_content(obj)
+        extractor = HtmlExtractor(html)
+        # inject the object to the template with the rich content extracted
+        context = {
+            'object': obj,
+            'title': extractor.title,
+            'body': extractor.content
+        }
+        data['title'] = context['title']
+        data['body'] = context['body']
+        data['text'] = self.fields['text'].prepare_template(context)
+        logger.info('Search Index: indexing file project=%s path=%s',
+                    obj.project_id, obj.path)
         return data
 
-    @staticmethod
-    def extract_rich_content(obj):
-        rich_content = {}
+    def get_file_content(self, obj):
         try:
-            with codecs.open(obj.path, encoding='utf-8', mode='r') as f:
-                content = f.read()
-            doc = PyQuery(content)
-            title = ImportedFileIndex.extract_title(doc)
-            rich_content['title'] = title
-            rich_content['body'] = doc('body').html()
+            with codecs.open(obj.path, encoding='utf-8', mode='rb') as f:
+                return f.read()
         except IOError as e:
             logger.error(
                 'Search Index: Unable to index file project=%s path=%s',
-                obj.project, obj.path, exc_info=e)
-            return None
-        except ValueError as e:
-            # Pyquery raises ValueError if body or title doesn't exist
-            logger.warning(
-                'Search Index: no body/title found project=%s path=%s',
-                obj.project, obj.path, exc_info=e)
-            return None
-        logger.info('Search Index: indexing file project=%s path=%s length=%s',
-                    obj.project, obj.path, len(rich_content['body']))
-        return rich_content
-
-    @staticmethod
-    def extract_title(doc):
-        title = None
-        try:
-            title = doc('body h1').text().strip()
-        except ValueError:
-            pass
-        if not title:
-            try:
-                title = doc('head title').text().strip()
-            except ValueError:
-                raise
-        return title.replace('¶', '')
+                obj.project_id, obj.path, exc_info=e)
+        return None

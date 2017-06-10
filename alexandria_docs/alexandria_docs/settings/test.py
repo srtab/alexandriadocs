@@ -40,7 +40,7 @@ LOGGING = {
         }
     },
     'loggers': {
-        'evote': {
+        'alexandria': {
             'level': 'INFO',
             'handlers': ['null']
         }
