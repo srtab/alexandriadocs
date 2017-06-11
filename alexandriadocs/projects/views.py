@@ -2,7 +2,9 @@
 from __future__ import unicode_literals, absolute_import
 
 from django.views.generic import View
-from django.shortcuts import redirect
+from django.views.static import serve
+from django.shortcuts import get_object_or_404, redirect
+from django.conf import settings
 
 from projects.models import Project
 
@@ -25,3 +27,19 @@ class ProjectBadgeView(View):
         url = BADGE_URL.format(
             status="latest", color='brightgreen', style=style)
         return redirect(url)
+
+
+class ProjectServeSiteView(View):
+
+    def get(self, request, *args, **kwargs):
+        get_object_or_404(Project, slug=request.slug)
+        filename = "{slug}/{filename}".format(
+            slug=request.slug,
+            filename=self.kwargs.get('path') or "index.html")
+        serve_root = settings.PROJECTS_SERVE_ROOT
+        if settings.DEBUG:
+            # Serve with Python
+            return serve(request, filename, serve_root)
+        else:
+            pass
+            # TODO
