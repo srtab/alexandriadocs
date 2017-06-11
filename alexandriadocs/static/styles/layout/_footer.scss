@@ -1,3 +1,16 @@
 /*
 Footer
 */
+
+footer.footer {
+    padding: 2rem 0;
+    font-size: 85%;
+
+    a.nav-link:not(.disabled) {
+        color: #464a4c;
+        font-weight: bold;
+    }
+    a.nav-link:not(.disabled):hover {
+        color: #0275d8;
+    }
+}

@@ -10,7 +10,7 @@
 
     <!-- BEGIN: stylesheets from vendors -->
     {% compress css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'vendor/font-awesome/css/font-awesome.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'vendor/font-awesome/css/font-awesome.min.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/dist/css/bootstrap.min.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'vendor/tether/dist/css/tether.min.css' %}">
     {% endcompress %}
@@ -27,28 +27,7 @@
 <body class="{% block bodyextraclass %}{% endblock bodyextraclass %}">
 
     {% block header %}
-        <nav class="navbar navbar-toggleable-md navbar-inverse bg-primary">
-            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <a class="navbar-brand" href="{% url 'homepage' %}"><i class="fa fa-sitemap fa-fw" aria-hidden="true"></i> Alexandria Docs</a>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="{% url 'homepage' %}">{% trans "Home" %}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'search:index' %}">{% trans "Search" %}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled" href="#">{% trans "Docs" %}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'admin:index' %}">{% trans "Manage" %}</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+        {% include "includes/header.html" %}
     {% endblock header %}
 
     <!-- Container -->
@@ -57,7 +36,7 @@
 
     <!-- Footer -->
     {% block footer %}
-        <footer class="site-footer"></footer>
+        {% include "includes/footer.html" %}
     {% endblock footer %}
     <!-- END Footer -->
 
