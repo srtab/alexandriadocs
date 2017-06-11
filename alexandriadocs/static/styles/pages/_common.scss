@@ -2,6 +2,10 @@
 Common styles
 */
 
+main {
+    min-height: calc(100% - 200px);  // header height + footer height + margin-top footer
+}
+
 .navbar-inverse .navbar-nav .nav-link {
     padding-right: 15px;
     padding-left: 15px;

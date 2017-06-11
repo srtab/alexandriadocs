@@ -20,11 +20,11 @@
         </div>
     </div>
 
-    <main class="container">
+    <div class="container">
 
         <p class="lead">{% trans "Latest projects:" %}</p>
 
-        <div class="card-deck mb-5">
+        <div class="card-deck">
             {% for result in object_list %}
                 <div class="card card-outline-secondary">
                     <div class="card-block">
@@ -54,6 +54,6 @@
 
         {% include "includes/pagination.html" %}
 
-    </main>
+    </div>
 
 {% endblock container %}
