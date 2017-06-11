@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n core_tags %}
 
 <nav class="navbar navbar-toggleable-md navbar-inverse bg-primary">
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -7,10 +7,10 @@
     <a class="navbar-brand" href="{% url 'homepage' %}"><i class="fa fa-sitemap fa-fw" aria-hidden="true"></i> Alexandria Docs</a>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto">
-            <li class="nav-item active">
+            <li class="nav-item {% menu_active url_name='homepage' %}">
                 <a class="nav-link" href="{% url 'homepage' %}">{% trans "Home" %}</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item {% menu_active namespace='search' url_name='index' %}">
                 <a class="nav-link" href="{% url 'search:index' %}">{% trans "Search" %}</a>
             </li>
             <li class="nav-item">
