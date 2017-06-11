@@ -14,6 +14,7 @@ class SearchView(ListView):
     template_name = "search/index.html"
     search_model = None
     search_field = 'q'
+    paginate_by = 20
 
     def get_query(self):
         return self.request.GET.get(self.search_field, "")

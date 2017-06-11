@@ -10,6 +10,9 @@
         <div class="jumbotron jumbotron-fluid bg-faded pt-5 mb-4">
             <div class="container">
                 <h1 class="display-4">{% trans 'Search' %}</h1>
+                <p class="lead">
+                    {% trans "Here you can search all the docs by project or by project pages." %}
+                </p>
                 <hr>
                 {% trans 'Search term...' as search_placeholder %}
                 {% include "includes/search-form.html" with query=query placeholder=search_placeholder only %}
@@ -36,7 +39,7 @@
             {% for result in object_list %}
 
                 {% ifequal result.content_type 'projects.project' %}
-                    <div class="card card-outline-secondary mb-3">
+                    <div class="card card-outline-secondary">
                         <div class="card-block">
                             <h4 class="card-title">
                                 <a href="{{ result.absolute_url }}"><i class="fa fa-book fa-fw" aria-hidden="true"></i> {{result.title|safe}}</a>
@@ -53,10 +56,11 @@
                 {% endifequal %}
 
                 {% ifequal result.content_type 'projects.importedfile' %}
-                    <div class="card card-outline-secondary mb-3">
+                    <div class="card card-outline-secondary">
                         <div class="card-block">
-                            <h4 class="card-title">
+                            <h4 class="card-title d-flex justify-content-between">
                                 <a href="{{ result.absolute_url }}"><i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i> {{result.title|safe}}</a>
+                                <small class="text-muted" data-toggle="tooltip" data-placement="top" title="{% trans "Project name" %}"><i class="fa fa-book fa-fw" aria-hidden="true"></i> evotum</small>
                             </h4>
                             <p class="card-text text-muted">
                                 {% if query %}

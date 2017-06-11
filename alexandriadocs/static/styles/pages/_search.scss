@@ -2,6 +2,22 @@
 Search Styles
 */
 
-body.login {
+body.search {
 
+    .jumbotron {
+        padding-top: 3rem;
+        padding-bottom: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .card {
+        margin-bottom: 1rem;
+
+        .card-title a {
+            color: #464a4c;
+        }
+        .card-title a:hover {
+            color: #0275d8;
+        }
+    }
 }
