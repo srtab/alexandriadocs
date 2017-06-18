@@ -6,7 +6,9 @@ from collections import OrderedDict
 from django.core.exceptions import ImproperlyConfigured
 from django.utils.http import urlencode
 from django.utils.html import escape
+from django.conf import settings
 from django import template
+
 
 register = template.Library()
 context_processor_error_msg = (
@@ -37,3 +39,10 @@ def querystring(context, **kwargs):
     ordered.update(params)
     ordered.update(kwargs)
     return escape('?' + urlencode(ordered, doseq=True))
+
+
+@register.inclusion_tag("includes/analytics-tracking.html")
+def analytics_tracking():
+    return {
+        'TRACKING_ID': getattr(settings, 'ANALYTICS_TRACKING_ID', None)
+    }
