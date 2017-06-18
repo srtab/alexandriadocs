@@ -1,4 +1,4 @@
-{% load i18n staticfiles compress %}
+{% load i18n staticfiles compress core_tags %}
 <!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE|default:"pt" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
 <head>
@@ -11,7 +11,7 @@
     <!-- BEGIN: stylesheets from vendors -->
     {% compress css %}
         <link rel="stylesheet" type="text/css" href="{% static 'vendor/font-awesome/css/font-awesome.min.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/dist/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/dist/css/bootstrap.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'vendor/tether/dist/css/tether.min.css' %}">
     {% endcompress %}
     <!-- END: stylesheets from vendors -->
@@ -58,5 +58,7 @@
     {% endcompress %}
     <!-- END: internal javascripts -->
 
+    {% analytics_tracking %}
+    {% sentry_ravenjs %}
 </body>
 </html>
