@@ -1,0 +1,6 @@
+-r common.txt
+
+gunicorn
+futures
+setproctitle
+django-redis
