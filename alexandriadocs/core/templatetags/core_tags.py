@@ -46,3 +46,10 @@ def analytics_tracking():
     return {
         'TRACKING_ID': getattr(settings, 'ANALYTICS_TRACKING_ID', None)
     }
+
+
+@register.inclusion_tag("includes/sentry_ravenjs.html")
+def sentry_ravenjs():
+    return {
+        'SENTRY': getattr(settings, 'SENTRY_CONFIG', None)
+    }
