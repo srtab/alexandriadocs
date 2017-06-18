@@ -60,7 +60,7 @@
                         <div class="card-block">
                             <h4 class="card-title d-flex justify-content-between">
                                 <a href="{{ result.absolute_url }}"><i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i> {{result.title|safe}}</a>
-                                <small class="text-muted" data-toggle="tooltip" data-placement="top" title="{% trans "Project name" %}"><i class="fa fa-book fa-fw" aria-hidden="true"></i> evotum</small>
+                                <small class="text-muted" data-toggle="tooltip" data-placement="top" title="{% trans "Project name" %}"><i class="fa fa-book fa-fw" aria-hidden="true"></i> {{result.object.project}}</small>
                             </h4>
                             <p class="card-text text-muted">
                                 {% if query %}
