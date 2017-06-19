@@ -8,7 +8,7 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROJECT_DIR = os.path.abspath(os.path.join(BASE_DIR, '..'))
-LOGS_DIR = os.path.abspath(os.path.join(PROJECT_DIR, '..', 'logs'))
+LOG_DIR = os.path.abspath(os.path.join(PROJECT_DIR, '..', 'log'))
 DATA_DIR = os.path.abspath(os.path.join(PROJECT_DIR, '..', 'data'))
 
 
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'taggit',
     'compressor',
+    'raven.contrib.django.raven_compat',
 
     'core',
     'projects',
@@ -114,13 +115,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
 
@@ -140,6 +137,11 @@ STATICFILES_FINDERS = [
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(DATA_DIR, 'media')
+
+
+# SESSION
+
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 
 
 # TAGGIT
@@ -205,33 +207,29 @@ LOGGING = {
             'class': 'logging.StreamHandler',
             'formatter': 'simple'
         },
-        'mail_admins': {
-            'level': 'ERROR',
-            'filters': ['require_debug_false'],
-            'class': 'django.utils.log.AdminEmailHandler'
-        },
         'main_file': {
             'level': 'INFO',
             'filters': ['require_debug_false'],
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(LOGS_DIR, 'alexandria.log'),
+            'filename': os.path.join(LOG_DIR, 'alexandria.log'),
             'maxBytes': 10 * 1024 * 1024,
             'backupCount': 5,
             'formatter': 'verbose'
+        },
+        'sentry': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',  # NOQA
         },
     },
     'loggers': {
         'alexandria': {
             'level': 'INFO',
-            'handlers': ['console', 'mail_admins', 'main_file']
+            'handlers': ['console', 'main_file', 'sentry']
         },
         'django': {
             'level': 'INFO',
-            'handlers': ['console', 'mail_admins']
+            'handlers': ['console', 'sentry']
         },
-        'celery': {
-            'level': 'INFO',
-            'handlers': ['console', 'mail_admins']
-        }
     },
 }
