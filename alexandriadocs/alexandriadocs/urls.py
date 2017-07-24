@@ -2,11 +2,10 @@
 """
 from __future__ import unicode_literals
 
-from django.conf.urls import url, include
-from django.contrib import admin
-from django.conf import settings
-
 from core.views import HomepageView
+from django.conf import settings
+from django.conf.urls import include, url
+from django.contrib import admin
 
 
 urlpatterns = [
@@ -14,6 +13,10 @@ urlpatterns = [
         regex=r'^$',
         view=HomepageView.as_view(),
         name="homepage"
+    ),
+    url(
+        regex=r'^accounts/',
+        view=include('allauth.urls')
     ),
     url(
         regex=r'^projects/',
