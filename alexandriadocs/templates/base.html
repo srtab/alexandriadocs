@@ -24,7 +24,7 @@
 
     {% block extrastyle %}{% endblock extrastyle %}
 </head>
-<body class="{% block bodyextraclass %}{% endblock bodyextraclass %}">
+<body class="{% block body_class %}{% endblock body_class %}">
 
     {% block header %}
         {% include "includes/header.html" %}
@@ -45,7 +45,7 @@
     <!-- BEGIN: javascripts from vendors -->
     {% compress js %}
         <script type="text/javascript" charset="utf-8" src="{% static 'vendor/jquery/dist/jquery.min.js' %}"></script>
-        <script type="text/javascript" charset="utf-8" src="{% static 'vendor/tether/dist/js/tether.min.js' %}"></script>
+        <script type="text/javascript" charset="utf-8" src="{% static 'vendor/popper.js/dist/umd/popper.min.js' %}"></script>
         <script type="text/javascript" charset="utf-8" src="{% static 'vendor/bootstrap/dist/js/bootstrap.min.js' %}"></script>
     {% endcompress %}
     <!-- END: javascripts from vendors -->

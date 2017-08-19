@@ -1,0 +1,66 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+{% load account socialaccount crispy_forms_field %}
+
+
+{% block head_title %}{% trans "Sign In" %}{% endblock head_title %}
+
+
+{% block body_class %}login{% endblock body_class %}
+
+
+{% block content %}
+
+    <div class="jumbotron jumbotron-fluid bg-light">
+        <div class="container">
+            <h1 class="display-4 text-center"><i class="fa fa-sitemap fa-fw" aria-hidden="true"></i></h1>
+
+            <hr>
+
+            {% get_providers as socialaccount_providers %}
+
+            {% if socialaccount_providers %}
+                <p class="lead text-center text-muted">{% trans "Login with a provider" %}</p>
+                <div class="socialaccount-providers">
+                    {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+                </div>
+            {% else %}
+                <p>{% blocktrans %}If you have not created an account yet, then please <a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
+            {% endif %}
+
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-5">
+
+                    <div class="rule-text">
+                        <hr><span class="lead bg-light text-muted">or</span>
+                    </div>
+
+                    <form method="POST" action="{% url 'account_login' %}">
+                        {% csrf_token %}
+
+                        {% crispy_field form.login "class" "form-control-lg" %}
+                        {% crispy_field form.password "class" "form-control-lg" %}
+
+                        {% if redirect_field_value %}
+                            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                        {% endif %}
+
+                        <button class="btn btn-primary btn-lg btn-block mt-4 mb-2" type="submit">{% trans "Login" %}</button>
+                        <a class="text-muted" href="{{ signup_url }}">{% trans "Signup" %}</a>
+                        <a class="text-muted pull-right" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
+                    </form>
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+{% endblock %}
+
+
+{% block extrajs %}
+    {% include "socialaccount/snippets/login_extra.html" %}
+{% endblock extrajs %}
