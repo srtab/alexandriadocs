@@ -1,7 +1,7 @@
 {% extends "account/base.html" %}
 
 {% load i18n %}
-{% load account socialaccount crispy_forms_field %}
+{% load account crispy_forms_field %}
 
 
 {% block head_title %}{% trans "Sign In" %}{% endblock head_title %}
@@ -14,8 +14,6 @@
 
     <div class="jumbotron jumbotron-fluid jumbotron-header bg-light">
         <div class="container">
-            {% get_providers as socialaccount_providers %}
-
             <h1 class="display-4">{% trans "Login" %}</h1>
 
             <p class="lead mb-0">{% blocktrans %}If you have not created an account yet, then please login with a provider or <a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
