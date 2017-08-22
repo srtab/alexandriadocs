@@ -3,32 +3,6 @@ Login Styles
 */
 
 body.login {
-
-    .socialaccount-provider.github {
-        background-color: #24292e;
-        border-color: #24292e;
-
-        &:hover {
-            background-color: #0e1011;
-        }
-    }
-    .socialaccount-provider.gitlab {
-        background-color: #611b89;
-        border-color: #611b89;
-
-        &:hover {
-            background-color: #43135e;
-        }
-    }
-    .socialaccount-provider.google {
-        background-color: #d34836;
-        border-color: #d34836;
-
-        &:hover {
-            background-color: #b03626;
-        }
-    }
-
     .rule-text {
         position: relative;
         margin-top: 2rem;

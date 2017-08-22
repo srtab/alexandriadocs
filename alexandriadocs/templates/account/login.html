@@ -12,30 +12,18 @@
 
 {% block content %}
 
-    <div class="jumbotron jumbotron-fluid bg-light">
+    <div class="jumbotron jumbotron-fluid jumbotron-header bg-light">
         <div class="container">
-            <h1 class="display-4 text-center"><i class="fa fa-sitemap fa-fw" aria-hidden="true"></i></h1>
-
-            <hr>
-
             {% get_providers as socialaccount_providers %}
 
-            {% if socialaccount_providers %}
-                <p class="lead text-center text-muted">{% trans "Login with a provider" %}</p>
-                <div class="socialaccount-providers">
-                    {% include "socialaccount/snippets/provider_list.html" with process="login" %}
-                </div>
-            {% else %}
-                <p>{% blocktrans %}If you have not created an account yet, then please <a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
-            {% endif %}
+            <h1 class="display-4">{% trans "Login" %}</h1>
 
-            <div class="row justify-content-center">
-                <div class="col-12 col-lg-5">
-
-                    <div class="rule-text">
-                        <hr><span class="lead bg-light text-muted">or</span>
-                    </div>
-
+            <p class="lead mb-0">{% blocktrans %}If you have not created an account yet, then please login with a provider or <a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
+        </div>
+    </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-md-6 col-xl-5">
                     <form method="POST" action="{% url 'account_login' %}">
                         {% csrf_token %}
 
@@ -50,13 +38,17 @@
                         <a class="text-muted" href="{{ signup_url }}">{% trans "Signup" %}</a>
                         <a class="text-muted pull-right" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
                     </form>
-
+                    <div class="rule-text d-sm-block d-md-none">
+                        <hr><span class="lead bg-light text-muted">or</span>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-6 col-xl-5 ml-auto">
+                    <div class="socialaccount-providers">
+                        {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+                    </div>
                 </div>
             </div>
-
-
         </div>
-    </div>
 
 {% endblock %}
 

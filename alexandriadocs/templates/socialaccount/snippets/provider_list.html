@@ -4,10 +4,10 @@
 
 <div class="row">
     {% for provider in socialaccount_providers %}
-        <div class="col-12 col-lg">
-            <a title="{{provider.name}}" class="btn btn-block btn-secondary btn-lg socialaccount-provider {{provider.id}}"
+        <div class="col-12">
+            <a title="{{provider.name}}" class="btn btn-block btn-outline-dark btn-lg mb-2 socialaccount-provider {{provider.id}}"
                href="{% provider_login_url provider.id process=process scope=scope auth_params=auth_params %}">
-                <i class="fa fa-{{provider.id}} fa-fw" aria-hidden="true"></i> {% trans "Login with" %} {{provider.name}}
+                <i class="fa fa-{{provider.id}} fa-fw" aria-hidden="true"></i> {% trans "Login with" %} <strong>{{provider.name}}</strong>
             </a>
         </div>
     {% endfor %}
