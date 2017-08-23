@@ -31,7 +31,10 @@
                         <i class="fa fa-user-circle-o fa-fw" aria-hidden="true"></i>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                        <h6 class="dropdown-header"><span class="text-muted">Signed in as {% user_display user %}</span></h6>
+                        <h6 class="dropdown-header"><span class="text-muted">{% trans "Signed in as" %} {% user_display user %}</span></h6>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{% url 'account_change_password' %}">{% trans "Change password" %}</a>
+                        <a class="dropdown-item" href="{% url 'account_email' %}">{% trans "Manage emails" %}</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{% url 'account_logout' %}">{% trans "Logout" %}</a>
                     </div>
