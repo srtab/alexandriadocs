@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n highlight %}
+{% load i18n highlight core_tags %}
 
 
 {% block bodyextraclass %}search{% endblock bodyextraclass %}
@@ -10,79 +10,87 @@
         <div class="jumbotron jumbotron-fluid jumbotron-header bg-light">
             <div class="container">
                 <h1 class="display-4">{% trans 'Search' %}</h1>
-                <p class="lead">
-                    {% trans "Here you can search all the docs by project or by project pages." %}
-                </p>
+                <p class="lead">{% trans "Search all available projects and documentations." %}</p>
                 <hr>
                 {% trans 'Search term...' as search_placeholder %}
-                {% include "includes/search-form.html" with query=query placeholder=search_placeholder only %}
+                {% include "search/includes/search-form.html" with query=query placeholder=search_placeholder only %}
             </div>
         </div>
+        {% if query %}
+            <div class="container">
 
-        <div class="container">
+                {% is_current_url namespace='search' url_name='index' as is_search_projects %}
+                {% is_current_url namespace='search' url_name='pages' as is_search_pages %}
 
-             <ul class="nav nav-tabs mb-3">
-                <li class="nav-item">
-                    <a class="nav-link {% if request.resolver_match.url_name == 'index' %}active{% endif %}" href="{% url 'search:index' %}?q={{query|safe}}">
-                        <i class="fa fa-book fa-fw" aria-hidden="true"></i>
-                        {% trans 'Projects' %} <span class="badge badge-pill badge-default ml-1">{{projects_count}}</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {% if request.resolver_match.url_name == 'pages' %}active{% endif %}" href="{% url 'search:pages' %}?q={{query|safe}}">
-                        <i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i>
-                        {% trans 'Pages' %} <span class="badge badge-pill badge-default ml-1">{{pages_count}}</span>
-                    </a>
-                </li>
-            </ul>
+                 <ul class="nav nav-tabs mb-3">
+                    <li class="nav-item">
+                        <a class="nav-link {% if is_search_projects %}active{% endif %}" href="{% url 'search:index' %}?q={{query|safe}}">
+                            <i class="fa fa-book fa-fw" aria-hidden="true"></i>
+                            {% trans 'Projects' %} <span class="badge badge-pill badge-default ml-1">{{projects_count}}</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if is_search_pages %}active{% endif %}" href="{% url 'search:pages' %}?q={{query|safe}}">
+                            <i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i>
+                            {% trans 'Pages' %} <span class="badge badge-pill badge-default ml-1">{{pages_count}}</span>
+                        </a>
+                    </li>
+                </ul>
 
-            {% for result in object_list %}
+                {% for result in object_list %}
 
-                {% ifequal result.content_type 'projects.project' %}
-                    <div class="card card-outline-secondary">
-                        <div class="card-block">
-                            <h4 class="card-title">
-                                <a href="{{ result.absolute_url }}"><i class="fa fa-book fa-fw" aria-hidden="true"></i> {{result.title|safe}}</a>
-                            </h4>
-                            <p class="card-text text-muted">
-                                {% if query %}
-                                    {% highlight result.description with query %}
-                                {% else %}
-                                    {{result.description|safe|truncatewords:35}}
-                                {% endif %}
-                            </p>
+                    {% ifequal result.content_type 'projects.project' %}
+                        <div class="card card-outline-secondary">
+                            <div class="card-block">
+                                <h4 class="card-title">
+                                    <a href="{{ result.absolute_url }}"><i class="fa fa-book fa-fw" aria-hidden="true"></i> {{result.title|safe}}</a>
+                                </h4>
+                                <p class="card-text text-muted">
+                                    {% if query %}
+                                        {% highlight result.description with query %}
+                                    {% else %}
+                                        {{result.description|safe|truncatewords:35}}
+                                    {% endif %}
+                                </p>
+                            </div>
                         </div>
-                    </div>
-                {% endifequal %}
+                    {% endifequal %}
 
-                {% ifequal result.content_type 'projects.importedfile' %}
-                    <div class="card card-outline-secondary">
-                        <div class="card-block">
-                            <h4 class="card-title d-flex justify-content-between">
-                                <a href="{{ result.absolute_url }}"><i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i> {{result.title|safe}}</a>
-                                <small class="text-muted" data-toggle="tooltip" data-placement="top" title="{% trans "Project name" %}"><i class="fa fa-book fa-fw" aria-hidden="true"></i> {{result.object.project}}</small>
-                            </h4>
-                            <p class="card-text text-muted">
-                                {% if query %}
-                                    {% highlight result.body with query %}
-                                {% else %}
-                                    {{result.body|safe|truncatewords:70}}
-                                {% endif %}
-                            </p>
+                    {% ifequal result.content_type 'projects.importedfile' %}
+                        <div class="card card-outline-secondary">
+                            <div class="card-block">
+                                <h4 class="card-title d-flex justify-content-between">
+                                    <a href="{{ result.absolute_url }}"><i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i> {{result.title|safe}}</a>
+                                    <small class="text-muted" data-toggle="tooltip" data-placement="top" title="{% trans "Project name" %}"><i class="fa fa-book fa-fw" aria-hidden="true"></i> {{result.object.project}}</small>
+                                </h4>
+                                <p class="card-text text-muted">
+                                    {% if query %}
+                                        {% highlight result.body with query %}
+                                    {% else %}
+                                        {{result.body|safe|truncatewords:70}}
+                                    {% endif %}
+                                </p>
+                            </div>
                         </div>
-                    </div>
-                {% endifequal %}
+                    {% endifequal %}
 
-            {% empty %}
-                <p class="lead text-center">
-                    <i class="fa fa-search fa-fw fa-3x text-muted" aria-hidden="true"></i><br>
-                    {% trans "We couldn't find any project matching" %} <strong>"{{query|safe}}"</strong>
-                </p>
-            {% endfor %}
+                {% empty %}
+                    <p class="lead text-center text-muted mt-5">
 
-            {% include "includes/pagination.html" %}
+                        {% if is_search_projects %}
+                            {% trans "We couldn't find any project matching" %}
+                        {% elif is_search_pages %}
+                            {% trans "We couldn't find any pages matching" %}
+                        {% endif %}
 
-        </div>
+                        <strong>"{{query|safe}}"</strong>
+                    </p>
+                {% endfor %}
+
+                {% include "includes/pagination.html" %}
+
+            </div>
+        {% endif %}
     </form>
 
 {% endblock container %}
