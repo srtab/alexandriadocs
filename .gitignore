@@ -11,7 +11,7 @@ __pycache__/
 env/
 build/
 develop-eggs/
-# dist/
+dist/
 downloads/
 eggs/
 .eggs/
@@ -89,5 +89,5 @@ ENV/
 .ropeproject
 
 db.sqlite3
-
-data
+data/
+vendor
