@@ -15,7 +15,7 @@
         {% is_current_url namespace='search' url_name='index' as is_search %}
 
         {% if not is_homepage and not is_search %}
-            <form action="{% url 'search:index' %}" class="form-inline ml-auto">
+            <form action="{% url 'search:index' %}" class="form-inline ml-auto form-search">
                 <input class="form-control form-control-sm mr-sm-2" type="text" placeholder="{% trans 'Search projects' %}" aria-label="{% trans 'Search projects' %}">
             </form>
         {% endif %}
@@ -26,7 +26,7 @@
                     <a class="nav-link" href="{% url 'account_login' %}">{% trans "Login" %}</a>
                 </li>
             {% else %}
-                <li class="nav-item dropdown">
+                <li class="nav-item dropdown dropdown-profile">
                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-user-circle-o fa-fw" aria-hidden="true"></i>
                     </a>

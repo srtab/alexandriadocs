@@ -2,8 +2,23 @@
 Header
 */
 
-.navbar .navbar-nav .nav-link {
-    padding-right: 15px;
-    padding-left: 15px;
-    text-transform: uppercase;
+.navbar {
+    .navbar-nav .nav-link {
+        padding-right: 15px;
+        padding-left: 15px;
+        text-transform: uppercase;
+    }
+
+    .form-search .form-control {
+        width: 20rem;
+        border-color: transparent;
+
+        &:focus {
+            border-color: #80bdff;
+        }
+    }
+
+    .dropdown-profile .dropdown-menu {
+        font-size: 90%;
+    }
 }
