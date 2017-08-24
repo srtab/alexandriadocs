@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from mock import Mock, patch
 
 from django.test import SimpleTestCase
-
-from projects.search_indexes import ProjectIndex, ImportedFileIndex
-from projects.models import Project, ImportedFile
+from mock import Mock, patch
+from projects.models import ImportedFile, Project
+from projects.search_indexes import ImportedFileIndex, ProjectIndex
 
 
 class ProjectIndexTest(SimpleTestCase):

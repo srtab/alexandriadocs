@@ -2,12 +2,11 @@
 from __future__ import unicode_literals
 
 from hashlib import md5
-from mock import patch
 
-from django.test import TestCase
-
-from projects.models import Project, ImportedFile
 from autofixture import create_one
+from django.test import TestCase
+from mock import patch
+from projects.models import ImportedFile, Project
 
 
 @patch('projects.managers.hashlib.md5', return_value=md5("unit".encode()))

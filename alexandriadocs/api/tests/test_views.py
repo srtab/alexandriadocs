@@ -1,13 +1,11 @@
 from __future__ import unicode_literals
 
-from django.db.models.signals import post_save
-from django.contrib.auth import get_user_model
-from django.test import TestCase
-
-from rest_framework.test import force_authenticate, APIRequestFactory
-
-from projects.models import Project, ImportedArchive, Organization
 from api.views import ImportArchiveView
+from django.contrib.auth import get_user_model
+from django.db.models.signals import post_save
+from django.test import TestCase
+from projects.models import ImportedArchive, Organization, Project
+from rest_framework.test import APIRequestFactory, force_authenticate
 
 
 class ImportedArchiveViewTest(TestCase):

@@ -1,8 +1,7 @@
 from __future__ import unicode_literals
 
-from django.conf.urls import url
-
 from api.views import ImportArchiveView
+from django.conf.urls import url
 
 
 urlpatterns = [

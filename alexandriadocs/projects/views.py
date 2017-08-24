@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals, absolute_import
+from __future__ import absolute_import, unicode_literals
 
-from django.views.generic import View
 from django.shortcuts import redirect
-
+from django.views.generic import View
 from projects.models import Project
 
 

@@ -27,7 +27,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('created', django_extensions.db.fields.CreationDateTimeField(auto_now_add=True, verbose_name='created')),
                 ('modified', django_extensions.db.fields.ModificationDateTimeField(auto_now=True, verbose_name='modified')),
-                ('archive', models.FileField(help_text='archive with project documentation.', upload_to=projects.utils.projects_upload_to, validators=[projects.validators.MimeTypeValidator(allowed_mimetypes=('application/x-gzip',)), projects.validators.IntegrityTarValidator('/app/data/staticsites')], verbose_name='archive')),
+                ('archive', models.FileField(help_text='archive with project documentation.', upload_to=projects.utils.projects_upload_to, validators=[projects.validators.MimeTypeValidator(allowed_mimetypes=('application/x-gzip',))], verbose_name='archive')),
             ],
             options={
                 'verbose_name': 'imported archive',
