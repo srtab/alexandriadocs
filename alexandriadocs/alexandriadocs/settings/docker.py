@@ -28,3 +28,6 @@ HAYSTACK_CONNECTIONS = {
         'INDEX_NAME': 'alexandria',
     },
 }
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

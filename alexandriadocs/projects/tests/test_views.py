@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from mock import Mock, patch
-
-from django.urls import reverse
 from django.test import SimpleTestCase
-
+from django.urls import reverse
+from mock import Mock, patch
 from projects.views import BADGE_URL
 
 

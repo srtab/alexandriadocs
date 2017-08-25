@@ -3,5 +3,31 @@ Login Styles
 */
 
 body.login {
+    .rule-text {
+        position: relative;
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+        text-align: center;
 
+        hr {
+            margin: 0;
+        }
+        span {
+            padding: 0 10px;
+            position: absolute;
+            top: -17px;
+            left: 50%;
+            margin-left: -15px;
+        }
+    }
+
+    input[name="login"] {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        border-bottom: none;
+    }
+    input[name="password"] {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
 }

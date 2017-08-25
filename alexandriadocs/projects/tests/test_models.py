@@ -1,11 +1,10 @@
 from __future__ import unicode_literals
 
-from mock import patch, MagicMock
 
 from django.test import SimpleTestCase
-
+from mock import MagicMock, patch
 from projects.models import (
-    Organization, Project, ImportedArchive, ImportedFile)
+    ImportedArchive, ImportedFile, Organization, Project)
 
 
 class OrganizationModelTest(SimpleTestCase):

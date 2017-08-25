@@ -1,22 +1,20 @@
 from __future__ import unicode_literals
 
-import tarfile
 import os
+import tarfile
 
-from django.utils.translation import ugettext_lazy as _
-from django.db.models.signals import post_save
-from django.utils.encoding import python_2_unicode_compatible
 from django.conf import settings
 from django.db import models
-
+from django.db.models.signals import post_save
+from django.utils.encoding import python_2_unicode_compatible
+from django.utils.translation import ugettext_lazy as _
 from django_extensions.db.fields import AutoSlugField
 from django_extensions.db.models import (
-    TitleSlugDescriptionModel, TimeStampedModel)
-from taggit.managers import TaggableManager
-
-from projects.validators import MimeTypeValidator, IntegrityTarValidator
+    TimeStampedModel, TitleSlugDescriptionModel)
 from projects.managers import ImportedFileManager
 from projects.utils import projects_upload_to
+from projects.validators import MimeTypeValidator
+from taggit.managers import TaggableManager
 
 
 @python_2_unicode_compatible
@@ -76,8 +74,7 @@ class ImportedArchive(TimeStampedModel):
         help_text=_('archive with project documentation.'),
         validators=[
             MimeTypeValidator(
-                allowed_mimetypes=settings.PROJECTS_ALLOWED_MIMETYPES),
-            IntegrityTarValidator(settings.PROJECTS_SERVE_ROOT)
+                allowed_mimetypes=settings.PROJECTS_ALLOWED_MIMETYPES)
         ])
 
     class Meta:

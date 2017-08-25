@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from mock import Mock
-
 from django.test import SimpleTestCase
-
-from search.extractors import HtmlExtractor
+from mock import Mock
 from pyquery import PyQuery
+from search.extractors import HtmlExtractor
 
 
 class HtmlExtractorText(SimpleTestCase):

@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from mock import Mock
-
 from django.core.exceptions import ImproperlyConfigured
 from django.template import Context, Template
-from django.test import SimpleTestCase, RequestFactory
+from django.test import RequestFactory, SimpleTestCase
+from mock import Mock
 
 
 class TemplateTagsTest(object):

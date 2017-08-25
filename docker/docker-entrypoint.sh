@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 
-mkdir -p logs data
+mkdir -p log data
 
 cd alexandriadocs
 

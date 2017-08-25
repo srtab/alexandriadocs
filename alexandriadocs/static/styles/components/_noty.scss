@@ -1,0 +1,17 @@
+
+#noty_layout__topRight {
+    top: 65px;
+    right: 15px;
+    width: 400px;
+}
+
+.noty_theme__bootstrap-v4.noty_bar {
+    box-shadow: 0px 2px 14px -4px #000;
+
+    .noty_body {
+        padding: 1.3rem 1rem;
+    }
+    .noty-icon {
+        margin-right: 1rem;
+    }
+}
