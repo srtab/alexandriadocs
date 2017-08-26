@@ -25,15 +25,11 @@
         {% endif %}
 
         <h4>{% trans "Add email" %}</h4>
-        <div class="row">
-            <div class="col-12 col-lg-8">
-                <form method="post" action="{% url 'account_email' %}" class="mb-2">
-                    {% csrf_token %}
-                    {% crispy_field form.email %}
-                    <button name="action_add" type="submit" class="btn btn-dark mt-2">{% trans "Add email" %}</button>
-                </form>
-            </div>
-        </div>
+        <form method="post" action="{% url 'account_email' %}" class="mb-4">
+            {% csrf_token %}
+            {% crispy_field form.email %}
+            <button name="action_add" type="submit" class="btn btn-dark mt-2">{% trans "Add email" %}</button>
+        </form>
 
         {% if user.emailaddress_set.exists %}
             <hr>

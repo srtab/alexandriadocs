@@ -139,6 +139,13 @@ ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = True
 ACCOUNT_USERNAME_MIN_LENGTH = 3
 ACCOUNT_LOGOUT_ON_GET = True
 ACCOUNT_LOGOUT_REDIRECT_URL = reverse_lazy('homepage')
+ACCOUNT_FORMS = {
+    'change_password': 'accounts.forms.ChangePasswordForm',
+    'reset_password': 'accounts.forms.ResetPasswordForm',
+    'reset_password_from_key': 'accounts.forms.ResetPasswordKeyForm',
+    'set_password': 'accounts.forms.SetPasswordForm',
+    'signup': 'accounts.forms.SignupForm',
+}
 
 
 # Internationalization
