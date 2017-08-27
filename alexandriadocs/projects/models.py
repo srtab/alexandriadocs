@@ -18,14 +18,13 @@ from taggit.managers import TaggableManager
 
 
 @python_2_unicode_compatible
-class Organization(TimeStampedModel):
-    """An organization represents a group of projects.
-    """
+class Group(TimeStampedModel):
+    """Represents a group of projects."""
     name = models.CharField(_('name'), max_length=255)
     slug = AutoSlugField(_('slug'), populate_from='name')
 
     class Meta:
-        verbose_name = _('organization')
+        verbose_name = _('group')
 
     def __str__(self):
         return self.name
@@ -35,9 +34,9 @@ class Organization(TimeStampedModel):
 class Project(TitleSlugDescriptionModel, TimeStampedModel):
     """An project represents a namespace.
     """
-    organization = models.ForeignKey(
-        Organization, models.PROTECT, verbose_name=_('organization'),
-        help_text=_('project organization'))
+    group = models.ForeignKey(
+        Group, models.PROTECT, verbose_name=_('group'),
+        help_text=_('project group'))
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL, models.PROTECT, verbose_name=_('author'),
         help_text=_('project author'))

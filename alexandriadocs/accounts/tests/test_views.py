@@ -12,7 +12,7 @@ class ProfileUpdateViewTest(TestCase):
     def setUp(self):
         self.user = get_user_model().objects.create_user(
             username='unit', password='secret')
-        self.url = reverse('accounts:index', args=[self.user.pk])
+        self.url = reverse('accounts:index', args=[self.user.slug])
         self.client.force_login(self.user)
 
     def test_login_required(self):
@@ -33,4 +33,5 @@ class ProfileUpdateViewTest(TestCase):
         }
         response = self.client.post(self.url, data)
         self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, self.url)
+        self.assertRedirects(response,
+                             reverse('accounts:index', args=['test']))

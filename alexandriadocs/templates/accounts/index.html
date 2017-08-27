@@ -16,7 +16,7 @@
     </div>
 
     <div class="container">
-        <form class="account" id="account_form" method="post" action="{% url 'accounts:index' user.pk %}">
+        <form class="account" id="account_form" method="post" action="{% url 'accounts:index' user.slug %}">
             {% crispy form %}
             <button class="btn btn-dark" type="submit">{% trans "Update profile" %}</button>
         </form>

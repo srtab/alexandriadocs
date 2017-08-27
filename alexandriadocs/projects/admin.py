@@ -2,11 +2,11 @@ from __future__ import unicode_literals
 
 from django.contrib import admin
 from projects.models import (
-    ImportedArchive, ImportedFile, Organization, Project)
+    Group, ImportedArchive, ImportedFile, Project)
 
 
-@admin.register(Organization)
-class OrganizationAdmin(admin.ModelAdmin):
+@admin.register(Group)
+class GroupAdmin(admin.ModelAdmin):
     """ """
 
 

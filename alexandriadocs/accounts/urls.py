@@ -8,7 +8,7 @@ from .views import ProfileUpdateView
 
 urlpatterns = [
     url(
-        regex=r'^(?P<pk>\d+)/$',
+        regex=r'^(?P<slug>[-\w]+)/$',
         view=ProfileUpdateView.as_view(),
         name='index'
     ),

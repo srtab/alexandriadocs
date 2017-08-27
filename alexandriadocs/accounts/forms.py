@@ -71,4 +71,4 @@ class ProfileUpdateForm(UntaggedFormMixin, forms.ModelForm):
 
     class Meta:
         model = get_user_model()
-        fields = ('username', 'first_name', 'last_name')
+        fields = ('username', 'name')
