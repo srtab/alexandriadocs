@@ -1,0 +1,62 @@
+{% extends "socialaccount/base.html" %}
+
+{% load i18n socialaccount accounts_tags %}
+
+
+{% block head_title %}{% trans "Social Login" %}{% endblock %}
+
+
+{% block content %}
+
+    <div class="jumbotron jumbotron-fluid jumbotron-header bg-light">
+        <div class="container">
+            <h1 class="display-4">{% trans "Social Login" %}</h1>
+
+            {% if form.accounts %}
+                <p class="lead mb-0">{% blocktrans %}You can sign in to your account using any of the following social services:{% endblocktrans %}</p>
+            {% else %}
+                <p class="lead mb-0">
+                    {% trans 'You currently have no social services connected to this account.' %}
+                </p>
+                <p class="lead mb-0">
+                    {% trans 'Click on connect to activate login with one of the following social services:' %}
+                </p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="card">
+            <ul class="list-group list-group-flush">
+                {% if form.accounts %}
+                    {% for base_account in form.accounts %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            {% with base_account.get_provider_account as account %}
+                                <div class="d-inline-block">
+                                    <i class="fa fa-{{ account.get_brand.id }} fa-fw" aria-hidden="true"></i> {{account.get_brand.name}}
+                                    <span class="badge badge-success badge-pill ml-3">{% trans "Connected" %}</span>
+                                </div>
+                                <form method="post" action="{% url 'socialaccount_connections' %}">
+                                    {% csrf_token %}
+                                    <input id="id_account_{{ base_account.id }}" type="hidden" name="account" value="{{ base_account.id }}"/>
+                                    <button type="submit" class="btn btn-outline-danger btn-sm">{% trans 'Disconnect' %}</button>
+                                </form>
+                            {% endwith %}
+                        </li>
+                    {% endfor %}
+                {% endif %}
+                {% get_providers_unconnected request.user as socialaccount_providers %}
+                {% for provider in socialaccount_providers %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span><i class="fa fa-{{provider.id}} fa-fw" aria-hidden="true"></i> {{provider.name}}</span>
+                        <a title="{{provider.name}}" class="btn btn-outline-success btn-sm pull-right"
+                           href="{% provider_login_url provider.id process='connect' scope=scope auth_params=auth_params %}">
+                            {% trans 'Connect' %}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,4 +1,4 @@
-{% extends "account/base.html" %}
+{% extends "socialaccount/base.html" %}
 
 {% load i18n %}
 {% load crispy_forms_tags %}
@@ -11,12 +11,14 @@
     <div class="jumbotron jumbotron-fluid jumbotron-header bg-light">
         <div class="container">
             <h1 class="display-4">{% trans "Sign Up" %}</h1>
-            <p class="lead mb-0">{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
+            <p class="lead mb-0">
+                {% blocktrans with provider_name=account.get_provider.name site_name=site.name %}You are about to use your {{provider_name}} account to login to
+                {{site_name}}. As a final step, please complete the following form:{% endblocktrans %}
+            </p>
         </div>
     </div>
-
     <div class="container">
-        <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+        <form class="signup" id="signup_form" method="post" action="{% url 'socialaccount_signup' %}">
             {% crispy form %}
             {% if redirect_field_value %}
                 <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
