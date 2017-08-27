@@ -1,18 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from core.tests.utils import TemplateTagsTest
 from django.core.exceptions import ImproperlyConfigured
-from django.template import Context, Template
 from django.test import RequestFactory, SimpleTestCase
 from mock import Mock, patch
-
-
-class TemplateTagsTest(object):
-
-    def render_template(self, string, context=None, request=None):
-        context = context or {}
-        context = Context(context)
-        return Template(string).render(context)
 
 
 class IsCurrentUrlTagTest(TemplateTagsTest, SimpleTestCase):

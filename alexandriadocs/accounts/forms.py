@@ -8,6 +8,7 @@ from allauth.account.forms import (
     SetPasswordForm as AllauthSetPasswordForm,
     SignupForm as AllauthSignupForm,
 )
+from allauth.socialaccount.forms import SignupForm as AllauthSocialSignupForm
 from crispy_forms.helper import FormHelper
 from django.utils.translation import ugettext_lazy as _
 
@@ -47,5 +48,14 @@ class SignupForm(AllauthSignupForm):
 
     def __init__(self, *args, **kwargs):
         super(SignupForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_tag = False
+
+
+class SocialSignupForm(AllauthSocialSignupForm):
+    """ """
+
+    def __init__(self, *args, **kwargs):
+        super(SocialSignupForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_tag = False

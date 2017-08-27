@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     'crispy_forms',
 
+    'accounts',
     'core',
     'projects',
     'search',
@@ -145,6 +146,9 @@ ACCOUNT_FORMS = {
     'reset_password_from_key': 'accounts.forms.ResetPasswordKeyForm',
     'set_password': 'accounts.forms.SetPasswordForm',
     'signup': 'accounts.forms.SignupForm',
+}
+SOCIALACCOUNT_FORMS = {
+    'signup': 'accounts.forms.SocialSignupForm'
 }
 
 
