@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from accounts.forms import ChangePasswordForm, CleanFormHelperMixin, SignupForm
+from accounts.forms import (
+    ChangePasswordForm, CleanFormHelperMixin, SignupForm, SocialSignupForm)
 from crispy_forms.helper import FormHelper
 from django.test import SimpleTestCase
+from mock import Mock
 
 
 class ChangePasswordFormTest(SimpleTestCase):
@@ -28,5 +30,13 @@ class SignupFormTest(SimpleTestCase):
 
     def test_init(self):
         form = SignupForm()
+        self.assertIsInstance(form.helper, FormHelper)
+        self.assertFalse(form.helper.form_tag)
+
+
+class SocialSignupFormTest(SimpleTestCase):
+
+    def test_init(self):
+        form = SocialSignupForm(sociallogin=Mock())
         self.assertIsInstance(form.helper, FormHelper)
         self.assertFalse(form.helper.form_tag)

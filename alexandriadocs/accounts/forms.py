@@ -56,6 +56,6 @@ class SocialSignupForm(AllauthSocialSignupForm):
     """ """
 
     def __init__(self, *args, **kwargs):
-        super(SignupForm, self).__init__(*args, **kwargs)
+        super(SocialSignupForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_tag = False
