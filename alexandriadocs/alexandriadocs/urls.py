@@ -24,6 +24,10 @@ urlpatterns = [
         view=include('allauth.urls')
     ),
     url(
+        regex=r'^accounts/',
+        view=include('accounts.urls', namespace='accounts')
+    ),
+    url(
         regex=r'^projects/',
         view=include('projects.urls', namespace='projects')
     ),

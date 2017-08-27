@@ -10,19 +10,31 @@ from allauth.account.forms import (
 )
 from allauth.socialaccount.forms import SignupForm as AllauthSocialSignupForm
 from crispy_forms.helper import FormHelper
+from django import forms
+from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext_lazy as _
 
 
-class CleanFormHelperMixin(object):
+class UntaggedFormMixin(object):
     """Mixin to avoid crispy showing fields labels and rendering de form tag"""
     def __init__(self, *args, **kwargs):
-        super(CleanFormHelperMixin, self).__init__(*args, **kwargs)
-        self.helper = FormHelper()
-        self.helper.form_show_labels = False
+        super(UntaggedFormMixin, self).__init__(*args, **kwargs)
+        if not hasattr(self, 'helper'):
+            self.helper = FormHelper()
         self.helper.form_tag = False
 
 
-class ChangePasswordForm(CleanFormHelperMixin, AllauthChangePasswordForm):
+class UnlabeledFormMixin(object):
+    """Mixin to avoid crispy showing fields labels and rendering de form tag"""
+    def __init__(self, *args, **kwargs):
+        super(UnlabeledFormMixin, self).__init__(*args, **kwargs)
+        if not hasattr(self, 'helper'):
+            self.helper = FormHelper()
+        self.helper.form_show_labels = False
+
+
+class ChangePasswordForm(UnlabeledFormMixin, UntaggedFormMixin,
+                         AllauthChangePasswordForm):
     """ """
 
     def __init__(self, *args, **kwargs):
@@ -31,31 +43,32 @@ class ChangePasswordForm(CleanFormHelperMixin, AllauthChangePasswordForm):
             'You must provide your current password in order to change it.')
 
 
-class ResetPasswordForm(CleanFormHelperMixin, AllauthResetPasswordForm):
+class ResetPasswordForm(UnlabeledFormMixin, UntaggedFormMixin,
+                        AllauthResetPasswordForm):
     """ """
 
 
-class ResetPasswordKeyForm(CleanFormHelperMixin, AllauthResetPasswordKeyForm):
+class ResetPasswordKeyForm(UnlabeledFormMixin, UntaggedFormMixin,
+                           AllauthResetPasswordKeyForm):
     """ """
 
 
-class SetPasswordForm(CleanFormHelperMixin, AllauthSetPasswordForm):
+class SetPasswordForm(UnlabeledFormMixin, UntaggedFormMixin,
+                      AllauthSetPasswordForm):
     """ """
 
 
-class SignupForm(AllauthSignupForm):
+class SignupForm(UntaggedFormMixin, AllauthSignupForm):
     """ """
 
-    def __init__(self, *args, **kwargs):
-        super(SignupForm, self).__init__(*args, **kwargs)
-        self.helper = FormHelper()
-        self.helper.form_tag = False
 
-
-class SocialSignupForm(AllauthSocialSignupForm):
+class SocialSignupForm(UntaggedFormMixin, AllauthSocialSignupForm):
     """ """
 
-    def __init__(self, *args, **kwargs):
-        super(SocialSignupForm, self).__init__(*args, **kwargs)
-        self.helper = FormHelper()
-        self.helper.form_tag = False
+
+class ProfileUpdateForm(UntaggedFormMixin, forms.ModelForm):
+    """ """
+
+    class Meta:
+        model = get_user_model()
+        fields = ('username', 'first_name', 'last_name')

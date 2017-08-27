@@ -36,6 +36,7 @@
                         {% if user.is_staff %}
                             <a class="dropdown-item" href="{% url 'admin:index' %}">{% trans "Administration" %}</a>
                         {% endif %}
+                        <a class="dropdown-item" href="{% url 'accounts:index' user.pk %}">{% trans "Profile" %}</a>
                         <a class="dropdown-item" href="{% url 'account_email' %}">{% trans "Manage emails" %}</a>
                         <a class="dropdown-item" href="{% url 'socialaccount_connections' %}">{% trans "Social login" %}</a>
                         <a class="dropdown-item" href="{% url 'account_change_password' %}">{% trans "Change password" %}</a>
