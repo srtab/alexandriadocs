@@ -16,17 +16,12 @@
     </div>
 
     <div class="container">
-        <div class="row">
-            <div class="col-12 col-lg-8">
-                <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
-                    {% csrf_token %}
-                    {{ form|crispy }}
-                    {% if redirect_field_value %}
-                        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-                    {% endif %}
-                    <button class="btn btn-dark" type="submit">{% trans "Sign Up" %}</button>
-                </form>
-            </div>
-        </div>
+        <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+            {% crispy form %}
+            {% if redirect_field_value %}
+                <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+            {% endif %}
+            <button class="btn btn-dark" type="submit">{% trans "Sign Up" %}</button>
+        </form>
     </div>
 {% endblock %}

@@ -3,7 +3,6 @@ from __future__ import unicode_literals
 
 from collections import OrderedDict
 
-from crispy_forms.helper import FormHelper
 from django import template
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
@@ -59,12 +58,3 @@ def sentry_ravenjs():
     return {
         'SENTRY': getattr(settings, 'SENTRY_CONFIG', None)
     }
-
-
-@register.assignment_tag()
-def form_helper(**kwargs):
-    helper = FormHelper()
-    for attr, value in kwargs.items():
-        if hasattr(helper, attr):
-            setattr(helper, attr, value)
-    return helper
