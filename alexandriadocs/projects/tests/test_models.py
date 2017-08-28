@@ -4,14 +4,14 @@ from __future__ import unicode_literals
 from django.test import SimpleTestCase
 from mock import MagicMock, patch
 from projects.models import (
-    ImportedArchive, ImportedFile, Organization, Project)
+    Group, ImportedArchive, ImportedFile, Project)
 
 
-class OrganizationModelTest(SimpleTestCase):
+class GroupModelTest(SimpleTestCase):
 
     def test_str(self):
-        organization = Organization(name="name")
-        self.assertEqual(str(organization), organization.name)
+        group = Group(name="name")
+        self.assertEqual(str(group), group.name)
 
 
 class ProjectModelTest(SimpleTestCase):

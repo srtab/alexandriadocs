@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+
+{% block head_title %}{% trans "Profile" %}{% endblock %}
+
+
+{% block container %}
+    <div class="jumbotron jumbotron-fluid jumbotron-header bg-light">
+        <div class="container">
+            <h1 class="display-4">{% trans "Profile" %}</h1>
+            <p class="lead mb-0">{% blocktrans %}You can change your profile data here.{% endblocktrans %}</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <form class="account" id="account_form" method="post" action="{% url 'accounts:index' user.slug %}">
+            {% crispy form %}
+            <button class="btn btn-dark" type="submit">{% trans "Update profile" %}</button>
+        </form>
+    </div>
+{% endblock %}

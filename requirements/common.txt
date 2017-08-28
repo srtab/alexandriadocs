@@ -11,7 +11,8 @@ django-haystack~=2.6.0
 django_compressor~=2.1.1
 django_libsass~=0.7.0
 django-allauth~=0.32.0
-django-crispy-forms
+django-crispy-forms~=1.6.1
+django-autoslug~=1.9.3
 
 # API
 djangorestframework~=3.6.2
