@@ -24,57 +24,50 @@
             </div>
         {% endif %}
 
-        <h4>{% trans "Add email" %}</h4>
-        <form method="post" action="{% url 'account_email' %}" class="mb-4">
-            {% csrf_token %}
-            {% crispy_field form.email %}
-            <button name="action_add" type="submit" class="btn btn-dark mt-2">{% trans "Add email" %}</button>
-        </form>
+        <div class="card mb-3">
+            <ul class="list-group list-group-flush">
+                {% for emailaddress in user.emailaddress_set.all %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div class="email-label">
+                            <span class="mr-4">{{ emailaddress.email }}</span>
 
-        {% if user.emailaddress_set.exists %}
-            <hr>
-
-            <h4>{% trans "Linked emails" %}</h4>
-            <form action="{% url 'account_email' %}" class="email_list" method="post">
-                {% csrf_token %}
-
-                <div class="card mb-3">
-                    <ul class="list-group list-group-flush">
-                        {% for emailaddress in user.emailaddress_set.all %}
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <label for="email_radio_{{forloop.counter}}" class="custom-control custom-radio mb-0">
-                                    <input id="email_radio_{{forloop.counter}}" type="radio" name="email" {% if emailaddress.primary or user.emailaddress_set.count == 1 %}checked="checked"{%endif %} class="custom-control-input" value="{{emailaddress.email}}" />
-                                    <span class="custom-control-indicator"></span>
-                                    <span class="custom-control-description">{{ emailaddress.email }}</span>
-                                </label>
-                                <div class="email-badges">
-                                    {% if emailaddress.primary %}
-                                        <span class="badge badge-primary badge-pill ">{% trans "Primary email" %}</span>
-                                    {% endif %}
-                                    {% if emailaddress.verified %}
-                                        <span class="badge badge-success badge-pill">{% trans "Verified email" %}</span>
-                                    {% else %}
-                                        <span class="badge badge-warning badge-pill">{% trans "Unverified email" %}</span>
-                                    {% endif %}
-                                </div>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                    <div class="card-body">
-                        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
-                            <div class="btn-group btn-group-sm mr-2" role="group" aria-label="Basic example">
-                                <button class="btn btn-outline-dark" type="submit" name="action_primary">{% trans 'Make Primary' %}</button>
-                                <button class="btn btn-outline-dark" type="submit" name="action_send">{% trans 'Re-send Verification' %}</button>
-                            </div>
-                            <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                                <button class="btn btn-outline-danger" type="submit" name="action_remove">{% trans 'Remove' %}</button>
-                            </div>
+                            {% if emailaddress.primary %}
+                                <span class="badge badge-primary badge-pill ">{% trans "Primary email" %}</span>
+                            {% endif %}
+                            {% if emailaddress.verified %}
+                                <span class="badge badge-success badge-pill">{% trans "Verified email" %}</span>
+                            {% else %}
+                                <span class="badge badge-warning badge-pill">{% trans "Unverified email" %}</span>
+                            {% endif %}
                         </div>
+                        <div class="email-form">
+                            <form action="{% url 'account_email' %}" class="email_list d-inline-block" method="post">
+                                {% csrf_token %}
+                                <input id="email_radio_{{forloop.counter}}" type="hidden" name="email" value="{{emailaddress.email}}" />
+                                {% if not emailaddress.primary %}
+                                    <button class="btn btn-outline-primary btn-sm" type="submit" name="action_primary">{% trans 'Make Primary' %}</button>
+                                {% endif %}
+                                {% if not emailaddress.verified %}
+                                    <button class="btn btn-outline-dark btn-sm" type="submit" name="action_send">{% trans 'Re-send Verification' %}</button>
+                                {% endif %}
+                                <button class="btn btn-outline-danger btn-sm" type="submit" name="action_remove"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                            </form>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+            <div class="card-footer">
+                <form method="post" action="{% url 'account_email' %}" class="mb-0">
+                    {% csrf_token %}
+                    <div class="input-group">
+                        {% crispy_field form.email %}
+                        <span class="input-group-btn">
+                            <button name="action_add" type="submit" class="btn btn-success">{% trans "Add email" %}</button>
+                        </span>
                     </div>
-                </div>
-
-            </form>
-        {% endif %}
+                </form>
+            </div>
+        </div>
 
     </div>
 {% endblock %}
