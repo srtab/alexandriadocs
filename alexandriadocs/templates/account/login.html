@@ -19,35 +19,35 @@
             <p class="lead mb-0">{% blocktrans %}If you have not created an account yet, then please login with a provider or <a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
         </div>
     </div>
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-xs-12 col-md-6 col-xl-5">
-                    <form method="POST" action="{% url 'account_login' %}">
-                        {% csrf_token %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xs-12 col-md-6 col-xl-5">
+                <form method="POST" action="{% url 'account_login' %}">
+                    {% csrf_token %}
 
-                        {% crispy_field form.login "class" "form-control-lg" %}
-                        {% crispy_field form.password "class" "form-control-lg" %}
+                    {% crispy_field form.login "class" "form-control-lg" %}
+                    {% crispy_field form.password "class" "form-control-lg" %}
 
-                        {% if redirect_field_value %}
-                            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-                        {% endif %}
+                    {% if redirect_field_value %}
+                        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                    {% endif %}
 
-                        <button class="btn btn-dark btn-lg btn-block mt-4 mb-2" type="submit">{% trans "Login" %}</button>
+                    <button class="btn btn-dark btn-lg btn-block mt-3 mb-2" type="submit">{% trans "Login" %}</button>
 
-                        <a class="text-muted" href="{{ signup_url }}">{% trans "Signup" %}</a>
-                        <a class="text-muted pull-right" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
-                    </form>
-                    <div class="rule-text d-sm-block d-md-none">
-                        <hr><span class="lead bg-white text-muted">or</span>
-                    </div>
+                    <a class="text-muted" href="{{ signup_url }}">{% trans "Signup" %}</a>
+                    <a class="text-muted pull-right" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
+                </form>
+                <div class="rule-text d-sm-block d-md-none">
+                    <hr><span class="lead bg-white text-muted">or</span>
                 </div>
-                <div class="col-xs-12 col-md-6 col-xl-5">
-                    <div class="socialaccount-providers ml-auto">
-                        {% include "socialaccount/snippets/provider_list.html" with process="login" %}
-                    </div>
+            </div>
+            <div class="col-xs-12 col-md-6 col-xl-5">
+                <div class="socialaccount-providers ml-auto">
+                    {% include "socialaccount/snippets/provider_list.html" with process="login" %}
                 </div>
             </div>
         </div>
+    </div>
 
 {% endblock %}
 
