@@ -9,15 +9,48 @@ Header
         text-transform: uppercase;
     }
 
-    .form-search .form-control {
-        width: 20rem;
-        border-color: transparent;
+    .form-search {
+        position: relative;
 
-        &:focus {
-            border-color: #80bdff;
+        .form-control {
+            width: 20rem;
+            border-color: transparent;
+            color: #fff;
+            background-color: rgba(255,255,255,0.2);
+            transition: background-color ease-in-out 150ms;
+
+            &:focus,
+            &:hover {
+                border-color: none;
+                background-color: rgba(255,255,255,0.3);
+            }
+            &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+                color: rgba(255,255,255,0.8);
+            }
+            &::-moz-placeholder { /* Firefox 19+ */
+                color: rgba(255,255,255,0.8);
+            }
+            &:-ms-input-placeholder { /* IE 10+ */
+                color: rgba(255,255,255,0.8);
+            }
+            &:-moz-placeholder { /* Firefox 18- */
+                color: rgba(255,255,255,0.8);
+            }
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            margin-top: -12px;
+            color: white;
+            opacity: 0.8;
         }
     }
 
+    .btn-outline-light:hover {
+        color: #007bff;
+    }
     .dropdown-profile .dropdown-menu {
         font-size: 90%;
     }
