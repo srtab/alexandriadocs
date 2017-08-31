@@ -3,7 +3,8 @@ from __future__ import absolute_import, unicode_literals
 
 from django.shortcuts import redirect
 from django.views.generic import View
-from projects.models import Project
+from django.views.generic.list import ListView
+from projects.models import Group, Project
 
 
 BADGE_URL = (
@@ -11,7 +12,19 @@ BADGE_URL = (
 )
 
 
+class ProjectListView(ListView):
+    """ """
+    model = Project
+    template_name = "projects/index.html"
+
+
+class GroupListView(ListView):
+    """ """
+    model = Group
+
+
 class ProjectBadgeView(View):
+    """ """
 
     def get(self, request, *args, **kwargs):
         slug = self.kwargs.get('project_slug')

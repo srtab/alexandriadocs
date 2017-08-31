@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load django_bootstrap_breadcrumbs %}
+
+
+{% block head_title %}{% trans "Projects" %}{% endblock %}
+
+
+{% block breadcrumbs %}
+    {{block.super}}
+    {% breadcrumb "Projects" "projects:index" %}
+{% endblock breadcrumbs %}
+
+
+{% block container %}
+
+{% endblock %}
