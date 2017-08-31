@@ -1,9 +1,17 @@
 {% extends "account/base.html" %}
 
 {% load i18n %}
+{% load django_bootstrap_breadcrumbs %}
 
 
-{% block head_title %}{% trans "Verify Your E-mail Address" %}{% endblock %}
+{% block head_title %}{% trans "Verification Email" %}{% endblock %}
+
+
+{% block breadcrumbs %}
+    {{block.super}}
+    {% breadcrumb "Signup" "account_signup" %}
+    {% breadcrumb "Verification Email" %}
+{% endblock breadcrumbs %}
 
 
 {% block content %}

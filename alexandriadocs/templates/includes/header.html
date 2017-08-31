@@ -12,15 +12,30 @@
     <div class="collapse navbar-collapse text-left" id="navbarContent">
 
         {% is_current_url url_name='homepage' as is_homepage %}
-        {% is_current_url namespace='search' url_name='index' as is_search %}
+        {% is_current_url namespace='search' as is_search %}
+
+        {% if user.is_authenticated %}
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link {% menu_active namespace='projects' url_name='index' %}" href="{% url 'projects:index' %}">{% trans "Projects" %}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% menu_active namespace='projects' url_name='group-list' %}" href="{% url 'projects:group-list' %}">{% trans "Groups" %}</a>
+                </li>
+                {% if user.is_staff %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'admin:index' %}">{% trans "Admin" %}</a>
+                    </li>
+                {% endif %}
+            </ul>
+        {% endif %}
 
         {% if not is_homepage and not is_search %}
             <form action="{% url 'search:index' %}" class="form-inline ml-auto form-search">
-                <input class="form-control mr-sm-2" type="text" placeholder="{% trans 'Search' %}" aria-label="{% trans 'Search' %}">
+                <input class="form-control mr-sm-2" name="q" type="text" placeholder="{% trans 'Search' %}" aria-label="{% trans 'Search' %}">
                 <span class="search-icon"><i class="fa fa-search" aria-hidden="true"></i></span>
             </form>
         {% endif %}
-
 
         <ul class="navbar-nav {% if is_homepage or is_search %}ml-auto{% endif %}">
             {% if not user.is_authenticated %}
@@ -28,11 +43,6 @@
                     <a class="btn btn-outline-light" href="{% url 'account_login' %}">{% trans "Login" %}</a>
                 </li>
             {% else %}
-                {% if user.is_staff %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'admin:index' %}">{% trans "Admin" %}</a>
-                    </li>
-                {% endif %}
                 <li class="nav-item dropdown dropdown-profile">
                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-user-circle-o fa-fw" aria-hidden="true"></i>
@@ -41,8 +51,8 @@
                         <h6 class="dropdown-header">{% trans "Signed in as" %} <strong>{% user_display user %}</strong></h6>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{% url 'accounts:index' user.slug %}"><i class="fa fa-user fa-fw" aria-hidden="true"></i> {% trans "Profile" %}</a>
-                        <a class="dropdown-item" href="{% url 'account_email' %}"><i class="fa fa-envelope-o fa-fw" aria-hidden="true"></i> {% trans "Manage emails" %}</a>
-                        <a class="dropdown-item" href="{% url 'socialaccount_connections' %}"><i class="fa fa-plug fa-fw" aria-hidden="true"></i> {% trans "Social login" %}</a>
+                        <a class="dropdown-item" href="{% url 'account_email' %}"><i class="fa fa-envelope-o fa-fw" aria-hidden="true"></i> {% trans "Emails" %}</a>
+                        <a class="dropdown-item" href="{% url 'socialaccount_connections' %}"><i class="fa fa-plug fa-fw" aria-hidden="true"></i> {% trans "Connections" %}</a>
                         <a class="dropdown-item" href="{% url 'account_change_password' %}"><i class="fa fa-refresh fa-fw" aria-hidden="true"></i> {% trans "Change password" %}</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{% url 'account_logout' %}"><i class="fa fa-sign-out fa-fw" aria-hidden="true"></i> {% trans "Logout" %}</a>

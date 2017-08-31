@@ -1,5 +1,5 @@
 {% load i18n staticfiles %}
-{% load compress core_tags %}
+{% load compress core_tags django_bootstrap_breadcrumbs %}
 
 <!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE|default:"pt" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
@@ -26,11 +26,17 @@
 
     {% block extrastyle %}{% endblock extrastyle %}
 </head>
-<body class="{% block body_class %}{% endblock body_class %}">
+<body class="{% block body_class %}{% body_class %}{% endblock body_class %}">
 
     {% block header %}
         {% include "includes/header.html" %}
     {% endblock header %}
+
+    {% block breadcrumbs %}
+        {% breadcrumb "Home" "homepage" %}
+    {% endblock breadcrumbs %}
+
+    {% render_breadcrumbs "includes/breadcrumbs.html" %}
 
     {% include "includes/messages.html" %}
 

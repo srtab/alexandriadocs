@@ -1,10 +1,16 @@
 {% extends "base.html" %}
 
 {% load i18n %}
-{% load crispy_forms_tags %}
+{% load crispy_forms_tags django_bootstrap_breadcrumbs %}
 
 
 {% block head_title %}{% trans "Profile" %}{% endblock %}
+
+
+{% block breadcrumbs %}
+    {{block.super}}
+    {% breadcrumb "Profile" "accounts:index" user.slug %}
+{% endblock breadcrumbs %}
 
 
 {% block container %}

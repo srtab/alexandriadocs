@@ -1,8 +1,16 @@
 {% extends "base.html" %}
-{% load i18n highlight core_tags %}
+{% load i18n highlight core_tags django_bootstrap_breadcrumbs %}
 
 
-{% block bodyextraclass %}search{% endblock bodyextraclass %}
+{% block breadcrumbs %}
+    {{block.super}}
+    {% breadcrumb "Search" "search:index" %}
+
+    {% is_current_url namespace='search' url_name='pages' as is_search_pages %}
+    {% if is_search_pages %}
+        {% breadcrumb "Pages" "search:pages" %}
+    {% endif %}
+{% endblock breadcrumbs %}
 
 
 {% block container %}

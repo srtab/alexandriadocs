@@ -50,12 +50,13 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.gitlab',
     'allauth.socialaccount.providers.google',
     'crispy_forms',
+    'django_bootstrap_breadcrumbs',
 
     'accounts',
     'core',
     'projects',
     'search',
-    'api',
+    'api'
 ]
 
 MIDDLEWARE = [
