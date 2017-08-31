@@ -13,7 +13,7 @@ django_libsass~=0.7.0
 django-allauth~=0.33.0
 django-crispy-forms~=1.6.1
 django-autoslug~=1.9.3
-django-bootstrap-breadcrumb~=0.8.2
+django-bootstrap-breadcrumbs~=0.8.2
 
 # API
 djangorestframework~=3.6.2
