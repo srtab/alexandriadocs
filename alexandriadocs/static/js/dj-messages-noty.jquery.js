@@ -31,15 +31,20 @@
                 icon_class = 'fa-info-circle';
         }
 
-        var icon = '<i class="fa fa-2x ' + icon_class + ' noty-icon" aria-hidden="true"></i>',
+        var icon = '<i class="fa fa-lg ' + icon_class + ' noty-icon" aria-hidden="true"></i>',
             text = "<div class='media'><span class='d-flex align-self-center'>" + icon + "</span><div class='media-body align-self-center'>" + content + "</div></div>";
 
         var settings = $.extend({
             text: text,
             type: type,
             theme: 'bootstrap-v4',
+            layout: 'topCenter',
             timeout: 5000,
             progressBar: true,
+            animation: {
+                open: 'animated fadeInDown', // Animate.css class names
+                close: 'animated fadeOutUp' // Animate.css class names
+            }
         }, $.fn.djMessagesNoty.defaults, options);
 
         new Noty(settings).show();

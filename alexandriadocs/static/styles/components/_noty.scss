@@ -1,17 +1,45 @@
 
-#noty_layout__topRight {
-    top: 65px;
-    right: 15px;
-    width: 400px;
+#noty_layout__topCenter {
+    top: 50px;
+    width: 450px;
 }
 
-.noty_theme__bootstrap-v4.noty_bar {
-    box-shadow: 0px 2px 14px -4px #000;
+.noty_theme__bootstrap-v4 {
+    animation-duration: 500ms;
 
-    .noty_body {
-        padding: 1.3rem 1rem;
+    &.noty_bar {
+        box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.5);
+        border-radius: 0;
+        font-weight: 600;
+
+        .noty_body {
+            padding: 1rem 1rem;
+        }
+        .noty-icon {
+            margin-right: 1rem;
+        }
     }
-    .noty-icon {
-        margin-right: 1rem;
+
+    &.noty_type__info,
+    &.noty_type__information {
+        color: #004085;
+        background-color: #cce5ff;
+        border-color: #b8daff;
+    }
+    &.noty_type__success {
+        color: #155724;
+        background-color: #d4edda;
+        border-color: #c3e6cb;
+    }
+    &.noty_type__warning {
+        color: #856404;
+        background-color: #fff3cd;
+        border-color: #ffeeba;
+    }
+    &.noty_type__error {
+        color: #721c24;
+        background-color: #f8d7da;
+        border-color: #f5c6cb;
     }
 }
+
