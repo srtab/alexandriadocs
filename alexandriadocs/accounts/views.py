@@ -14,3 +14,4 @@ class ProfileUpdateView(SuccessMessageMixin, UpdateView):
     model = get_user_model()
     form_class = ProfileUpdateForm
     success_message = _("%(username)s profile was updated successfully")
+    template_name = 'account/user_form.html'
