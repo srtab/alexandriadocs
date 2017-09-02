@@ -18,5 +18,5 @@ class GroupListView(ListView):
 class GroupCreateView(CreateView):
     """ """
     model = Group
-    fields = ('name',)
+    fields = ('title', 'description')
     success_url = reverse_lazy('projects:group-list')
