@@ -1,7 +1,5 @@
 """alexandriadocs URL Configuration
 """
-from __future__ import unicode_literals
-
 from core.views import HomepageView
 from django.conf import settings
 from django.conf.urls import include, url

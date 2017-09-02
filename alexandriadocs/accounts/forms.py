@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from allauth.account.forms import (
     ChangePasswordForm as AllauthChangePasswordForm,
     ResetPasswordForm as AllauthResetPasswordForm,

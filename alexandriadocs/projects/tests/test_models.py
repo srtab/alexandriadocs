@@ -1,5 +1,3 @@
-from __future__ import unicode_literals
-
 from django.test import SimpleTestCase
 from mock import MagicMock, patch
 from projects.models import ImportedArchive, ImportedFile, Project

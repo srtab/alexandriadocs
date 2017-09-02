@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from accounts.forms import (
     ChangePasswordForm, UnlabeledFormMixin, UntaggedFormMixin)
 from crispy_forms.helper import FormHelper

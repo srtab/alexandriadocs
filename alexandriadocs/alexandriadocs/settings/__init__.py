@@ -1,8 +1,6 @@
 """
 Django settings for alexandriadocs project.
 """
-from __future__ import unicode_literals
-
 import os
 
 from django.urls import reverse_lazy

@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from allauth.socialaccount import providers
 from allauth.socialaccount.models import SocialAccount
 from django import template

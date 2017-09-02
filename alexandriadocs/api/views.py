@@ -1,5 +1,3 @@
-from __future__ import unicode_literals
-
 from api.serializers import ImportedArchiveSerializer
 from rest_framework.generics import CreateAPIView
 from rest_framework.permissions import IsAuthenticated

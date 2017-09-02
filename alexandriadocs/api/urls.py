@@ -1,5 +1,3 @@
-from __future__ import unicode_literals
-
 from api.views import ImportArchiveView
 from django.conf.urls import url
 

@@ -1,7 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
-
 from django.test import SimpleTestCase
 from mock import Mock, patch
 from projects.models import ImportedFile, Project
