@@ -13,7 +13,6 @@ from django.views.generic.edit import UpdateView
 @method_decorator(login_required, name='dispatch')
 class ProfileUpdateView(SuccessMessageMixin, UpdateView):
     """ """
-    template_name = "accounts/index.html"
     model = get_user_model()
     form_class = ProfileUpdateForm
     success_message = _("%(username)s profile was updated successfully")
