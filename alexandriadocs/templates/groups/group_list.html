@@ -9,7 +9,7 @@
 
 {% block breadcrumbs %}
     {{block.super}}
-    {% breadcrumb "Groups" "projects:group_list" %}
+    {% breadcrumb "Groups" "groups:group_list" %}
 {% endblock breadcrumbs %}
 
 
@@ -17,7 +17,7 @@
     <div class="container">
         <div class="header-action d-flex justify-content-between">
             <h1 class="h3 align-self-center">{% trans "Groups" %}</h1>
-            <a href="{% url 'projects:group-create' %}" class="btn btn-success align-self-center">{% trans "New group" %}</a>
+            <a href="{% url 'groups:group-create' %}" class="btn btn-success align-self-center">{% trans "New group" %}</a>
         </div>
     </div>
     <hr>

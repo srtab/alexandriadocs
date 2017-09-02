@@ -28,6 +28,10 @@ urlpatterns = [
         view=include('accounts.urls', namespace='accounts')
     ),
     url(
+        regex=r'^groups/',
+        view=include('groups.urls', namespace='groups')
+    ),
+    url(
         regex=r'^projects/',
         view=include('projects.urls', namespace='projects')
     ),

@@ -9,8 +9,8 @@
 
 {% block breadcrumbs %}
     {{block.super}}
-    {% breadcrumb "Groups" "projects:group-list" %}
-    {% breadcrumb "New" "projects:group-create" %}
+    {% breadcrumb "Groups" "groups:group-list" %}
+    {% breadcrumb "New" "groups:group-create" %}
 {% endblock breadcrumbs %}
 
 
@@ -20,10 +20,10 @@
     </div>
     <hr>
     <div class="container">
-        <form class="group" method="post" action="{% url 'projects:group-create' %}">
+        <form class="group" method="post" action="{% url 'groups:group-create' %}">
             {% crispy form %}
             <button class="btn btn-success" type="submit">{% trans "Create group" %}</button>
-            <a href="{% url 'projects:group-list' %}" class="btn btn-outline-secondary">{% trans "Cancel" %}</a>
+            <a href="{% url 'groups:group-list' %}" class="btn btn-outline-secondary">{% trans "Cancel" %}</a>
         </form>
     </div>
 {% endblock %}

@@ -54,6 +54,7 @@ INSTALLED_APPS = [
 
     'accounts',
     'core',
+    'groups',
     'projects',
     'search',
     'api'
