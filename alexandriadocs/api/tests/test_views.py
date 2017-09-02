@@ -2,7 +2,8 @@ from api.views import ImportArchiveView
 from django.contrib.auth import get_user_model
 from django.db.models.signals import post_save
 from django.test import TestCase
-from projects.models import Group, ImportedArchive, Project
+from groups.models import Group
+from projects.models import ImportedArchive, Project
 from rest_framework.test import APIRequestFactory, force_authenticate
 
 
