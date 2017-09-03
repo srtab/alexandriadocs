@@ -1,13 +1,12 @@
 import os
 import tarfile
 
-from core.models import VisibilityMixin
+from core.models import TitleSlugDescriptionMixin, VisibilityMixin
 from django.conf import settings
 from django.db import models
 from django.db.models.signals import post_save
 from django.utils.translation import ugettext_lazy as _
-from django_extensions.db.models import (
-    TimeStampedModel, TitleSlugDescriptionModel)
+from django_extensions.db.models import TimeStampedModel
 from groups.models import Group
 from projects.managers import ImportedFileManager
 from projects.utils import projects_upload_to
@@ -15,15 +14,15 @@ from projects.validators import MimeTypeValidator
 from taggit.managers import TaggableManager
 
 
-class Project(VisibilityMixin, TitleSlugDescriptionModel, TimeStampedModel):
+class Project(VisibilityMixin, TitleSlugDescriptionMixin, TimeStampedModel):
     """An project represents a namespace
     """
     group = models.ForeignKey(
         Group, models.PROTECT, verbose_name=_('group'),
-        help_text=_('project group'))
+        help_text=_('project group'), related_name='projects')
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL, models.PROTECT, verbose_name=_('author'),
-        help_text=_('project author'))
+        help_text=_('project author'), related_name='projects')
     repo = models.CharField(_('repository URL'), max_length=255)
     tags = TaggableManager(blank=True)
 

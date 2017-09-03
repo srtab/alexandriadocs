@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth.decorators import login_required
+from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
+from django.utils.translation import ugettext_lazy as _
 from django.views.generic import View
 from django.views.generic.edit import CreateView
 from django.views.generic.list import ListView
-from projects.models import Group, Project
+from projects.models import Project
 
 
 BADGE_URL = (
@@ -21,25 +23,12 @@ class ProjectListView(ListView):
 
 
 @method_decorator(login_required, name='dispatch')
-class ProjectCreateView(CreateView):
+class ProjectCreateView(SuccessMessageMixin, CreateView):
     """ """
     model = Project
     fields = ('title', 'description', 'group', 'repo', 'tags')
     success_url = reverse_lazy('projects:project-list')
-
-
-@method_decorator(login_required, name='dispatch')
-class GroupListView(ListView):
-    """ """
-    model = Group
-
-
-@method_decorator(login_required, name='dispatch')
-class GroupCreateView(CreateView):
-    """ """
-    model = Group
-    fields = ('name',)
-    success_url = reverse_lazy('projects:group-list')
+    success_message = _("%(title)s was created successfully")
 
 
 class ProjectBadgeView(View):

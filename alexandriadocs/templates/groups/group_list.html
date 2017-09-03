@@ -21,4 +21,36 @@
         </div>
     </div>
     <hr>
+
+    <div class="container">
+        {% if object_list %}
+            <div class="list-group">
+                {% for group in object_list %}
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="group-description">
+                                <strong>{{group.title}}</strong>
+                                {% if group.description %}
+                                    <p class="mb-0">{{group.description|truncatechars:130}}</p>
+                                {% endif %}
+                            </div>
+                            <div class="group-visibility">
+                                {% if group.is_private %}
+                                    <span class="pull-right" data-toggle='tooltip' data-placement="left" title="{% trans 'Private group' %}">
+                                        <i class="fa fa-user-secret" aria-hidden="true"></i>
+                                    </span>
+                                {% else %}
+                                    <span class="pull-right" data-toggle='tooltip' data-placement="left" title="{% trans 'Public group' %}">
+                                        <i class="fa fa-globe" aria-hidden="true"></i>
+                                    </span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="lead text-muted mt-5">{% trans "You don't have any group created" %}</p>
+        {% endif %}
+    </div>
 {% endblock %}

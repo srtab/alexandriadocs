@@ -19,7 +19,7 @@ class ImportedArchiveViewTest(TestCase):
         )
         self.project = Project.objects.create(
             author=self.user,
-            group=Group.objects.create()
+            group=Group.objects.create(author=self.user,)
         )
 
     def test_post_with_unauthenticated_user(self):
