@@ -11,6 +11,20 @@ Common styles
     padding-bottom: 3rem;
     margin-bottom: 1.5rem;
     margin-top: -1rem;
+    background-color: #f8f9fa;
+
+    p {
+        margin-bottom: 0;
+    }
+
+    &.jumbotron-header-tabs {
+        padding-top: 2rem;
+        padding-bottom: 0;
+
+        p {
+            margin-bottom: 1rem;
+        }
+    }
 }
 
 .header-action {

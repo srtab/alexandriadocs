@@ -15,13 +15,13 @@
 
 
 {% block content %}
-    <div class="jumbotron jumbotron-fluid jumbotron-header bg-light">
+    <div class="jumbotron jumbotron-fluid jumbotron-header">
         <div class="container">
             <h1 class="display-4">{% trans "Verified Email Required" %}</h1>
 
             {% url 'account_email' as email_url %}
 
-            <p class="lead mb-0">{% blocktrans %}<i class="fa fa-info-circle text-info fa-lg fa-fw" aria-hidden="true"></i> This part of the site requires us to verify that
+            <p class="lead">{% blocktrans %}<i class="fa fa-info-circle text-info fa-lg fa-fw" aria-hidden="true"></i> This part of the site requires us to verify that
             you are who you claim to be. For this purpose, we require that you verify ownership of your e-mail address. {% endblocktrans %}</p>
         </div>
     </div>
