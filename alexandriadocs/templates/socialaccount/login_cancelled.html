@@ -1,9 +1,17 @@
 {% extends "socialaccount/base.html" %}
 
 {% load i18n %}
+{% load django_bootstrap_breadcrumbs %}
 
 
 {% block head_title %}{% trans "Login Cancelled" %}{% endblock %}
+
+
+{% block breadcrumbs %}
+    {{block.super}}
+    {% breadcrumb "Login" "account_login" %}
+    {% breadcrumb "Login Cancelled" %}
+{% endblock breadcrumbs %}
 
 
 {% block content %}

@@ -6,6 +6,27 @@ Resets
 html, body {
     min-height: 100%;
 }
+body {
+    font-family: $raleway;
+}
+
+main {
+    min-height: calc(100vh - 204px);  // header height + footer height + margin-top footer
+}
+
+a {
+    @include transition(color 150ms linear);
+}
+a:hover {
+    text-decoration: none;
+}
+
+label {
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: .3rem;
+}
+
 h4 {
     margin-bottom: 1rem;
 }

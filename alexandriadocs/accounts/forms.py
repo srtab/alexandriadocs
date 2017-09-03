@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from allauth.account.forms import (
     ChangePasswordForm as AllauthChangePasswordForm,
     ResetPasswordForm as AllauthResetPasswordForm,
@@ -9,28 +7,10 @@ from allauth.account.forms import (
     SignupForm as AllauthSignupForm,
 )
 from allauth.socialaccount.forms import SignupForm as AllauthSocialSignupForm
-from crispy_forms.helper import FormHelper
+from core.forms import UnlabeledFormMixin, UntaggedFormMixin
 from django import forms
 from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext_lazy as _
-
-
-class UntaggedFormMixin(object):
-    """Mixin to avoid crispy showing fields labels and rendering de form tag"""
-    def __init__(self, *args, **kwargs):
-        super(UntaggedFormMixin, self).__init__(*args, **kwargs)
-        if not hasattr(self, 'helper'):
-            self.helper = FormHelper()
-        self.helper.form_tag = False
-
-
-class UnlabeledFormMixin(object):
-    """Mixin to avoid crispy showing fields labels and rendering de form tag"""
-    def __init__(self, *args, **kwargs):
-        super(UnlabeledFormMixin, self).__init__(*args, **kwargs)
-        if not hasattr(self, 'helper'):
-            self.helper = FormHelper()
-        self.helper.form_show_labels = False
 
 
 class ChangePasswordForm(UnlabeledFormMixin, UntaggedFormMixin,

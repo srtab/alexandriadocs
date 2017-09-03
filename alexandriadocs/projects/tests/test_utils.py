@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from django.test import SimpleTestCase
 from projects.models import ImportedArchive, Project
 from projects.utils import clean_html, projects_upload_to

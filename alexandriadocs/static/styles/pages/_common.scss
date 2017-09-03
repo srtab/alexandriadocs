@@ -2,17 +2,6 @@
 Common styles
 */
 
-main {
-    min-height: calc(100vh - 204px);  // header height + footer height + margin-top footer
-}
-
-a {
-    @include transition(color 150ms linear);
-}
-a:hover {
-    text-decoration: none;
-}
-
 .highlighted {
     font-weight: bold;
 }
@@ -20,5 +9,12 @@ a:hover {
 .jumbotron-header {
     padding-top: 3rem;
     padding-bottom: 3rem;
-    margin-bottom: 1.5rem
+    margin-bottom: 1.5rem;
+    margin-top: -1rem;
+}
+
+.header-action {
+    & h1, & h2, & h3, & h4, & h5, & h6 {
+        margin: 0;
+    }
 }

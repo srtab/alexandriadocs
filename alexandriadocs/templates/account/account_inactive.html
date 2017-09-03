@@ -1,16 +1,23 @@
 {% extends "account/base.html" %}
 
 {% load i18n %}
+{% load django_bootstrap_breadcrumbs %}
 
 
 {% block head_title %}{% trans "Account Inactive" %}{% endblock %}
+
+
+{% block breadcrumbs %}
+    {{block.super}}
+    {% breadcrumb "Login" "account_login" %}
+    {% breadcrumb "Account Inactive" "account_inactive" %}
+{% endblock breadcrumbs %}
 
 
 {% block content %}
     <div class="jumbotron jumbotron-fluid jumbotron-header bg-light">
         <div class="container">
             <h1 class="display-4">{% trans "Account Inactive" %}</h1>
-
             <p class="lead mb-0"><i class="fa fa-exclamation-triangle text-warning fa-lg" aria-hidden="true"></i> {% trans "This account is inactive." %}</p>
         </div>
     </div>

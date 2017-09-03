@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from collections import OrderedDict
 
 from django import template
@@ -20,7 +18,8 @@ context_processor_error_msg = (
 @register.assignment_tag(takes_context=True)
 def is_current_url(context, namespace=None, url_name=None):
     if 'request' not in context:
-        raise ImproperlyConfigured(context_processor_error_msg % 'menu_active')
+        raise ImproperlyConfigured(
+            context_processor_error_msg % 'is_current_url')
     request = context.get('request')
     check = True
     if namespace:
@@ -58,3 +57,16 @@ def sentry_ravenjs():
     return {
         'SENTRY': getattr(settings, 'SENTRY_CONFIG', None)
     }
+
+
+@register.simple_tag(takes_context=True)
+def body_class(context):
+    if 'request' not in context:
+        raise ImproperlyConfigured(context_processor_error_msg % 'body_class')
+    request = context.get('request')
+    namespace = request.resolver_match.namespace
+    url_name = request.resolver_match.url_name
+    if namespace:
+        return "view-{namespace}-{url_name}".format(
+            namespace=namespace, url_name=url_name)
+    return "view-{url_name}".format(url_name=url_name)

@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from core.tests.utils import TemplateTagsTest
 from django.core.exceptions import ImproperlyConfigured
 from django.test import RequestFactory, SimpleTestCase

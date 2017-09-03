@@ -1,4 +1,4 @@
-version: "2"
+version: '2.2'
 services:
   db:
     image: postgres:latest
@@ -23,8 +23,10 @@ services:
       - C_FORCE_ROOT=true
       - DJANGO_SETTINGS_MODULE=alexandriadocs.settings.docker
     depends_on:
-      - db
-      - elasticsearch
+      db:
+        condition: service_started
+      elasticsearch:
+        condition: service_started
     volumes:
       - ./data/static:/data/static
       - ./data/media:/data/media

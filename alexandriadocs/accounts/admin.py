@@ -1,10 +1,7 @@
 # -*- coding: utf-8 -*-
-from __future__ import absolute_import, unicode_literals
-
+from accounts.models import User
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-
-from .models import User
 
 
 admin.site.register(User, UserAdmin)

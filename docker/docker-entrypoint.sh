@@ -1,11 +1,11 @@
 #!/bin/sh
-set -e
+# set -e
 
 mkdir -p log data
 
 cd alexandriadocs
 
-python manage.py collectstatic --noinput
-python manage.py migrate --noinput
+python3.4 manage.py collectstatic --noinput
+python3.4 manage.py migrate --noinput
 
 exec "$@"

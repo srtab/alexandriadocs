@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from accounts.templatetags.accounts_tags import get_providers_unconnected
 from django.test import SimpleTestCase
 from mock import Mock, patch

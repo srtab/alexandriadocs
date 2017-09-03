@@ -1,45 +1,28 @@
-from __future__ import unicode_literals
-
 import os
 import tarfile
 
+from core.models import TitleSlugDescriptionMixin, VisibilityMixin
 from django.conf import settings
 from django.db import models
 from django.db.models.signals import post_save
-from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
-from django_extensions.db.fields import AutoSlugField
-from django_extensions.db.models import (
-    TimeStampedModel, TitleSlugDescriptionModel)
+from django_extensions.db.models import TimeStampedModel
+from groups.models import Group
 from projects.managers import ImportedFileManager
 from projects.utils import projects_upload_to
 from projects.validators import MimeTypeValidator
 from taggit.managers import TaggableManager
 
 
-@python_2_unicode_compatible
-class Group(TimeStampedModel):
-    """Represents a group of projects."""
-    name = models.CharField(_('name'), max_length=255)
-    slug = AutoSlugField(_('slug'), populate_from='name')
-
-    class Meta:
-        verbose_name = _('group')
-
-    def __str__(self):
-        return self.name
-
-
-@python_2_unicode_compatible
-class Project(TitleSlugDescriptionModel, TimeStampedModel):
-    """An project represents a namespace.
+class Project(VisibilityMixin, TitleSlugDescriptionMixin, TimeStampedModel):
+    """An project represents a namespace
     """
     group = models.ForeignKey(
         Group, models.PROTECT, verbose_name=_('group'),
-        help_text=_('project group'))
+        help_text=_('project group'), related_name='projects')
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL, models.PROTECT, verbose_name=_('author'),
-        help_text=_('project author'))
+        help_text=_('project author'), related_name='projects')
     repo = models.CharField(_('repository URL'), max_length=255)
     tags = TaggableManager(blank=True)
 
@@ -57,7 +40,6 @@ class Project(TitleSlugDescriptionModel, TimeStampedModel):
         return os.path.join(settings.PROJECTS_SERVE_ROOT, self.slug)
 
 
-@python_2_unicode_compatible
 class ImportedArchive(TimeStampedModel):
     """An imported archive holds the result of an static generated site version
     for a project.
@@ -102,7 +84,6 @@ class ImportedArchive(TimeStampedModel):
 post_save.connect(ImportedArchive.post_save, sender=ImportedArchive)
 
 
-@python_2_unicode_compatible
 class ImportedFile(TimeStampedModel):
     """Holds info about html files imported for indexing proposes.
     """

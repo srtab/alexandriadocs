@@ -1,13 +1,5 @@
-from __future__ import unicode_literals
-
 from django.contrib import admin
-from projects.models import (
-    Group, ImportedArchive, ImportedFile, Project)
-
-
-@admin.register(Group)
-class GroupAdmin(admin.ModelAdmin):
-    """ """
+from projects.models import ImportedArchive, ImportedFile, Project
 
 
 class ImportedArchiveInline(admin.TabularInline):

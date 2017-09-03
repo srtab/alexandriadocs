@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from django.test import SimpleTestCase
 from django.urls import reverse
 from mock import Mock, patch
@@ -10,7 +8,8 @@ from projects.views import BADGE_URL
 class SearchProjectViewTest(SimpleTestCase):
 
     def setUp(self):
-        self.url = reverse('projects:badge', kwargs={'project_slug': 'slug'})
+        self.url = reverse(
+            'projects:project-badge', kwargs={'project_slug': 'slug'})
         self.badge_latest = BADGE_URL.format(
             status="latest", color="brightgreen", style="flat-square")
         self.badge_unknown = BADGE_URL.format(

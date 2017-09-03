@@ -1,17 +1,6 @@
-from __future__ import unicode_literals
-
-
 from django.test import SimpleTestCase
 from mock import MagicMock, patch
-from projects.models import (
-    Group, ImportedArchive, ImportedFile, Project)
-
-
-class GroupModelTest(SimpleTestCase):
-
-    def test_str(self):
-        group = Group(name="name")
-        self.assertEqual(str(group), group.name)
+from projects.models import ImportedArchive, ImportedFile, Project
 
 
 class ProjectModelTest(SimpleTestCase):

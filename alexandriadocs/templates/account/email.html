@@ -1,17 +1,24 @@
 {% extends "account/base.html" %}
 
 {% load i18n %}
-{% load crispy_forms_field %}
+{% load crispy_forms_field django_bootstrap_breadcrumbs %}
 
 
-{% block head_title %}{% trans "Manage emails" %}{% endblock %}
+{% block head_title %}{% trans "Emails" %}{% endblock %}
+
+
+{% block breadcrumbs %}
+    {{block.super}}
+    {% breadcrumb "Profile" "accounts:index" user.slug %}
+    {% breadcrumb "Emails" "account_email" %}
+{% endblock breadcrumbs %}
 
 
 {% block content %}
     <div class="jumbotron jumbotron-fluid jumbotron-header bg-light">
         <div class="container">
             <h1 class="display-4">{% trans "Emails" %}</h1>
-            <p class="lead mb-0">{% trans 'Control emails linked to your account.' %}</p>
+            <p class="lead mb-0">{% trans 'Manage emails linked to your account.' %}</p>
         </div>
     </div>
 

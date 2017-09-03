@@ -2,12 +2,10 @@ FROM centos:7
 
 LABEL maintainer "srtabs@gmail.com"
 
-RUN yum -y install epel-release
 RUN yum -y update
-RUN yum -y install python-devel
-RUN yum -y install python-pip
-RUN yum -y install python34
+RUN yum -y install epel-release
 RUN yum -y install python34-devel
+RUN yum -y install python34-pip
 RUN yum -y install gcc-c++
 RUN yum -y install gettext
 RUN yum -y install npm
@@ -31,12 +29,12 @@ COPY . /app/
 RUN chmod +x /app/docker/docker-entrypoint.sh
 
 # update pip and setuptools
-RUN pip install pip setuptools --upgrade
+RUN pip3.4 install pip setuptools --upgrade
 # install project dependencies
-RUN pip install -r requirements/docker.txt --upgrade
+RUN pip3.4 install -r requirements/docker.txt --upgrade
 
 EXPOSE 8000
 
 ENTRYPOINT ["/app/docker/docker-entrypoint.sh"]
 
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["python3.4", "manage.py", "runserver", "0.0.0.0:8000"]

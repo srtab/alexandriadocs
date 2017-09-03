@@ -1,7 +1,5 @@
 """alexandriadocs URL Configuration
 """
-from __future__ import unicode_literals
-
 from core.views import HomepageView
 from django.conf import settings
 from django.conf.urls import include, url
@@ -26,6 +24,10 @@ urlpatterns = [
     url(
         regex=r'^accounts/',
         view=include('accounts.urls', namespace='accounts')
+    ),
+    url(
+        regex=r'^groups/',
+        view=include('groups.urls', namespace='groups')
     ),
     url(
         regex=r'^projects/',

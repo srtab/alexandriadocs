@@ -1,9 +1,17 @@
 {% extends "socialaccount/base.html" %}
 
 {% load i18n %}
+{% load django_bootstrap_breadcrumbs %}
 
 
 {% block head_title %}{% trans "Social Network Login Failure" %}{% endblock %}
+
+
+{% block breadcrumbs %}
+    {{block.super}}
+    {% breadcrumb "Login" "account_login" %}
+    {% breadcrumb "Social Network Login Failure" %}
+{% endblock breadcrumbs %}
 
 
 {% block content %}

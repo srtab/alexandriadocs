@@ -1,8 +1,6 @@
 """
 Django settings for alexandriadocs project.
 """
-from __future__ import unicode_literals
-
 import os
 
 from django.urls import reverse_lazy
@@ -36,26 +34,28 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'haystack',
-    'rest_framework',
-    'rest_framework.authtoken',
-    'django_extensions',
-    'taggit',
-    'compressor',
-    'raven.contrib.django.raven_compat',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.github',
     'allauth.socialaccount.providers.gitlab',
     'allauth.socialaccount.providers.google',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'django_extensions',
+    'compressor',
+    'raven.contrib.django.raven_compat',
+    'haystack',
+    'taggit',
     'crispy_forms',
+    'django_bootstrap_breadcrumbs',
 
     'accounts',
     'core',
+    'groups',
     'projects',
     'search',
-    'api',
+    'api'
 ]
 
 MIDDLEWARE = [
