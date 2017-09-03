@@ -6,16 +6,18 @@
         <h1 class="h2">{{group.title}} <small class="pull-right">{% visibility_icon group %}</small></h1>
         <p>{{group.description}}</p>
 
-        <ul class="nav nav-tabs">
-            <li class="nav-item">
-                <a class="nav-link {% menu_active 'groups' 'group-detail' %}" href="{% url 'groups:group-detail' group.slug %}"><i class="fa fa-folder-open fa-fw" aria-hidden="true"></i> {% trans "Projects" %} <span class="badge badge-pill badge-light ml-2">{{group.projects.count}}</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#"><i class="fa fa-users fa-fw" aria-hidden="true"></i> {% trans "Collaborators" %}</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link {% menu_active 'groups' 'group-settings' %}" href="{% url 'groups:group-settings' group.slug %}"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> {% trans "Settings" %}</a>
-            </li>
-        </ul>
+        {% if user.is_authenticated and group.author == user %}
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link {% menu_active 'groups' 'group-detail' %}" href="{% url 'groups:group-detail' group.slug %}"><i class="fa fa-folder-open fa-fw" aria-hidden="true"></i> {% trans "Projects" %} <span class="badge badge-pill badge-light ml-2">{{group.projects.count}}</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% menu_active 'groups' 'group-collaborators' %}" href="{% url 'groups:group-collaborators' group.slug %}"><i class="fa fa-users fa-fw" aria-hidden="true"></i> {% trans "Collaborators" %}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% menu_active 'groups' 'group-settings' %}" href="{% url 'groups:group-settings' group.slug %}"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> {% trans "Settings" %}</a>
+                </li>
+            </ul>
+        {% endif %}
     </div>
 </div>

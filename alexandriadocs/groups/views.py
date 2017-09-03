@@ -43,6 +43,16 @@ class GroupDetailView(DetailView):
 
 
 @method_decorator(login_required, name='dispatch')
+class GroupCollaboratorsView(DetailView):
+    """ """
+    model = Group
+    template_name_suffix = '_collaborators'
+
+    def get_queryset(self):
+        return self.model._default_manager.filter(author=self.request.user)
+
+
+@method_decorator(login_required, name='dispatch')
 class GroupSettingsView(SuccessMessageMixin, UpdateView):
     """ """
     model = Group

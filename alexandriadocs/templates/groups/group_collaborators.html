@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load crispy_forms_tags django_bootstrap_breadcrumbs %}
+
+
+{% block head_title %}{{group.title}}{% endblock %}
+
+
+{% block breadcrumbs %}
+    {{block.super}}
+    {% if user.is_authenticated %}
+        {% breadcrumb "Groups" "groups:group-list" %}
+    {% endif %}
+    {% breadcrumb group.title "groups:group-detail" slug=group.slug %}
+    {% breadcrumb "Collaborators" "groups:group-collaborators" slug=group.slug %}
+{% endblock breadcrumbs %}
+
+
+{% block container %}
+
+    {% include "groups/includes/group_detail_header.html" %}
+
+    <div class="container">
+
+    </div>
+
+{% endblock %}
