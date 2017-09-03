@@ -17,29 +17,11 @@
 
 
 {% block container %}
-    <div class="jumbotron jumbotron-fluid jumbotron-header jumbotron-header-tabs">
-        <div class="container">
-            <h1 class="h2">{{group.title}}</h1>
-            <p>{{group.description}}</p>
 
-            <ul class="nav nav-tabs">
-                <li class="nav-item">
-                    <a class="nav-link active" href="{% url 'groups:group-detail' group.slug %}"><i class="fa fa-folder-open fa-fw" aria-hidden="true"></i> {% trans "Projects" %} <span class="badge badge-pill badge-light ml-2">{{group.projects.count}}</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fa fa-users fa-fw" aria-hidden="true"></i> {% trans "Collaborators" %}</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> {% trans "Settings" %}</a>
-                </li>
-                <li class="nav-item ml-auto align-self-center">
-                    {% visibility_icon group %}
-                </li>
-            </ul>
-        </div>
-    </div>
+    {% include "groups/includes/group_detail_header.html" %}
 
     <div class="container">
 
     </div>
+
 {% endblock %}

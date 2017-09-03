@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 from django.conf.urls import url
 
-from groups.views import GroupCreateView, GroupDetailView, GroupListView
+from groups.views import (
+    GroupCreateView, GroupDeleteView, GroupDetailView, GroupListView,
+    GroupSettingsView)
 
 
 urlpatterns = [
@@ -14,6 +16,16 @@ urlpatterns = [
         regex=r'^(?P<slug>[-\w]+)/$',
         view=GroupDetailView.as_view(),
         name='group-detail'
+    ),
+    url(
+        regex=r'^(?P<slug>[-\w]+)/settings/$',
+        view=GroupSettingsView.as_view(),
+        name='group-settings'
+    ),
+    url(
+        regex=r'^(?P<slug>[-\w]+)/settings/delete/$',
+        view=GroupDeleteView.as_view(),
+        name='group-delete'
     ),
     url(
         regex=r'^new/$',
