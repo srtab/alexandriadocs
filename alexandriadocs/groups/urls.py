@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.conf.urls import url
 
-from groups.views import GroupCreateView, GroupListView
+from groups.views import GroupCreateView, GroupDetailView, GroupListView
 
 
 urlpatterns = [
@@ -9,6 +9,11 @@ urlpatterns = [
         regex=r'^$',
         view=GroupListView.as_view(),
         name='group-list'
+    ),
+    url(
+        regex=r'^(?P<slug>[-\w]+)/$',
+        view=GroupDetailView.as_view(),
+        name='group-detail'
     ),
     url(
         regex=r'^new/$',

@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% load i18n %}
-{% load django_bootstrap_breadcrumbs %}
+{% load core_tags django_bootstrap_breadcrumbs %}
 
 
 {% block head_title %}{% trans "Groups" %}{% endblock %}
@@ -26,7 +26,7 @@
         {% if object_list %}
             <div class="list-group">
                 {% for group in object_list %}
-                    <a href="#" class="list-group-item list-group-item-action">
+                    <a href="{% url 'groups:group-detail' group.slug %}" class="list-group-item list-group-item-action">
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="group-description">
                                 <strong>{{group.title}}</strong>
@@ -34,16 +34,8 @@
                                     <p class="mb-0">{{group.description|truncatechars:130}}</p>
                                 {% endif %}
                             </div>
-                            <div class="group-visibility">
-                                {% if group.is_private %}
-                                    <span class="pull-right" data-toggle='tooltip' data-placement="left" title="{% trans 'Private group' %}">
-                                        <i class="fa fa-user-secret" aria-hidden="true"></i>
-                                    </span>
-                                {% else %}
-                                    <span class="pull-right" data-toggle='tooltip' data-placement="left" title="{% trans 'Public group' %}">
-                                        <i class="fa fa-globe" aria-hidden="true"></i>
-                                    </span>
-                                {% endif %}
+                            <div class="group-visibility text-right">
+                                {% visibility_icon group %}
                             </div>
                         </div>
                     </a>

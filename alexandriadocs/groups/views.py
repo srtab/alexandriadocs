@@ -4,6 +4,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext_lazy as _
+from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView
 from django.views.generic.list import ListView
 from groups.forms import GroupForm
@@ -17,6 +18,14 @@ class GroupListView(ListView):
 
     def get_queryset(self):
         return self.model._default_manager.filter(author=self.request.user)
+
+
+class GroupDetailView(DetailView):
+    """ """
+    model = Group
+
+    def get_queryset(self):
+        return self.model._default_manager.visible(self.request.user)
 
 
 @method_decorator(login_required, name='dispatch')
