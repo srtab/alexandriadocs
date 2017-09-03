@@ -70,3 +70,10 @@ def body_class(context):
         return "view-{namespace}-{url_name}".format(
             namespace=namespace, url_name=url_name)
     return "view-{url_name}".format(url_name=url_name)
+
+
+@register.inclusion_tag("core/includes/visibility_icon.html")
+def visibility_icon(visibility_obj):
+    return {
+        'visibility_obj': visibility_obj,
+    }
