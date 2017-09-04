@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-from core.managers import AuthorVisibilityQueryset
+from core.managers import AuthorVisibilityQuerySet
 
 
-class GroupQuerySet(AuthorVisibilityQueryset):
+class GroupQuerySet(AuthorVisibilityQuerySet):
     """ """
 
 

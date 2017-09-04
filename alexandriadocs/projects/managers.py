@@ -1,12 +1,12 @@
 import hashlib
 import os
 
-from core.managers import AuthorVisibilityQueryset
+from core.managers import AuthorVisibilityQuerySet
 from django.conf import settings
 from django.db import models
 
 
-class ProjectQuerySet(AuthorVisibilityQueryset):
+class ProjectQuerySet(AuthorVisibilityQuerySet):
     """ """
 
 

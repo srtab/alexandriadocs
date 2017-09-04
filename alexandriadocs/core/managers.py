@@ -20,7 +20,7 @@ class AuthorQuerySet(models.QuerySet):
         return self.filter(author=user)
 
 
-class AuthorVisibilityQueryset(AuthorQuerySet, VisibilityQuerySet):
+class AuthorVisibilityQuerySet(AuthorQuerySet, VisibilityQuerySet):
     """ """
 
     def visible(self, user=None):
