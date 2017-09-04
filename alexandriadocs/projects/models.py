@@ -8,7 +8,7 @@ from django.db.models.signals import post_save
 from django.utils.translation import ugettext_lazy as _
 from django_extensions.db.models import TimeStampedModel
 from groups.models import Group
-from projects.managers import ImportedFileManager
+from projects.managers import ImportedFileManager, ProjectManager
 from projects.utils import projects_upload_to
 from projects.validators import MimeTypeValidator
 from taggit.managers import TaggableManager
@@ -25,6 +25,8 @@ class Project(VisibilityMixin, TitleSlugDescriptionMixin, TimeStampedModel):
         help_text=_('project author'), related_name='projects')
     repo = models.CharField(_('repository URL'), max_length=255)
     tags = TaggableManager(blank=True)
+
+    objects = ProjectManager()
 
     class Meta:
         verbose_name = _('project')
