@@ -18,7 +18,7 @@ class GroupListView(ListView):
     model = Group
 
     def get_queryset(self):
-        return self.model._default_manager.filter(author=self.request.user)
+        return self.model._default_manager.author(self.request.user)
 
 
 @method_decorator(login_required, name='dispatch')
@@ -49,7 +49,7 @@ class GroupCollaboratorsView(DetailView):
     template_name_suffix = '_collaborators'
 
     def get_queryset(self):
-        return self.model._default_manager.filter(author=self.request.user)
+        return self.model._default_manager.author(self.request.user)
 
 
 @method_decorator(login_required, name='dispatch')
@@ -61,7 +61,7 @@ class GroupSettingsView(SuccessMessageMixin, UpdateView):
     success_message = _("%(title)s was updated successfully")
 
     def get_queryset(self):
-        return self.model._default_manager.filter(author=self.request.user)
+        return self.model._default_manager.author(self.request.user)
 
     def get_success_url(self):
         return reverse('groups:group-settings', args=[self.object.slug])
@@ -75,4 +75,4 @@ class GroupDeleteView(SuccessDeleteMessageMixin, DeleteView):
     success_message = _("%(title)s was deleted successfully")
 
     def get_queryset(self):
-        return self.model._default_manager.filter(author=self.request.user)
+        return self.model._default_manager.author(self.request.user)
