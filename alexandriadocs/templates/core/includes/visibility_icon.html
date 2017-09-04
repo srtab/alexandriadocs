@@ -1,11 +1,11 @@
 {% load i18n %}
 
-{% if visibility_obj.is_private %}
-    <span data-toggle='tooltip' data-placement="left" title="{% trans 'Private group' %}">
+{% if object.is_private %}
+    <span data-toggle='tooltip' data-placement="left" title="{% trans 'Private' %}">
         <i class="fa fa-user-secret" aria-hidden="true"></i>
     </span>
 {% else %}
-    <span data-toggle='tooltip' data-placement="left" title="{% trans 'Public group' %}">
+    <span data-toggle='tooltip' data-placement="left" title="{% trans 'Public' %}">
         <i class="fa fa-globe" aria-hidden="true"></i>
     </span>
 {% endif %}

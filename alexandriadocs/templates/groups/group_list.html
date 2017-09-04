@@ -23,26 +23,26 @@
     <hr>
 
     <div class="container">
-        {% if object_list %}
+        {% if group_list %}
             <div class="list-group">
-                {% for group in object_list %}
+                {% for group in group_list %}
                     <a href="{% url 'groups:group-detail' group.slug %}" class="list-group-item list-group-item-action">
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="group-description">
-                                <strong>{{group.title}}</strong>
+                                <strong>{{group}}</strong>
                                 {% if group.description %}
                                     <p class="mb-0">{{group.description|truncatechars:130}}</p>
                                 {% endif %}
                             </div>
                             <div class="group-visibility text-right">
-                                {% visibility_icon group %}
+                                {% include "core/includes/visibility_icon.html" with object=group %}
                             </div>
                         </div>
                     </a>
                 {% endfor %}
             </div>
         {% else %}
-            <p class="lead text-muted mt-5">{% trans "You don't have any group created" %}</p>
+            <p class="lead text-muted mt-5 text-center">{% trans "You don't have any group created." %}</p>
         {% endif %}
     </div>
 {% endblock %}
