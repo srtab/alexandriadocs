@@ -1,8 +1,16 @@
 import hashlib
 import os
 
+from core.managers import AuthorVisibilityQueryset
 from django.conf import settings
 from django.db import models
+
+
+class ProjectQuerySet(AuthorVisibilityQueryset):
+    """ """
+
+
+ProjectManager = ProjectQuerySet.as_manager
 
 
 class ImportedFileManager(models.Manager):
