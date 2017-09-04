@@ -6,6 +6,7 @@ from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import View
+from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView
 from django.views.generic.list import ListView
 from projects.models import Project
@@ -29,6 +30,18 @@ class ProjectCreateView(SuccessMessageMixin, CreateView):
     fields = ('title', 'description', 'group', 'repo', 'tags')
     success_url = reverse_lazy('projects:project-list')
     success_message = _("%(title)s was created successfully")
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+
+class ProjectDetailView(DetailView):
+    """ """
+    model = Project
+
+    def get_queryset(self):
+        return self.model._default_manager.visible(self.request.user)
 
 
 class ProjectBadgeView(View):
