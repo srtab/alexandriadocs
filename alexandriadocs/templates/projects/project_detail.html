@@ -24,6 +24,33 @@
 
     <div class="container">
 
+        <div class="row">
+            <div class="col-8"></div>
+            <div class="col-4">
+                <div class="project-right">
+                    <a href="{{project.get_absolute_url}}" class="btn btn-success btn-lg btn-block">{% trans "View Docs" %} <i class="fa fa-arrow-right fa-fw" aria-hidden="true"></i></a>
+                    <hr>
+
+                    <h4>{% trans "Repository" %}</h4>
+                    <a href="{{project.repo}}" target="_blank"><i class="fa fa-external-link" aria-hidden="true"></i> {{project.repo}}</a>
+                    <hr>
+
+                    <h4>{% trans "Last update" %}</h4>
+                    {% if project.last_imported_archive_date %}
+                        {{project.last_imported_archive_date}}
+                    {% else %}
+                        <span class="text-muted">{% trans "No documentation uploaded yet." %}</span>
+                    {% endif %}
+                    {{project.last_imported_archive.created}}
+                    <hr>
+
+                    <h4>{% trans "Tags" %}</h4>
+                    {% for tag in project.tags.all %}
+                        <span class="badge badge-light"><i class="fa fa-tag" aria-hidden="true"></i> {{tag}}</span>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
     </div>
 
 {% endblock %}

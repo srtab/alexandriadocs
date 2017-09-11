@@ -5,6 +5,7 @@ from core.models import TitleSlugDescriptionMixin, VisibilityMixin
 from django.conf import settings
 from django.db import models
 from django.db.models.signals import post_save
+from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 from django_extensions.db.models import TimeStampedModel
 from groups.models import Group
@@ -41,6 +42,13 @@ class Project(VisibilityMixin, TitleSlugDescriptionMixin, TimeStampedModel):
     def serve_root_path(self):
         return os.path.join(settings.PROJECTS_SERVE_ROOT, self.slug)
 
+    @cached_property
+    def last_imported_archive_date(self):
+        try:
+            return self.imported_archives.latest('created').created
+        except ImportedArchive.DoesNotExist:
+            return None
+
 
 class ImportedArchive(TimeStampedModel):
     """An imported archive holds the result of an static generated site version
@@ -51,7 +59,8 @@ class ImportedArchive(TimeStampedModel):
         verbose_name=_('who uploaded'),
         help_text=_('who uploaded the documentation'))
     project = models.ForeignKey(
-        Project, models.CASCADE, verbose_name=_('project'))
+        Project, models.CASCADE, verbose_name=_('project'),
+        related_name='imported_archives')
     archive = models.FileField(
         _('archive'), upload_to=projects_upload_to,
         help_text=_('archive with project documentation.'),
