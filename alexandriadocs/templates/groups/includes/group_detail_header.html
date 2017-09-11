@@ -1,9 +1,9 @@
 {% load i18n %}
 {% load core_tags %}
 
-<div class="jumbotron jumbotron-fluid jumbotron-header jumbotron-header-tabs">
+<div class="jumbotron jumbotron-fluid jumbotron-header {% if user.is_authenticated and group.author == user %}jumbotron-header-tabs{% endif %}">
     <div class="container">
-        <h1 class="h2">{{group.title}} <small class="pull-right">{% visibility_icon group %}</small></h1>
+        <h1 class="h2">{{group}} <small class="pull-right">{% include "core/includes/visibility_icon.html" with object=group %}</small></h1>
         <p>{{group.description}}</p>
 
         {% if user.is_authenticated and group.author == user %}

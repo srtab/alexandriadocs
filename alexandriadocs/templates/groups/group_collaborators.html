@@ -4,7 +4,7 @@
 {% load crispy_forms_tags django_bootstrap_breadcrumbs %}
 
 
-{% block head_title %}{{group.title}}{% endblock %}
+{% block head_title %}{{group}}{% endblock %}
 
 
 {% block breadcrumbs %}
@@ -12,7 +12,7 @@
     {% if user.is_authenticated %}
         {% breadcrumb "Groups" "groups:group-list" %}
     {% endif %}
-    {% breadcrumb group.title "groups:group-detail" slug=group.slug %}
+    {% breadcrumb group "groups:group-detail" slug=group.slug %}
     {% breadcrumb "Collaborators" "groups:group-collaborators" slug=group.slug %}
 {% endblock breadcrumbs %}
 

@@ -30,3 +30,10 @@ label {
 h4 {
     margin-bottom: 1rem;
 }
+
+
+/* Bootstrao Reset*/
+
+.list-group-item {
+    @include transition(background-color ease-in-out 150ms);
+}

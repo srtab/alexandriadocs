@@ -1,15 +1,17 @@
 # -*- coding: utf-8 -*-
 from core.forms import UntaggedFormMixin
 from django import forms
-from groups.models import Group
+from projects.models import Project
 
 
-class GroupForm(UntaggedFormMixin, forms.ModelForm):
+class ProjectForm(UntaggedFormMixin, forms.ModelForm):
     """ """
 
     class Meta:
-        model = Group
-        fields = ('title', 'description', 'visibility_level')
+        model = Project
+        fields = (
+            'title', 'description', 'group', 'repo', 'tags', 'visibility_level'
+        )
         widgets = {
             'description': forms.Textarea(attrs={'rows': 3}),
             'visibility_level': forms.RadioSelect

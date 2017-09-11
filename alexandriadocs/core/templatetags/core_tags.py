@@ -77,3 +77,9 @@ def visibility_icon(visibility_obj):
     return {
         'visibility_obj': visibility_obj,
     }
+
+
+@register.simple_tag(takes_context=True)
+def absolute_uri(context, location):
+    request = context.get('request')
+    return request.build_absolute_uri(location)
