@@ -20,7 +20,8 @@ class Project(VisibilityMixin, TitleSlugDescriptionMixin, TimeStampedModel):
     """
     group = models.ForeignKey(
         Group, models.PROTECT, verbose_name=_('group'),
-        help_text=_('project group'), related_name='projects')
+        help_text=_('Just like a folder, helps you to organize you projects'),
+        related_name='projects')
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL, models.PROTECT, verbose_name=_('author'),
         help_text=_('project author'), related_name='projects')
@@ -73,7 +74,9 @@ class ImportedArchive(TimeStampedModel):
         verbose_name = _('imported archive')
 
     def __str__(self):
-        return self.project.__str__()
+        if self.project_id:
+            return self.project.__str__()
+        return super().__str__()
 
     def fileify(self):
         """Extract tarfile and launch walk through valid imported files to
