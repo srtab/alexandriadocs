@@ -2,8 +2,8 @@
 from django.conf.urls import url
 from projects.views import (
     ProjectBadgeUrlView, ProjectBadgeView, ProjectCollaboratorsView,
-    ProjectCreateView, ProjectDeleteView, ProjectDetailView, ProjectListView,
-    ProjectSettingsView)
+    ProjectCreateView, ProjectDeleteView, ProjectDetailView,
+    ProjectImportedArchiveView, ProjectListView, ProjectSettingsView)
 
 
 urlpatterns = [
@@ -46,5 +46,10 @@ urlpatterns = [
         regex=r'^(?P<slug>[-\w]+)/badge-url/$',
         view=ProjectBadgeUrlView.as_view(),
         name='project-badge-url'
+    ),
+    url(
+        regex=r'^(?P<slug>[-\w]+)/imported-archives/$',
+        view=ProjectImportedArchiveView.as_view(),
+        name='project-imported-archive'
     ),
 ]

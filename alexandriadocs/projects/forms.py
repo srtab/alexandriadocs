@@ -4,7 +4,7 @@ from crispy_forms.bootstrap import PrependedText
 from crispy_forms.layout import Div, Layout
 from django import forms
 from django.utils.translation import ugettext_lazy as _
-from projects.models import Project
+from projects.models import ImportedArchive, Project
 
 
 class ProjectForm(UntaggedFormMixin, forms.ModelForm):
@@ -55,3 +55,17 @@ class ProjectEditForm(ProjectForm):
     def form_helper(self):
         super().form_helper()
         self.helper.layout[0] = 'title'
+
+
+class ImportedArchiveForm(UntaggedFormMixin, forms.ModelForm):
+    """ """
+
+    class Meta:
+        model = ImportedArchive
+        fields = ('archive', )
+
+    def form_helper(self):
+        super().form_helper()
+        self.helper.layout = Layout(
+            'archive'
+        )
