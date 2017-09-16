@@ -27,6 +27,7 @@ class ProjectQuerySet(AuthorVisibilityQuerySet):
         return self.filter(visibility_level=self.model.Level.PUBLIC,
                            group__visibility_level=self.model.Level.PUBLIC)
 
+
 ProjectManager = ProjectQuerySet.as_manager
 
 

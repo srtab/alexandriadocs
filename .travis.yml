@@ -1,9 +1,21 @@
-language: python
-python:
- - 3.4
 sudo: false
+language: python
+
+python:
+ - "3.4"
+ - "3.5"
+ - "3.6"
+
+cache:
+  - pip
+
 install:
- - pip install tox
+  - pip install --upgrade pip wheel setuptools
+  - pip install coveralls codacy-coverage
+
 script:
- - tox -e flake8
- - tox -e travis
+ - tox
+
+after_success:
+  - coveralls
+  - python-codacy-coverage -r coverage.xml
