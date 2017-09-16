@@ -9,6 +9,8 @@ from django.test.utils import get_runner
 
 if __name__ == "__main__":
     os.environ['DJANGO_SETTINGS_MODULE'] = 'alexandriadocs.settings.test'
+    print(settings)
+    print(os.environ['DJANGO_SETTINGS_MODULE'])
     django.setup()
     TestRunner = get_runner(settings)
     test_runner = TestRunner()
