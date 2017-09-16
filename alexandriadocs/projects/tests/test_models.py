@@ -33,6 +33,11 @@ class ProjectModelTest(SimpleTestCase):
         result = self.project.last_imported_archive_date
         self.assertIsNone(result)
 
+    @patch('projects.models.token_generator.make_token', return_value="token")
+    def test_api_token(self, mmake_token):
+        self.assertEqual(self.project.api_token, 'token')
+        mmake_token.assert_called_with(self.project)
+
 
 class ImportedArchiveModelTest(SimpleTestCase):
 

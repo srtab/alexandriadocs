@@ -10,6 +10,7 @@ from django.utils.translation import ugettext_lazy as _
 from django_extensions.db.models import TimeStampedModel
 from groups.models import Group
 from projects.managers import ImportedFileManager, ProjectManager
+from projects.tokens import token_generator
 from projects.utils import projects_upload_to
 from projects.validators import MimeTypeValidator
 from taggit.managers import TaggableManager
@@ -49,6 +50,10 @@ class Project(VisibilityMixin, TitleSlugDescriptionMixin, TimeStampedModel):
             return self.imported_archives.latest('created').created
         except ImportedArchive.DoesNotExist:
             return None
+
+    @cached_property
+    def api_token(self):
+        return token_generator.make_token(self)
 
 
 class ImportedArchive(TimeStampedModel):
