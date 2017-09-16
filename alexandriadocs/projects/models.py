@@ -1,4 +1,5 @@
 import os
+import shutil
 import tarfile
 
 from core.models import TitleSlugDescriptionMixin, VisibilityMixin
@@ -52,6 +53,10 @@ class Project(VisibilityMixin, TitleSlugDescriptionMixin, TimeStampedModel):
             return None
 
     @cached_property
+    def imported_files_count(self):
+        return self.imported_files.count()
+
+    @cached_property
     def api_token(self):
         return token_generator.make_token(self)
 
@@ -82,11 +87,16 @@ class ImportedArchive(TimeStampedModel):
         return self.project.__str__()
 
     def fileify(self):
-        """Extract tarfile and launch walk through valid imported files to
+        """
+        Extract tarfile and launch walk through valid imported files to
         create entries on database with file info to be indexed.
         """
+        # clean directory
+        shutil.rmtree(self.project.serve_root_path, ignore_errors=True)
+        # extract all files
         with tarfile.open(self.archive.path, "r:gz") as tar:
             tar.extractall(self.project.serve_root_path)
+        # register file on database
         ImportedFile.objects.walk(self.project_id,
                                   self.project.serve_root_path)
 
@@ -105,7 +115,8 @@ class ImportedFile(TimeStampedModel):
     """Holds info about html files imported for indexing proposes.
     """
     project = models.ForeignKey(
-        Project, models.CASCADE, verbose_name=_('project'))
+        Project, models.CASCADE, verbose_name=_('project'),
+        related_name='imported_files')
     path = models.CharField(_('file path'), max_length=255)
     md5 = models.CharField(_('MD5 checksum'), max_length=255)
     objects = ImportedFileManager()

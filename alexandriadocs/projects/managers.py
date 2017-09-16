@@ -39,9 +39,7 @@ class ImportedFileManager(models.Manager):
         All objects associated to the project previously created will be
         deleted."""
         import_files = []
-        # delete all previous imported files to avoid indexing old data
-        self.filter(project_id=project_id).delete()
-        # walk through extratect files
+        # walk through extracted files
         for root, __, filenames in os.walk(walkpath):
             for filename in filenames:
                 extension = os.path.splitext(filename)[-1].lower()
@@ -49,10 +47,14 @@ class ImportedFileManager(models.Manager):
                     full_path = os.path.abspath(os.path.join(root, filename))
                     with open(full_path, 'rb') as fp:
                         md5 = hashlib.md5(fp.read()).hexdigest()
-                    import_files.append(self.model(
+                    obj, created = self.get_or_create(
                         project_id=project_id,
                         path=full_path,
                         md5=md5
-                    ))
-        self.bulk_create(import_files)
-        return self.filter(project_id=project_id)
+                    )
+                    import_files.append(obj)
+        # delete all previous imported files to avoid indexing old data
+        imported_ids = [ifile.pk for ifile in import_files]
+        self.filter(project_id=project_id).exclude(pk__in=imported_ids)\
+            .delete()
+        return import_files
