@@ -11,7 +11,7 @@ cache:
 
 install:
   - pip install --upgrade pip wheel setuptools
-  - pip install coveralls codacy-coverage
+  - pip install coveralls codacy-coverage tox
 
 script:
  - tox
