@@ -2,19 +2,16 @@ sudo: false
 language: python
 
 python:
- - "3.4"
- - "3.5"
- - "3.6"
-
-cache:
-  - pip
+  - "3.4"
+  - "3.5"
+  - "3.6"
 
 install:
   - pip install --upgrade pip wheel setuptools
-  - pip install coveralls codacy-coverage tox
+  - pip install coveralls codacy-coverage tox-travis
 
 script:
- - tox
+  - tox
 
 after_success:
   - coveralls
