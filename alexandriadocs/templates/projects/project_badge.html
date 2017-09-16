@@ -26,21 +26,21 @@
     <div class="container">
         <p>{% blocktrans %}You can include this badge in your project page, just choose your style and copy the code below into your Readme.{% endblocktrans %}</p>
 
-        <div class="row">
-            <div class="col-3">
-                <div class="nav flex-column nav-pills" id="v-tab" role="tablist">
-                    <a class="nav-link active" id="home-tab" data-toggle="pill" href="#home" role="tab" aria-controls="home" aria-expanded="true">
-                        {% trans "Flat square" %}
-                    </a>
-                    <a class="nav-link" id="profile-tab" data-toggle="pill" href="#profile" role="tab" aria-controls="profile" aria-expanded="true">
-                        {% trans "Flat" %}
-                    </a>
-                    <a class="nav-link" id="messages-tab" data-toggle="pill" href="#messages" role="tab" aria-controls="messages" aria-expanded="true">
-                        {% trans "Plastic" %}
-                    </a>
-                </div>
+        <div class="card">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="home-tab" data-toggle="pill" href="#home" role="tab" aria-controls="home" aria-expanded="true">{% trans "Flat square" %}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="profile-tab" data-toggle="pill" href="#profile" role="tab" aria-controls="profile" aria-expanded="true">{% trans "Flat" %}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="messages-tab" data-toggle="pill" href="#messages" role="tab" aria-controls="messages" aria-expanded="true">{% trans "Plastic" %}</a>
+                    </li>
+                </ul>
             </div>
-            <div class="col-9">
+            <div class="card-body">
                 <div class="tab-content" id="v-tabContent">
                     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                         {% include "projects/includes/project_badge.html" %}
@@ -55,5 +55,4 @@
             </div>
         </div>
     </div>
-
 {% endblock %}
