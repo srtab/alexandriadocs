@@ -25,7 +25,9 @@
     <div class="container">
 
         <div class="row">
-            <div class="col-8"></div>
+            <div class="col-8">
+                <p>{{project.description|linebreaks}}</p>
+            </div>
             <div class="col-4">
                 <div class="project-right">
                     <a href="{{project.get_absolute_url}}" class="btn btn-success btn-lg btn-block">{% trans "View Docs" %} <i class="fa fa-arrow-right fa-fw" aria-hidden="true"></i></a>
