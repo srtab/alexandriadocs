@@ -10,6 +10,9 @@ install:
   - pip install --upgrade pip wheel setuptools
   - pip install coveralls codacy-coverage tox-travis
 
+before_script:
+  - export PYTHONPATH=$PYTHONPATH:$(pwd)/alexandriadocs
+
 script:
   - tox
 
