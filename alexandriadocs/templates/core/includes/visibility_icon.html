@@ -1,6 +1,6 @@
 {% load i18n %}
 
-{% if object.is_private %}
+{% if visibility_obj.is_private %}
     <span data-toggle='tooltip' data-placement="left" title="{% trans 'Private' %}">
         <i class="fa fa-user-secret" aria-hidden="true"></i>
     </span>

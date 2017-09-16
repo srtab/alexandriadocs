@@ -74,9 +74,7 @@ class ImportedArchive(TimeStampedModel):
         verbose_name = _('imported archive')
 
     def __str__(self):
-        if self.project_id:
-            return self.project.__str__()
-        return super().__str__()
+        return self.project.__str__()
 
     def fileify(self):
         """Extract tarfile and launch walk through valid imported files to

@@ -3,23 +3,15 @@ from collections import OrderedDict
 
 from django import template
 from django.conf import settings
-from django.core.exceptions import ImproperlyConfigured
 from django.utils.html import escape
 from django.utils.http import urlencode
 
 
 register = template.Library()
-context_processor_error_msg = (
-    'Tag {%% %s %%} requires django.template.context_processors.request to be '
-    'in the template configuration'
-)
 
 
 @register.assignment_tag(takes_context=True)
 def is_current_url(context, namespace=None, url_name=None):
-    if 'request' not in context:
-        raise ImproperlyConfigured(
-            context_processor_error_msg % 'is_current_url')
     request = context.get('request')
     check = True
     if namespace:
@@ -36,8 +28,6 @@ def menu_active(context, namespace=None, url_name=None, css_class='active'):
 
 @register.simple_tag(takes_context=True)
 def querystring(context, **kwargs):
-    if 'request' not in context:
-        raise ImproperlyConfigured(context_processor_error_msg % 'querystring')
     params = dict(context.get('request').GET)
     ordered = OrderedDict()
     ordered.update(params)
@@ -61,8 +51,6 @@ def sentry_ravenjs():
 
 @register.simple_tag(takes_context=True)
 def body_class(context):
-    if 'request' not in context:
-        raise ImproperlyConfigured(context_processor_error_msg % 'body_class')
     request = context.get('request')
     namespace = request.resolver_match.namespace
     url_name = request.resolver_match.url_name
