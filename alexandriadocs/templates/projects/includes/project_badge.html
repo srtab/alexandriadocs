@@ -2,28 +2,25 @@
 
 {% url "projects:project-badge-url" slug=project.slug as badgeurl %}
 
-<strong>Markdown</strong>
-<br>
-<pre><code>
-    [![Documentation Status]({% absolute_uri badgeurl %}{% if style %}?style={{style}}{% endif %})]({% absolute_uri project.get_absolute_url %})
-</code></pre>
-
-<hr>
-
-<strong>reStructuredText</strong>
-<br>
-<pre><code>
-    .. image:: {% absolute_uri badgeurl %}{% if style %}?style={{style}}{% endif %}
-    :target: {% absolute_uri project.get_absolute_url %}
-    :alt: Documentation Status
-</code></pre>
-
-<hr>
-
-<strong>HTML</strong>
-<br>
-<pre><code>
-    &lt;a href='{% absolute_uri project.get_absolute_url %}'&gt;
-    &nbsp;&nbsp;&nbsp;&nbsp;&lt;img src='{% absolute_uri badgeurl %}{% if style %}?style={{style}}{% endif %}' alt='Documentation Status' /&gt;
-    &lt;/a&gt;
-</code></pre>
+<div class="mb-3">
+    <img src="{% absolute_uri badgeurl %}{% if style %}?style={{style}}{% endif %}" alt="Badge">
+</div>
+<ul class="list-group">
+    <li class="list-group-item">
+        <strong>Markdown</strong>
+        <pre><code>[![Documentation]({% absolute_uri badgeurl %}{% if style %}?style={{style}}{% endif %})]({% absolute_uri project.get_absolute_url %})</code></pre>
+    </li>
+    <li class="list-group-item">
+        <strong>reStructuredText</strong>
+        <pre><code>.. image:: {% absolute_uri badgeurl %}{% if style %}?style={{style}}{% endif %}
+:target: {% absolute_uri project.get_absolute_url %}
+:alt: Documentation</code></pre>
+    </li>
+    <li class="list-group-item">
+        <strong>HTML</strong>
+        <br>
+        <pre><code>&lt;a href='{% absolute_uri project.get_absolute_url %}'&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;img src='{% absolute_uri badgeurl %}{% if style %}?style={{style}}{% endif %}' alt='Documentation' /&gt;
+&lt;/a&gt;</code></pre>
+    </li>
+</ul>
