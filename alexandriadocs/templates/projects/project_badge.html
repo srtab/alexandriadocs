@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load core_tags django_bootstrap_breadcrumbs %}
+
+
+{% block head_title %}{% trans "Badge" %} - {{project.group}} / {{project}}{% endblock %}
+
+
+{% block breadcrumbs %}
+    {{block.super}}
+    {% if user.is_authenticated %}
+        {% breadcrumb "Projects" "projects:project-list" %}
+    {% else %}
+        {% breadcrumb project.group "groups:group-detail" slug=project.group.slug %}
+    {% endif %}
+    {% breadcrumb project "projects:project-detail" slug=project.slug %}
+    {% breadcrumb "Badge" "projects:project-badge" slug=project.slug %}
+{% endblock breadcrumbs %}
+
+
+{% block container %}
+
+    {% include "projects/includes/project_detail_header.html" %}
+
+    <div class="container">
+        <p>{% blocktrans %}You can include this badge in your project page, just choose your style and copy the code below into your Readme.{% endblocktrans %}</p>
+
+        <div class="card">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="home-tab" data-toggle="pill" href="#home" role="tab" aria-controls="home" aria-expanded="true">{% trans "Flat square" %}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="profile-tab" data-toggle="pill" href="#profile" role="tab" aria-controls="profile" aria-expanded="true">{% trans "Flat" %}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="messages-tab" data-toggle="pill" href="#messages" role="tab" aria-controls="messages" aria-expanded="true">{% trans "Plastic" %}</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="tab-content" id="v-tabContent">
+                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                        {% include "projects/includes/project_badge.html" %}
+                    </div>
+                    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                        {% include "projects/includes/project_badge.html" with style="flat" %}
+                    </div>
+                    <div class="tab-pane fade" id="messages" role="tabpanel" aria-labelledby="messages-tab">
+                        {% include "projects/includes/project_badge.html" with style="plastic" %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

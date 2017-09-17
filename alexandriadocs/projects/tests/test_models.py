@@ -20,6 +20,24 @@ class ProjectModelTest(SimpleTestCase):
         with self.settings(PROJECTS_SERVE_ROOT="/test/"):
             self.assertEqual(self.project.serve_root_path, "/test/slug")
 
+    @patch.object(Project, 'imported_archives')
+    def test_last_imported_archive_date(self, mimported_archives):
+        mimported_archives.latest().created = 'created'
+        result = self.project.last_imported_archive_date
+        mimported_archives.latest.assert_called_with('created')
+        self.assertEqual(result, 'created')
+
+    @patch.object(Project, 'imported_archives')
+    def test_last_imported_archive_date_empty(self, mimported_archives):
+        mimported_archives.latest.side_effect = ImportedArchive.DoesNotExist
+        result = self.project.last_imported_archive_date
+        self.assertIsNone(result)
+
+    @patch('projects.models.token_generator.make_token', return_value="token")
+    def test_api_token(self, mmake_token):
+        self.assertEqual(self.project.api_token, 'token')
+        mmake_token.assert_called_with(self.project)
+
 
 class ImportedArchiveModelTest(SimpleTestCase):
 

@@ -1,0 +1,19 @@
+{% load core_tags %}
+
+<div class="content-list list-group mb-4">
+    {% for project in project_list %}
+        <a href="{% url 'projects:project-detail' project.slug %}" class="list-group-item list-group-item-action">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="content-description">
+                    {% if show_group_name %}<strong>{{project.group}}</strong> / {% endif %}<strong class="bold-black">{{project}}</strong>
+                    {% if project.description %}
+                        <p>{{project.description|truncatechars:130}}</p>
+                    {% endif %}
+                </div>
+                <div class="content-info text-right">
+                    {% include "core/includes/visibility_icon.html" with object=project %}
+                </div>
+            </div>
+        </a>
+    {% endfor %}
+</div>

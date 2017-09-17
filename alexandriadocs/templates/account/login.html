@@ -15,11 +15,10 @@
 
 {% block content %}
 
-    <div class="jumbotron jumbotron-fluid jumbotron-header bg-light">
+    <div class="jumbotron jumbotron-fluid jumbotron-header">
         <div class="container">
             <h1 class="display-4">{% trans "Login" %}</h1>
-
-            <p class="lead mb-0">{% blocktrans %}If you have not created an account yet, then please login with a provider or <a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
+            <p class="lead">{% blocktrans %}If you have not created an account yet, then please login with a provider or <a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
         </div>
     </div>
     <div class="container">

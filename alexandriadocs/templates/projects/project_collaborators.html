@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load core_tags django_bootstrap_breadcrumbs %}
+
+
+{% block head_title %}{% trans "Collaborators" %} - {{project.group}} / {{project}}{% endblock %}
+
+
+{% block breadcrumbs %}
+    {{block.super}}
+    {% if user.is_authenticated %}
+        {% breadcrumb "Projects" "projects:project-list" %}
+    {% else %}
+        {% breadcrumb project.group "groups:group-detail" slug=project.group.slug %}
+    {% endif %}
+    {% breadcrumb project "projects:project-detail" slug=project.slug %}
+    {% breadcrumb "Collaborators" "projects:project-collaborators" slug=project.slug %}
+{% endblock breadcrumbs %}
+
+
+{% block container %}
+
+    {% include "projects/includes/project_detail_header.html" %}
+
+    <div class="container">
+
+    </div>
+
+{% endblock %}

@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from core.tests.utils import TemplateTagsTest
-from django.core.exceptions import ImproperlyConfigured
 from django.test import RequestFactory, SimpleTestCase
 from mock import Mock, patch
 
@@ -12,13 +11,6 @@ class IsCurrentUrlTagTest(TemplateTagsTest, SimpleTestCase):
         # Every test needs access to the request factory.
         self.request = RequestFactory().get('/test/')
         self.request.resolver_match = Mock(url_name="dummy", namespace="dummy")
-
-    def test_improperly_configured(self):
-        template = (
-            "{% load core_tags %}{% is_current_url url_name='dummy' as val %}"
-        )
-        with self.assertRaises(ImproperlyConfigured):
-            self.render_template(template)
 
     def test_url_name_match(self):
         template = (
@@ -115,11 +107,6 @@ class QuerystringTagTest(TemplateTagsTest, SimpleTestCase):
         # Every test needs access to the request factory.
         self.request = RequestFactory().get('/test/', {'page': 3})
 
-    def test_improperly_configured(self):
-        template = "{% load core_tags %}{% querystring order='dummy' %}"
-        with self.assertRaises(ImproperlyConfigured):
-            self.render_template(template)
-
     def test_new_argument(self):
         """ """
         template = "{% load core_tags %}{% querystring order='name' %}"
@@ -131,3 +118,64 @@ class QuerystringTagTest(TemplateTagsTest, SimpleTestCase):
         template = "{% load core_tags %}{% querystring page='10' %}"
         rendered = self.render_template(template, {'request': self.request})
         self.assertEqual(rendered, "?page=10")
+
+
+class BodyClassTagTest(TemplateTagsTest, SimpleTestCase):
+    """ """
+
+    def setUp(self):
+        # Every test needs access to the request factory.
+        self.request = RequestFactory().get('/test/')
+
+    def test_with_namespace(self):
+        self.request.resolver_match = Mock(
+            namespace='namespace', url_name='url_name')
+        template = "{% load core_tags %}{% body_class %}"
+        rendered = self.render_template(template, {'request': self.request})
+        self.assertEqual(rendered, 'view-namespace-url_name')
+
+    def test_without_namespace(self):
+        self.request.resolver_match = Mock(namespace=None, url_name='url_name')
+        template = "{% load core_tags %}{% body_class %}"
+        rendered = self.render_template(template, {'request': self.request})
+        self.assertEqual(rendered, 'view-url_name')
+
+
+class VisibilityIconTagTest(TemplateTagsTest, SimpleTestCase):
+    """ """
+
+    def test_private_visibility(self):
+        template = "{% load core_tags %}{% visibility_icon object %}"
+        rendered = self.render_template(template, {
+            'object': Mock(is_private=True)
+        })
+        expected = (
+            "<span data-toggle='tooltip' data-placement='left' title='Private'"
+            "><i class='fa fa-user-secret' aria-hidden='true'></i>"
+            "</span>"
+        )
+        self.assertHTMLEqual(rendered, expected)
+
+    def test_public_visibility(self):
+        template = "{% load core_tags %}{% visibility_icon object %}"
+        rendered = self.render_template(template, {
+            'object': Mock(is_private=False)
+        })
+        expected = (
+            "<span data-toggle='tooltip' data-placement='left' title='Public'>"
+            "<i class='fa fa-globe' aria-hidden='true'></i>"
+            "</span>"
+        )
+        self.assertHTMLEqual(rendered, expected)
+
+
+class AbsoluteUriTagTest(TemplateTagsTest, SimpleTestCase):
+
+    def setUp(self):
+        # Every test needs access to the request factory.
+        self.request = RequestFactory().get('/test/')
+
+    def test_absolute_uri(self):
+        template = "{% load core_tags %}{% absolute_uri '/unit/' %}"
+        rendered = self.render_template(template, {'request': self.request})
+        self.assertEqual(rendered, 'http://testserver/unit/')

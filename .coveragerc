@@ -1,10 +1,11 @@
 [run]
-source = .
+source = alexandriadocs
 branch = True
 omit =
     *tests*
     *settings*
-    alexandriadocs/wsgi.py
+    alexandriadocs/alexandriadocs/wsgi.py
+    alexandriadocs/manage.py
 
 [report]
 skip_covered = True

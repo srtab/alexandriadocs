@@ -2,3 +2,4 @@
 
 ipython
 tox
+django-redis~=4.8.0

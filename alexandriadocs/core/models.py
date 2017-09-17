@@ -33,7 +33,12 @@ class VisibilityMixin(models.Model):
         )
 
     visibility_level = models.PositiveSmallIntegerField(
-        _('visibility level'), choices=Level.choices, default=Level.PRIVATE)
+        _('visibility level'), choices=Level.choices, default=Level.PRIVATE,
+        help_text=_(
+            '<strong>Private:</strong> project access must be granted '
+            'explicitly to each user.<br>'
+            '<strong>Public:</strong> project can be accessed without'
+            'authentication.'))
 
     class Meta:
         abstract = True

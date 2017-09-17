@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load crispy_forms_tags django_bootstrap_breadcrumbs %}
+
+
+{% block head_title %}{{project.group}} / {{project}}{% endblock %}
+
+
+{% block breadcrumbs %}
+    {{block.super}}
+    {% if user.is_authenticated %}
+        {% breadcrumb "Projects" "projects:project-list" %}
+    {% else %}
+        {% breadcrumb project.group "groups:group-detail" slug=project.group.slug %}
+    {% endif %}
+    {% breadcrumb project "projects:project-imported-archive" slug=project.slug %}
+{% endblock breadcrumbs %}
+
+
+{% block container %}
+
+    {% include "projects/includes/project_detail_header.html" %}
+
+    <div class="container">
+
+        <div class="card mb-4">
+            <h4 class="card-header">{% trans "Upload" %}</h4>
+            <div class="card-body">
+                <form class="project-imported-archive" method="post" action="{% url 'projects:project-imported-archive' project.slug %}" enctype="multipart/form-data">
+                    {% crispy form %}
+                    <button class="btn btn-success" type="submit">{% trans "Upload documentation" %}</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="card">
+            <h4 class="card-header">{% trans "Last uploads" %}</h4>
+            <div class="card-body">
+                <table class="table mb-0">
+                    <thead>
+                        <tr>
+                            <th>{% trans "Uploaded at" %}</th>
+                            <th>{% trans "Uploaded by" %}</th>
+                            <th>{% trans "Archive" %}</th>
+                            <th>{% trans "Size" %}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for imported_archive in project.imported_archives.all %}
+                            <tr>
+                                <td>{{imported_archive.created}}</td>
+                                <td>{{imported_archive.uploaded_by}}</td>
+                                <td>{{imported_archive.archive.url}}</td>
+                                <td>{{imported_archive.archive.size|filesizeformat}}</td>
+                            </tr>
+                        {% empty %}
+                            <tr><td colspan="4" class="text-muted text-center">{% trans "No documentation uploaded!" %}</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

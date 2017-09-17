@@ -3,7 +3,7 @@ Common styles
 */
 
 .highlighted {
-    font-weight: bold;
+    font-weight: 700;
 }
 
 .jumbotron-header {
@@ -11,6 +11,21 @@ Common styles
     padding-bottom: 3rem;
     margin-bottom: 1.5rem;
     margin-top: -1rem;
+    background-color: #f8f9fa;
+
+    p {
+        margin-bottom: 0;
+    }
+
+    &.jumbotron-header-tabs {
+        padding-top: 2rem;
+        padding-bottom: 3rem;
+
+        .nav-tabs {
+            margin-top: 1.5rem;
+            margin-bottom: -3rem;
+        }
+    }
 }
 
 .header-action {

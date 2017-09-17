@@ -11,11 +11,11 @@ body {
 }
 
 main {
-    min-height: calc(100vh - 204px);  // header height + footer height + margin-top footer
+    min-height: calc(100vh - 256px);  // header height + breadcrumb + footer height + margin-top footer
 }
 
 a {
-    @include transition(color 150ms linear);
+    @include transition(color ease-in-out 150ms);
 }
 a:hover {
     text-decoration: none;
@@ -29,4 +29,11 @@ label {
 
 h4 {
     margin-bottom: 1rem;
+}
+
+
+/* Bootstrao Reset*/
+
+.list-group-item {
+    @include transition(background-color ease-in-out 150ms);
 }

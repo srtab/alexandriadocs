@@ -11,6 +11,6 @@ class GroupForm(UntaggedFormMixin, forms.ModelForm):
         model = Group
         fields = ('title', 'description', 'visibility_level')
         widgets = {
-            'description': forms.Textarea(attrs={'rows': 2}),
+            'description': forms.Textarea(attrs={'rows': 3}),
             'visibility_level': forms.RadioSelect
         }

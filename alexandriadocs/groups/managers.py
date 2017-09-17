@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
-from core.managers import VisibilityQuerySet
+from core.managers import AuthorVisibilityQuerySet
 
 
-GroupManager = VisibilityQuerySet.as_manager
+class GroupQuerySet(AuthorVisibilityQuerySet):
+    """ """
+
+
+GroupManager = GroupQuerySet.as_manager

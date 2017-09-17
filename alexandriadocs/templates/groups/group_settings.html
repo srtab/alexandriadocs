@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load crispy_forms_tags django_bootstrap_breadcrumbs %}
+
+
+{% block head_title %}{{group}}{% endblock %}
+
+
+{% block breadcrumbs %}
+    {{block.super}}
+    {% if user.is_authenticated %}
+        {% breadcrumb "Groups" "groups:group-list" %}
+    {% endif %}
+    {% breadcrumb group "groups:group-detail" slug=group.slug %}
+    {% breadcrumb "Settings" "groups:group-settings" slug=group.slug %}
+{% endblock breadcrumbs %}
+
+
+{% block container %}
+
+    {% include "groups/includes/group_detail_header.html" %}
+
+    <div class="container">
+        <h4>{% trans "Update group" %}</h4>
+
+        <form class="group-update" method="post" action="{% url 'groups:group-settings' group.slug %}">
+            {% crispy form %}
+            <button class="btn btn-success" type="submit">{% trans "Update group" %}</button>
+        </form>
+
+        <hr>
+
+        <h4>{% trans "Delete this group" %}</h4>
+        <div class="alert alert-danger d-flex justify-content-between align-items-center" role="alert">
+            {% blocktrans %}Once you delete a group, you will delete all associated projects too and there is no going back. Please be certain.{% endblocktrans %}
+            <form class="group-delete d-inline-block" method="post" action="{% url 'groups:group-delete' group.slug %}">
+                {% csrf_token %}
+                <button class="btn btn-danger" type="submit">{% trans "Delete group" %}</button>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

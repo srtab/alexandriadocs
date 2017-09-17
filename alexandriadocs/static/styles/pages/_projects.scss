@@ -1,0 +1,9 @@
+.view-projects-project-create {
+    form #div_id_group::after {
+        content: '/';
+        position: absolute;
+        right: -8px;
+        top: 28px;
+        font-size: 25px;
+    }
+}

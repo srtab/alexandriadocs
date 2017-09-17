@@ -19,7 +19,7 @@ Header
             border-color: transparent;
             color: #fff;
             background-color: rgba(255,255,255,0.2);
-            transition: all ease-in-out 150ms;
+            @include transition(background-color ease-in-out 150ms, width ease-in-out 150ms);
 
             &:focus,
             &:hover {
