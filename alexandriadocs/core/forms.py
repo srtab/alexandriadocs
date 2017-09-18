@@ -4,7 +4,6 @@ from crispy_forms.helper import FormHelper
 
 class UntaggedFormMixin(object):
     """Mixin to avoid crispy showing fields labels and rendering de form tag"""
-    use_required_attribute = False
 
     def __init__(self, *args, **kwargs):
         super(UntaggedFormMixin, self).__init__(*args, **kwargs)

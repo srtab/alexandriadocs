@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.conf.urls import url
 
+from groups.ajax import (
+    GroupCollaboratorCreateView, GroupCollaboratorDeleteView)
 from groups.views import (
     GroupCollaboratorsView, GroupCreateView, GroupDeleteView, GroupDetailView,
     GroupListView, GroupSettingsView)
@@ -38,3 +40,19 @@ urlpatterns = [
         name='group-delete'
     )
 ]
+
+ajax_urlpatterns = [
+    url(
+        regex=r'^(?P<group_slug>[-\w]+)/collaborators/add/$',
+        view=GroupCollaboratorCreateView.as_view(),
+        name='group-collaborators-add'
+    ),
+    url(
+        regex=r'^(?P<group_slug>[-\w]+)/collaborators/(?P<pk>\d+)/delete/$',
+        view=GroupCollaboratorDeleteView.as_view(),
+        name='group-collaborators-delete'
+    ),
+]
+
+
+urlpatterns += ajax_urlpatterns

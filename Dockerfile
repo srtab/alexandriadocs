@@ -2,14 +2,13 @@ FROM centos:7
 
 LABEL maintainer "srtabs@gmail.com"
 
-RUN yum -y update
-RUN yum -y install epel-release
-RUN yum -y install python34-devel
-RUN yum -y install python34-pip
-RUN yum -y install gcc-c++
-RUN yum -y install gettext
-RUN yum -y install npm
-RUN yum -y install git
+RUN yum -y update && yum -y install epel-release && \
+    yum -y install python34-devel \
+    python34-pip \
+    gcc-c++ \
+    gettext \
+    npm \
+    git
 
 # install bower
 RUN npm install --global bower

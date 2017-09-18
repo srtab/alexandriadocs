@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'taggit',
     'crispy_forms',
     'django_bootstrap_breadcrumbs',
+    'ajax_cbv',
 
     'accounts',
     'core',
