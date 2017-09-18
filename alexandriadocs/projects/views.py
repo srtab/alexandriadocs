@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
-from core.views import SuccessDeleteMessageMixin
+from accounts.mixins import HasAccessLevelMixin
+from accounts.models import AccessLevel
+from core.mixins import SuccessDeleteMessageMixin
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import get_object_or_404, redirect
@@ -24,14 +26,18 @@ class ProjectListView(ListView):
     """ """
     model = Project
 
+    def get_queryset(self):
+        return self.request.user.collaborate_projects.all()
+
 
 @method_decorator(login_required, name='dispatch')
-class ProjectCreateView(SuccessMessageMixin, CreateView):
+class ProjectCreateView(HasAccessLevelMixin, SuccessMessageMixin, CreateView):
     """ """
     model = Project
     form_class = ProjectForm
     success_url = reverse_lazy('projects:project-list')
     success_message = _("%(title)s was created successfully")
+    allowed_access_level = AccessLevel.ADMIN
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -43,53 +49,55 @@ class ProjectDetailView(DetailView):
     model = Project
 
     def get_queryset(self):
-        return self.model._default_manager.visible(self.request.user)
+        return self.model._default_manager.public_and_collaborate(
+            self.request.user)
 
 
-@method_decorator(login_required, name='dispatch')
 class ProjectBadgeView(DetailView):
     """ """
     model = Project
     template_name_suffix = '_badge'
 
-    def get_queryset(self):
-        return self.model._default_manager.author(self.request.user)
-
 
 @method_decorator(login_required, name='dispatch')
-class ProjectCollaboratorsView(DetailView):
+class ProjectCollaboratorsView(HasAccessLevelMixin, DetailView):
     """ """
     model = Project
     template_name_suffix = '_collaborators'
+    allowed_access_level = AccessLevel.ADMIN
 
     def get_queryset(self):
-        return self.model._default_manager.author(self.request.user)
+        return self.request.user.collaborate_projects.all()
 
 
 @method_decorator(login_required, name='dispatch')
-class ProjectSettingsView(SuccessMessageMixin, UpdateView):
+class ProjectSettingsView(HasAccessLevelMixin, SuccessMessageMixin,
+                          UpdateView):
     """ """
     model = Project
     form_class = ProjectEditForm
     template_name_suffix = '_settings'
     success_message = _("%(title)s was updated successfully")
+    allowed_access_level = AccessLevel.ADMIN
 
     def get_queryset(self):
-        return self.model._default_manager.author(self.request.user)
+        return self.request.user.collaborate_projects.all()
 
     def get_success_url(self):
         return reverse('projects:project-settings', args=[self.object.slug])
 
 
 @method_decorator(login_required, name='dispatch')
-class ProjectDeleteView(SuccessDeleteMessageMixin, DeleteView):
+class ProjectDeleteView(HasAccessLevelMixin, SuccessDeleteMessageMixin,
+                        DeleteView):
     """ """
     model = Project
     success_url = reverse_lazy('projects:project-list')
     success_message = _("%(title)s was deleted successfully")
+    allowed_access_level = AccessLevel.OWNER
 
     def get_queryset(self):
-        return self.model._default_manager.author(self.request.user)
+        return self.request.user.collaborate_projects.all()
 
 
 class ProjectBadgeUrlView(View):
@@ -109,7 +117,7 @@ class ProjectBadgeUrlView(View):
 
 
 @method_decorator(login_required, name='dispatch')
-class ProjectImportedArchiveView(CreateView):
+class ProjectImportedArchiveView(HasAccessLevelMixin, CreateView):
     """ """
     model = ImportedArchive
     form_class = ImportedArchiveForm
@@ -117,10 +125,12 @@ class ProjectImportedArchiveView(CreateView):
     success_url = reverse_lazy('projects:project-imported-archive')
     success_message = _("Archive uploaded successfully")
     project_url_kwarg = 'slug'
+    allowed_access_level = AccessLevel.ADMIN
 
     def get_project(self):
         project_slug = self.kwargs.get(self.project_url_kwarg)
-        return get_object_or_404(Project, slug=project_slug)
+        collaborate_projects = self.request.user.collaborate_projects.all()
+        return get_object_or_404(collaborate_projects, slug=project_slug)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
