@@ -17,6 +17,11 @@ class AccessLevel:
         (ADMIN, _('Admin')),
         (OWNER, _('Owner')),
     )
+    choices_dist = {
+        'READER': READER,
+        'ADMIN': ADMIN,
+        'OWNER': OWNER
+    }
 
 
 class User(AbstractUser):

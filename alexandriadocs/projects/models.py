@@ -85,7 +85,7 @@ class Project(VisibilityMixin, TitleSlugDescriptionMixin, TimeStampedModel):
         """
         if created:
             ProjectCollaborator.objects.create(
-                group_id=instance.pk,
+                project_id=instance.pk,
                 user_id=instance.author_id,
                 access_level=AccessLevel.OWNER
             )

@@ -3,15 +3,14 @@
 class AccessChecker(object):
     """ """
     model = None
+    object_field_name = None
 
     def get_object(self, user, obj):
-        if not hasattr(self, '_object'):
-            try:
-                self._object = self.model._default_manager.get(
-                    user=user, group=obj)
-            except self.model.DoesNotExist:
-                self._object = None
-        return self._object
+        try:
+            return self.model._default_manager.get(
+                user=user, **{self.object_field_name: obj})
+        except self.model.DoesNotExist:
+            return None
 
     def has_access(self, user, obj, access_level):
         return False

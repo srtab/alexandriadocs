@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% load i18n %}
-{% load crispy_forms_tags django_bootstrap_breadcrumbs %}
+{% load crispy_forms_tags crispy_forms_field django_bootstrap_breadcrumbs %}
 
 
 {% block head_title %}{{group}}{% endblock %}
@@ -22,7 +22,40 @@
     {% include "groups/includes/group_detail_header.html" %}
 
     <div class="container">
-
+        <div class="card mb-3">
+            <ul class="list-group list-group-flush">
+                {% for collaborator in group.group_collaborators.all %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div class="d-inline-block">
+                            {{collaborator.user}}
+                            <span class="badge badge-dark ml-3">{{collaborator.get_access_level_display}}</span>
+                            {% ifequal collaborator.user_id request.user.pk %}
+                                <span class="badge badge-success">{% trans "It's you" %}</span>
+                            {% endifequal %}
+                        </div>
+                        <div class="email-form">
+                            <form action="" class="email_list d-inline-block" method="post">
+                                {% csrf_token %}
+                                <button class="btn btn-outline-danger btn-sm" type="submit" name="action_remove"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                            </form>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+            <div class="card-footer">
+                <form class="group-collaborator mb-0" method="post" action="{% url 'groups:group-collaborators' group.slug %}">
+                    <div class="row">
+                        <div class="col-lg-9 col-xl-10">
+                            {% crispy form %}
+                        </div>
+                        <div class="col-lg-3 col-xl-2">
+                            <label class="d-none d-lg-inline-block">&nbsp;</label>
+                            <button class="btn btn-success btn-block" type="submit">{% trans "Add collaborator" %}</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 
 {% endblock %}

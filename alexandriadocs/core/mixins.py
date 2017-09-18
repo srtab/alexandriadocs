@@ -17,5 +17,5 @@ class CacheObjectMixin(object):
     """ """
     def get_object(self):
         if not hasattr(self, 'object'):
-            return super().get_object()
+            self.object = super().get_object()
         return self.object

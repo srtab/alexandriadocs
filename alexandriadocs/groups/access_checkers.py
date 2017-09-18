@@ -7,6 +7,7 @@ from groups.models import Group, GroupCollaborator
 class GroupAccessChecker(AccessChecker):
     """ """
     model = GroupCollaborator
+    object_field_name = 'group'
 
     def has_access(self, user, obj, access_level):
         collaborator = self.get_object(user, obj)

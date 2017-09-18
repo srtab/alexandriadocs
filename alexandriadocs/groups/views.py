@@ -8,10 +8,11 @@ from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView, DeleteView, UpdateView
+from django.views.generic.edit import (
+    BaseCreateView, CreateView, DeleteView, UpdateView)
 from django.views.generic.list import ListView
-from groups.forms import GroupForm
-from groups.models import Group
+from groups.forms import GroupCollaboratorForm, GroupForm
+from groups.models import Group, GroupCollaborator
 
 
 @method_decorator(login_required, name='dispatch')
@@ -50,10 +51,38 @@ class GroupCollaboratorsView(HasAccessLevelMixin, DetailView):
     """ """
     model = Group
     template_name_suffix = '_collaborators'
+    success_message = _("Collaborator added successfully")
     allowed_access_level = AccessLevel.ADMIN
 
     def get_queryset(self):
         return self.request.user.collaborate_groups.all()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'form': GroupCollaboratorForm(),
+        })
+        return context
+
+    def post(self, request, *args, **kwargs):
+        create_view = GroupCollaboratorCreateView.as_view(
+            group=self.get_object())
+        return create_view(request)
+
+
+class GroupCollaboratorCreateView(BaseCreateView):
+    """ """
+    model = GroupCollaborator
+    form_class = GroupCollaboratorForm
+    success_message = _("Collaborator added successfully")
+    group = None
+
+    def form_valid(self, form):
+        form.instance.group = self.group
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('groups:group-collaborators', args=[self.group.slug])
 
 
 @method_decorator(login_required, name='dispatch')

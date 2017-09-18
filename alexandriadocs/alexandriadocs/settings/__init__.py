@@ -85,6 +85,7 @@ TEMPLATES = [
                 'django.template.context_processors.static',
                 'django.template.context_processors.tz',
                 'django.contrib.messages.context_processors.messages',
+                'accounts.context_processors.access_levels'
             ],
         },
     },

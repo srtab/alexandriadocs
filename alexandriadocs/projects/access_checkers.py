@@ -8,6 +8,7 @@ from projects.models import Project, ProjectCollaborator
 class ProjectAccessChecker(AccessChecker):
     """ """
     model = ProjectCollaborator
+    object_field_name = 'project'
 
     def __init__(self):
         super().__init__()
