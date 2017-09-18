@@ -15,7 +15,7 @@
             {% has_access ADMIN project as can_access %}
             {% if can_access %}
                 <li class="nav-item">
-                    <a class="nav-link {% menu_active 'projects' 'project-imported-archive' %}" href="{% url 'projects:project-imported-archive' project.slug %}"><i class="fa fa-cloud-download fa-fw" aria-hidden="true"></i> {% trans "Uploads" %}</a>
+                    <a class="nav-link {% menu_active 'projects' 'project-uploads' %}" href="{% url 'projects:project-uploads' project.slug %}"><i class="fa fa-cloud-download fa-fw" aria-hidden="true"></i> {% trans "Uploads" %}</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {% menu_active 'projects' 'project-collaborators' %}" href="{% url 'projects:project-collaborators' project.slug %}"><i class="fa fa-users fa-fw" aria-hidden="true"></i> {% trans "Collaborators" %}</a>

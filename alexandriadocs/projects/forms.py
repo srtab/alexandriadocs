@@ -66,6 +66,7 @@ class ImportedArchiveForm(UntaggedFormMixin, forms.ModelForm):
 
     def form_helper(self):
         super().form_helper()
+        self.helper.form_show_labels = False
         self.helper.layout = Layout(
             'archive'
         )
