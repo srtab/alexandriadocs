@@ -3,3 +3,5 @@
 django-autofixture
 mock
 tblib
+
+django-ajax-cbv~=0.1.1

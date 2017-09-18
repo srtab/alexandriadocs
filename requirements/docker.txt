@@ -3,3 +3,5 @@
 ipython
 tox
 django-redis~=4.8.0
+
+-e git+git://github.com/dipcode-software/django-ajax-cbv.git#egg=ajax_cbv
