@@ -34,7 +34,7 @@
                             {% endifequal %}
                         </div>
                         <div class="email-form">
-                            <form class="d-inline-block" method="post" action="{% url 'groups:group-collaborators-delete' group.slug collaborator.pk %}" data-ajax-submit>
+                            <form class="d-inline-block" method="post" action="{% url 'groups:group-collaborator-delete' group.slug collaborator.pk %}" data-ajax-submit>
                                 {% csrf_token %}
                                 <button class="btn btn-outline-danger btn-sm" type="submit" name="action_remove"><i class="fa fa-trash" aria-hidden="true"></i></button>
                             </form>
@@ -43,7 +43,7 @@
                 {% endfor %}
             </ul>
             <div class="card-footer">
-                <form class="group-collaborator mb-0" method="post" action="{% url 'groups:group-collaborators-add' group.slug %}" novalidate data-ajax-submit>
+                <form class="group-collaborator mb-0" method="post" action="{% url 'groups:group-collaborator-create' group.slug %}" novalidate data-ajax-submit>
                     <div class="row">
                         <div class="col-lg-9 col-xl-10">
                             {% crispy form %}

@@ -8,7 +8,7 @@ from groups.views import (
     GroupListView, GroupSettingsView)
 
 
-urlpatterns = [
+base_urlpatterns = [
     url(
         regex=r'^$',
         view=GroupListView.as_view(),
@@ -43,16 +43,16 @@ urlpatterns = [
 
 ajax_urlpatterns = [
     url(
-        regex=r'^(?P<group_slug>[-\w]+)/collaborators/add/$',
+        regex=r'^(?P<group_slug>[-\w]+)/collaborators/new/$',
         view=GroupCollaboratorCreateView.as_view(),
-        name='group-collaborators-add'
+        name='group-collaborator-create'
     ),
     url(
         regex=r'^(?P<group_slug>[-\w]+)/collaborators/(?P<pk>\d+)/delete/$',
         view=GroupCollaboratorDeleteView.as_view(),
-        name='group-collaborators-delete'
+        name='group-collaborator-delete'
     ),
 ]
 
 
-urlpatterns += ajax_urlpatterns
+urlpatterns = base_urlpatterns + ajax_urlpatterns
