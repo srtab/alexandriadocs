@@ -34,8 +34,9 @@
                             {% endifequal %}
                         </div>
                         <div class="email-form">
-                            <form action="" class="email_list d-inline-block" method="post">
+                            <form class="d-inline-block" method="post" action="{% url 'groups:group-collaborators' group.slug %}">
                                 {% csrf_token %}
+                                <input type="hidden" name="collaborator_pk" value="{{collaborator.pk}}">
                                 <button class="btn btn-outline-danger btn-sm" type="submit" name="action_remove"><i class="fa fa-trash" aria-hidden="true"></i></button>
                             </form>
                         </div>
@@ -50,7 +51,7 @@
                         </div>
                         <div class="col-lg-3 col-xl-2">
                             <label class="d-none d-lg-inline-block">&nbsp;</label>
-                            <button class="btn btn-success btn-block" type="submit">{% trans "Add collaborator" %}</button>
+                            <button class="btn btn-success btn-block" type="submit" name="action_add">{% trans "Add collaborator" %}</button>
                         </div>
                     </div>
                 </form>

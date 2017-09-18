@@ -9,7 +9,7 @@ from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import (
-    BaseCreateView, CreateView, DeleteView, UpdateView)
+    BaseCreateView, BaseDeleteView, CreateView, DeleteView, UpdateView)
 from django.views.generic.list import ListView
 from groups.forms import GroupCollaboratorForm, GroupForm
 from groups.models import Group, GroupCollaborator
@@ -51,7 +51,6 @@ class GroupCollaboratorsView(HasAccessLevelMixin, DetailView):
     """ """
     model = Group
     template_name_suffix = '_collaborators'
-    success_message = _("Collaborator added successfully")
     allowed_access_level = AccessLevel.ADMIN
 
     def get_queryset(self):
@@ -59,27 +58,60 @@ class GroupCollaboratorsView(HasAccessLevelMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context.update({
-            'form': GroupCollaboratorForm(),
-        })
+        if 'form' not in context:
+            context.update({
+                'form': GroupCollaboratorForm(),
+            })
         return context
 
     def post(self, request, *args, **kwargs):
-        create_view = GroupCollaboratorCreateView.as_view(
-            group=self.get_object())
-        return create_view(request)
+        if 'action_add' in self.request.POST:
+            return self.action_add(request, *args, **kwargs)
+        elif 'action_remove' in self.request.POST:
+            return self.action_remove(request, *args, **kwargs)
+        return super().post(request, *args, **kwargs)
+
+    def action_add(self, request, *args, **kwargs):
+        view = GroupCollaboratorCreateView.as_view(group=self.get_object())
+        form_or_response = view(request)
+        if isinstance(form_or_response, GroupCollaboratorForm):
+            return self.render_to_response(
+                self.get_context_data(form=form_or_response))
+        return form_or_response
+
+    def action_remove(self, request, *args, **kwargs):
+        collaborator_pk = request.POST.get('collaborator_pk', None)
+        view = GroupCollaboratorDeleteView.as_view(group=self.get_object())
+        return view(request, pk=collaborator_pk)
 
 
 class GroupCollaboratorCreateView(BaseCreateView):
     """ """
     model = GroupCollaborator
     form_class = GroupCollaboratorForm
-    success_message = _("Collaborator added successfully")
+    success_message = _("%(user)s added successfully")
     group = None
+
+    def form_invalid(self, form):
+        return form
 
     def form_valid(self, form):
         form.instance.group = self.group
         return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('groups:group-collaborators', args=[self.group.slug])
+
+
+@method_decorator(login_required, name='dispatch')
+class GroupCollaboratorDeleteView(SuccessDeleteMessageMixin, BaseDeleteView):
+    """ """
+    model = GroupCollaborator
+    success_message = _("Collaborator was deleted successfully")
+    group = None
+
+    def get_queryset(self):
+        return self.group.group_collaborators.all()
 
     def get_success_url(self):
         return reverse('groups:group-collaborators', args=[self.group.slug])
