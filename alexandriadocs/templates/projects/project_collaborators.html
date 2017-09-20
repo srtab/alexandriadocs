@@ -23,8 +23,14 @@
     {% include "projects/includes/project_detail_header.html" %}
 
     <div class="container">
-        {% render_inherited_collaborators project.project_collaborators.all %}
-        {% trans "Collaborators specific to this project" as specific_title %}
-        {% render_collaborator_list project.project_collaborators.all 'projects:project-collaborator-create' 'projects:project-collaborator-delete' title=specific_title %}
+        <div class="row">
+            <div class="col-lg-6">
+                {% render_inherited_collaborators project.group.group_collaborators.all %}
+            </div>
+            <div class="col-lg-6">
+                {% trans "Collaborators specific to this project" as specific_title %}
+                {% render_collaborator_list project.project_collaborators.all 'projects:project-collaborator-create' 'projects:project-collaborator-delete' title=specific_title %}
+            </div>
+        </div>
     </div>
 {% endblock %}

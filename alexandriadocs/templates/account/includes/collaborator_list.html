@@ -33,22 +33,15 @@
                 </li>
             {% empty %}
                 <li class="list-group-item">
-                    <p class="text-muted mb-0 text-center">{% trans "No collaborators associated." %}</p>
+                    <p class="text-muted mb-0 text-center">{% trans "No associated collaborators." %}</p>
                 </li>
             {% endfor %}
         </ul>
         {% if show_create_form %}
             <div class="card-footer">
                 <form class="group-collaborator mb-0" method="post" action="{% url create_url_name object.slug %}" novalidate data-ajax-submit>
-                    <div class="row">
-                        <div class="col-lg-9 col-xl-10">
-                            {% crispy form %}
-                        </div>
-                        <div class="col-lg-3 col-xl-2">
-                            <label class="d-none d-lg-inline-block">&nbsp;</label>
-                            <button class="btn btn-success btn-block" type="submit">{% trans "Add collaborator" %}</button>
-                        </div>
-                    </div>
+                    {% crispy form %}
+                    <button class="btn btn-success btn-sm" type="submit">{% trans "Add collaborator" %}</button>
                 </form>
             </div>
         {% endif %}

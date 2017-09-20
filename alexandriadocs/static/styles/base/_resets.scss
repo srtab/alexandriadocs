@@ -34,6 +34,15 @@ h4 {
 
 /* Bootstrao Reset*/
 
+.card {
+    .card-header + .list-group .list-group-item:first-child {
+        border-top: none;
+    }
+    .list-group + .card-footer {
+        border-top: none;
+    }
+}
+
 .list-group-item {
     @include transition(background-color ease-in-out 150ms);
 }
