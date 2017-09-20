@@ -18,3 +18,5 @@ class GroupAccessChecker(AccessChecker):
         if not collaborator:
             return None
         return collaborator.access_level
+
+group_access_checker = GroupAccessChecker()

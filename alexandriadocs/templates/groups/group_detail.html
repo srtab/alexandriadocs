@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% load i18n %}
-{% load core_tags django_bootstrap_breadcrumbs %}
+{% load accounts_tags django_bootstrap_breadcrumbs %}
 
 
 {% block head_title %}{{group}}{% endblock %}
@@ -27,7 +27,10 @@
             <p class="lead text-muted mt-5 text-center">{% trans "You don't have any project associated with this group." %}</p>
         {% endif %}
 
-        <div class="text-center"><a href="{% url 'projects:project-create' %}?group={{group.slug}}" class="btn btn-success">{% trans "Create project" %}</a></div>
+        {% has_access ADMIN group as can_access %}
+        {% if can_access %}
+            <div class="text-center"><a href="{% url 'projects:project-create' %}?group={{group.slug}}" class="btn btn-success">{% trans "Create project" %}</a></div>
+        {% endif %}
     </div>
 
 {% endblock %}

@@ -33,13 +33,17 @@ class ProjectListView(ListView):
 
 
 @method_decorator(login_required, name='dispatch')
-class ProjectCreateView(HasAccessLevelMixin, SuccessMessageMixin, CreateView):
+class ProjectCreateView(SuccessMessageMixin, CreateView):
     """ """
     model = Project
     form_class = ProjectForm
     success_url = reverse_lazy('projects:project-list')
     success_message = _("%(title)s was created successfully")
-    allowed_access_level = AccessLevel.ADMIN
+
+    def get_form_kwargs(self):
+        kwargs = super(ProjectCreateView, self).get_form_kwargs()
+        kwargs.update({'user': self.request.user})
+        return kwargs
 
     def form_valid(self, form):
         form.instance.author = self.request.user
