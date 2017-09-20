@@ -16,9 +16,11 @@ class ProjectAccessChecker(AccessChecker):
 
     def has_access(self, user, obj, access_level):
         collaborator = self.get_object(user, obj)
+        has_access = self.group_checker.has_access(
+            user, obj.group, access_level)
         if not collaborator:
-            return self.group_checker.has_access(user, obj.group, access_level)
-        return collaborator.access_level >= access_level
+            return has_access
+        return has_access or collaborator.access_level >= access_level
 
     def get_access_level(self, user, obj):
         collaborator = self.get_object()
