@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% load i18n %}
-{% load crispy_forms_tags django_bootstrap_breadcrumbs %}
+{% load accounts_tags crispy_forms_tags django_bootstrap_breadcrumbs %}
 
 
 {% block head_title %}{% trans "Settings" %} - {{project.group}} / {{project}}{% endblock %}
@@ -20,15 +20,13 @@
 
 
 {% block container %}
-
     {% include "projects/includes/project_detail_header.html" %}
 
     <div class="container">
-
         <div class="card mb-4">
             <h4 class="card-header">{% trans "Update project" %}</h4>
             <div class="card-body">
-                <form class="project-update" method="post" action="{% url 'projects:project-settings' project.slug %}">
+                <form class="project-update" method="post" action="{% url 'projects:project-settings' project.slug %}" novalidate>
                     {% crispy form %}
                     <button class="btn btn-success" type="submit">{% trans "Update project" %}</button>
                 </form>
@@ -48,18 +46,20 @@
             </div>
         </div>
 
-        <div class="card border-danger">
-            <h4 class="card-header text-white bg-danger">{% trans "Delete this project" %}</h4>
-            <div class="card-body text-danger">
-                <div class="d-flex justify-content-between align-items-center">
-                    {% blocktrans %}Once you delete a project there is no going back. Please be certain.{% endblocktrans %}
-                    <form class="project-delete d-inline-block" method="post" action="{% url 'projects:project-delete' project.slug %}">
-                        {% csrf_token %}
-                        <button class="btn btn-danger" type="submit">{% trans "Delete project" %}</button>
-                    </form>
+        {% has_access OWNER project as can_access %}
+        {% if can_access %}
+            <div class="card border-danger">
+                <h4 class="card-header text-white bg-danger">{% trans "Delete this project" %}</h4>
+                <div class="card-body text-danger">
+                    <div class="d-flex justify-content-between align-items-center">
+                        {% blocktrans %}Once you delete a project there is no going back. Please be certain.{% endblocktrans %}
+                        <form class="project-delete d-inline-block" method="post" action="{% url 'projects:project-delete' project.slug %}">
+                            {% csrf_token %}
+                            <button class="btn btn-danger" type="submit">{% trans "Delete project" %}</button>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
+        {% endif %}
     </div>
-
 {% endblock %}
