@@ -41,12 +41,24 @@ class CollaboratorMixin(models.Model):
     """ """
     user = models.ForeignKey(settings.AUTH_USER_MODEL, models.CASCADE)
     access_level = models.PositiveSmallIntegerField(
-        _('access level'), choices=AccessLevel.choices,
+        _('role'), choices=AccessLevel.choices,
         default=AccessLevel.READER)
+
+    class Meta:
+        abstract = True
 
     def __str__(self):
         return "{user} ({level})".format(
             user=self.user, level=self.get_access_level_display())
 
-    class Meta:
-        abstract = True
+    @property
+    def is_owner(self):
+        return self.access_level == AccessLevel.OWNER
+
+    @property
+    def is_admin(self):
+        return self.access_level == AccessLevel.ADMIN
+
+    @property
+    def is_reader(self):
+        return self.access_level == AccessLevel.READER

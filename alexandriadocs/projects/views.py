@@ -13,7 +13,8 @@ from django.views.generic import View
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.views.generic.list import ListView
-from projects.forms import ImportedArchiveForm, ProjectEditForm, ProjectForm
+from projects.forms import (
+    ImportedArchiveForm, ProjectCollaboratorForm, ProjectEditForm, ProjectForm)
 from projects.models import Project
 
 
@@ -88,6 +89,13 @@ class ProjectCollaboratorsView(HasAccessLevelMixin, DetailView):
 
     def get_queryset(self):
         return self.model._default_manager.collaborate(self.request.user)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'form': ProjectCollaboratorForm(),
+        })
+        return context
 
 
 @method_decorator(login_required, name='dispatch')

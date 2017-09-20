@@ -1,6 +1,7 @@
 from ajax_cbv.mixins import AjaxResponseAction
 from ajax_cbv.views import CreateAjaxView, DeleteAjaxView
 from core.mixins import SuccessDeleteMessageMixin
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import get_object_or_404
@@ -13,6 +14,7 @@ from groups.models import GroupCollaborator
 class GroupSubViewMixin(object):
     """ """
     group_slug_url_kwarg = 'group_slug'
+    action = AjaxResponseAction.REFRESH
 
     def get_group(self):
         groups = self.request.user.collaborate_groups
@@ -27,7 +29,6 @@ class GroupCollaboratorCreateView(SuccessMessageMixin, GroupSubViewMixin,
     model = GroupCollaborator
     form_class = GroupCollaboratorForm
     success_message = _("%(user)s added successfully")
-    action = AjaxResponseAction.REFRESH
 
     def form_valid(self, form):
         form.instance.group = self.get_group()
@@ -40,7 +41,15 @@ class GroupCollaboratorDeleteView(SuccessDeleteMessageMixin, GroupSubViewMixin,
     """ """
     model = GroupCollaborator
     success_message = _("Collaborator deleted successfully")
-    action = AjaxResponseAction.REFRESH
+    owner_needed_message = _('The group need to have at least one owner')
 
     def get_queryset(self):
         return self.get_group().group_collaborators.all()
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if not self.object.is_owner or \
+                self.object.is_owner and self.get_queryset().can_delete():
+            return super().delete(request, *args, **kwargs)
+        messages.warning(self.request, self.owner_needed_message)
+        return self.json_to_response()

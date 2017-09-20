@@ -4,7 +4,6 @@ from allauth.socialaccount import providers
 from allauth.socialaccount.models import SocialAccount
 from django import template
 
-
 register = template.Library()
 
 
@@ -26,3 +25,19 @@ def has_access(context, access_level, obj):
         access_checker = access_checker_register.get_checker(obj._meta.model)
         return access_checker.has_access(request.user, obj, access_level)
     return False
+
+
+@register.inclusion_tag('account/includes/collaborator_list.html',
+                        takes_context=True)
+def render_collaborator_list(context, collaborators, create_url_name,
+                             delete_url_name, title=None):
+    return {
+        'form': context.get('form'),
+        'object': context.get('object'),
+        'title': title,
+        'collaborator_list': collaborators,
+        'create_url_name': create_url_name,
+        'delete_url_name': delete_url_name,
+        'show_delete_button': True,
+        'show_create_form': True
+    }

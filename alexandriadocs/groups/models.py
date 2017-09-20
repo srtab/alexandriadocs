@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from accounts.managers import CollaboratorManager
 from accounts.models import AccessLevel, CollaboratorMixin
 from core.models import TitleSlugDescriptionMixin, VisibilityMixin
 from django.conf import settings
@@ -47,6 +48,7 @@ class GroupCollaborator(CollaboratorMixin, TimeStampedModel):
     """ """
     group = models.ForeignKey(
         Group, on_delete=models.CASCADE, related_name='group_collaborators')
+    objects = CollaboratorManager()
 
     class Meta:
         unique_together = ('user', 'group')

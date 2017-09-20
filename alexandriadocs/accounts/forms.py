@@ -8,6 +8,7 @@ from allauth.account.forms import (
 )
 from allauth.socialaccount.forms import SignupForm as AllauthSocialSignupForm
 from core.forms import UnlabeledFormMixin, UntaggedFormMixin
+from crispy_forms.layout import Div, Layout
 from django import forms
 from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext_lazy as _
@@ -52,3 +53,20 @@ class ProfileUpdateForm(UntaggedFormMixin, forms.ModelForm):
     class Meta:
         model = get_user_model()
         fields = ('username', 'name')
+
+
+class CollaboratorForm(UntaggedFormMixin, forms.ModelForm):
+    """ """
+
+    class Meta:
+        fields = ('user', 'access_level')
+
+    def form_helper(self):
+        super().form_helper()
+        self.helper.layout = Layout(
+            Div(
+                Div('user', css_class="col-md-6"),
+                Div('access_level', css_class="col-md-6"),
+                css_class="row",
+            ),
+        )

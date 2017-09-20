@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
+from accounts.forms import CollaboratorForm
 from core.forms import UntaggedFormMixin
 from crispy_forms.bootstrap import PrependedText
 from crispy_forms.layout import Div, Layout
 from django import forms
 from django.utils.translation import ugettext_lazy as _
-from projects.models import ImportedArchive, Project
+from projects.models import ImportedArchive, Project, ProjectCollaborator
 
 
 class ProjectForm(UntaggedFormMixin, forms.ModelForm):
@@ -70,3 +71,10 @@ class ImportedArchiveForm(UntaggedFormMixin, forms.ModelForm):
         self.helper.layout = Layout(
             'archive'
         )
+
+
+class ProjectCollaboratorForm(CollaboratorForm):
+    """ """
+
+    class Meta(CollaboratorForm.Meta):
+        model = ProjectCollaborator

@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.conf.urls import url
-from projects.ajax import ImportedArchiveCreateView
+from projects.ajax import (
+    ImportedArchiveCreateView, ProjectCollaboratorCreateView,
+    ProjectCollaboratorDeleteView)
 from projects.views import (
     ProjectBadgeUrlView, ProjectBadgeView, ProjectCollaboratorsView,
     ProjectCreateView, ProjectDeleteView, ProjectDetailView,
@@ -29,6 +31,11 @@ base_urlpatterns = [
         name='project-badge'
     ),
     url(
+        regex=r'^(?P<slug>[-\w]+)/uploads/$',
+        view=ProjectUploadsView.as_view(),
+        name='project-uploads'
+    ),
+    url(
         regex=r'^(?P<slug>[-\w]+)/collaborators/$',
         view=ProjectCollaboratorsView.as_view(),
         name='project-collaborators'
@@ -48,11 +55,6 @@ base_urlpatterns = [
         view=ProjectBadgeUrlView.as_view(),
         name='project-badge-url'
     ),
-    url(
-        regex=r'^(?P<slug>[-\w]+)/uploads/$',
-        view=ProjectUploadsView.as_view(),
-        name='project-uploads'
-    ),
 ]
 
 ajax_urlpatterns = [
@@ -60,6 +62,16 @@ ajax_urlpatterns = [
         regex=r'^(?P<project_slug>[-\w]+)/uploads/new/$',
         view=ImportedArchiveCreateView.as_view(),
         name='imported-archive-create'
+    ),
+    url(
+        regex=r'^(?P<project_slug>[-\w]+)/collaborators/new/$',
+        view=ProjectCollaboratorCreateView.as_view(),
+        name='project-collaborator-create'
+    ),
+    url(
+        regex=r'^(?P<project_slug>[-\w]+)/collaborators/(?P<pk>\d+)/delete/$',
+        view=ProjectCollaboratorDeleteView.as_view(),
+        name='project-collaborator-delete'
     ),
 ]
 

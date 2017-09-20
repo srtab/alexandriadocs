@@ -2,6 +2,7 @@ import os
 import shutil
 import tarfile
 
+from accounts.managers import CollaboratorManager
 from accounts.models import AccessLevel, CollaboratorMixin
 from core.models import TitleSlugDescriptionMixin, VisibilityMixin
 from django.conf import settings
@@ -96,7 +97,10 @@ post_save.connect(Project.post_save, sender=Project)
 
 class ProjectCollaborator(CollaboratorMixin, TimeStampedModel):
     """ """
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    project = models.ForeignKey(
+        Project, on_delete=models.CASCADE,
+        related_name='project_collaborators')
+    objects = CollaboratorManager()
 
     class Meta:
         unique_together = ('user', 'project')
