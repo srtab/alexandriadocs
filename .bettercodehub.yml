@@ -1,0 +1,7 @@
+exclude:
+  - /alexandriadocs/static/vendor/.*
+component_depth: 1
+languages:
+  - javascript
+  - python
+  - script
