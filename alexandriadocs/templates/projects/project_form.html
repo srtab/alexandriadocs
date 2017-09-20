@@ -20,7 +20,7 @@
     </div>
     <hr>
     <div class="container">
-        <form class="project" method="post" action="{% url 'projects:project-create' %}">
+        <form class="project" method="post" action="{% url 'projects:project-create' %}" novalidate>
             {% crispy form %}
             <button class="btn btn-success" type="submit">{% trans "Create project" %}</button>
             <a href="{% url 'projects:project-list' %}" class="btn btn-outline-secondary">{% trans "Cancel" %}</a>

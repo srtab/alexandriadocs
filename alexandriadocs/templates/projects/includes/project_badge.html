@@ -6,17 +6,17 @@
     <img src="{% absolute_uri badgeurl %}{% if style %}?style={{style}}{% endif %}" alt="Badge">
 </div>
 
-        <strong>Markdown</strong>
-        <pre><code>[![Documentation]({% absolute_uri badgeurl %}{% if style %}?style={{style}}{% endif %})]({% absolute_uri project.get_absolute_url %})</code></pre>
-        <hr>
-        <strong>reStructuredText</strong>
-        <pre><code>.. image:: {% absolute_uri badgeurl %}{% if style %}?style={{style}}{% endif %}
+<strong>Markdown</strong>
+<pre><code>[![Documentation]({% absolute_uri badgeurl %}{% if style %}?style={{style}}{% endif %})]({% absolute_uri project.get_absolute_url %})</code></pre>
+<hr>
+<strong>reStructuredText</strong>
+<pre><code>.. image:: {% absolute_uri badgeurl %}{% if style %}?style={{style}}{% endif %}
 :target: {% absolute_uri project.get_absolute_url %}
 :alt: Documentation</code></pre>
-        <hr>
-        <strong>HTML</strong>
-        <br>
-        <pre class="mb-0"><code>&lt;a href='{% absolute_uri project.get_absolute_url %}'&gt;
+<hr>
+<strong>HTML</strong>
+<br>
+<pre class="mb-0"><code>&lt;a href='{% absolute_uri project.get_absolute_url %}'&gt;
 &nbsp;&nbsp;&nbsp;&nbsp;&lt;img src='{% absolute_uri badgeurl %}{% if style %}?style={{style}}{% endif %}' alt='Documentation' /&gt;
 &lt;/a&gt;</code></pre>
 
