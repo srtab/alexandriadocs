@@ -49,8 +49,12 @@ urlpatterns = [
 
 
 if settings.DEBUG:  # pragma: no cover
+    import debug_toolbar
     from django.conf.urls.static import static
     from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+    urlpatterns += [
+        url(r'^__debug__/', include(debug_toolbar.urls)),
+    ]
     # Serve static and media files from development server
     urlpatterns += staticfiles_urlpatterns()
     urlpatterns += static(
