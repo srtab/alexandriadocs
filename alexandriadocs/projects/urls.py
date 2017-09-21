@@ -2,7 +2,7 @@
 from django.conf.urls import url
 from projects.ajax import (
     ImportedArchiveCreateView, ProjectCollaboratorCreateView,
-    ProjectCollaboratorDeleteView)
+    ProjectCollaboratorDeleteView, ProjectVisibilityUpdateView)
 from projects.views import (
     ProjectBadgeUrlView, ProjectBadgeView, ProjectCollaboratorsView,
     ProjectCreateView, ProjectDeleteView, ProjectDetailView,
@@ -72,6 +72,11 @@ ajax_urlpatterns = [
         regex=r'^(?P<project_slug>[-\w]+)/collaborators/(?P<pk>\d+)/delete/$',
         view=ProjectCollaboratorDeleteView.as_view(),
         name='project-collaborator-delete'
+    ),
+    url(
+        regex=r'^(?P<slug>[-\w]+)/settings/visibility/$',
+        view=ProjectVisibilityUpdateView.as_view(),
+        name='project-visibility-update'
     ),
 ]
 

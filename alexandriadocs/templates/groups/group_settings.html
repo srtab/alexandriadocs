@@ -35,6 +35,20 @@
 
         {% has_access OWNER group as can_access %}
         {% if can_access %}
+            <div class="card mb-4">
+                <h4 class="card-header">{% trans "Visibility level" %}</h4>
+                <div class="card-body">
+                    <div class="alert alert-dark">{% include "core/includes/visibility_help_text.html" with entity='group' %}</div>
+                    <form class="group-visibility" method="post" action="{% url 'groups:group-visibility-update' group.slug %}" novalidate data-ajax-submit>
+                        {% crispy visibility_form %}
+                        <button class="btn btn-success" type="submit">{% trans "Update visibility" %}</button>
+                    </form>
+                </div>
+            </div>
+        {% endif %}
+
+        {% has_access OWNER group as can_access %}
+        {% if can_access %}
             <div class="card border-danger">
                 <h4 class="card-header text-white bg-danger">{% trans "Delete this group" %}</h4>
                 <div class="card-body text-danger">

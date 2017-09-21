@@ -10,6 +10,9 @@ from groups.access_checkers import group_access_checker
 from projects.models import ImportedArchive, Project, ProjectCollaborator
 
 
+PROJECT_COMMON_FIELDS = ('title', 'description', 'repo', 'tags')
+
+
 class ProjectForm(UntaggedFormMixin, forms.ModelForm):
     """ """
     error_messages = {
@@ -21,9 +24,7 @@ class ProjectForm(UntaggedFormMixin, forms.ModelForm):
 
     class Meta:
         model = Project
-        fields = (
-            'title', 'description', 'group', 'repo', 'tags', 'visibility_level'
-        )
+        fields = PROJECT_COMMON_FIELDS + ('group', 'visibility_level')
         widgets = {
             'description': forms.Textarea(attrs={'rows': 3}),
             'visibility_level': forms.RadioSelect
@@ -69,11 +70,31 @@ class ProjectForm(UntaggedFormMixin, forms.ModelForm):
 class ProjectEditForm(ProjectForm):
     """ """
     class Meta(ProjectForm.Meta):
-        fields = ('title', 'description', 'repo', 'tags', 'visibility_level')
+        fields = PROJECT_COMMON_FIELDS
+        widgets = {
+            'description': ProjectForm.Meta.widgets['description'],
+        }
 
     def form_helper(self):
         super().form_helper()
+        # remove row element with group an title an replace by title only
         self.helper.layout[0] = 'title'
+        # remove visibility_level
+        del self.helper.layout[-1]
+
+
+class ProjectVisibilityForm(UntaggedFormMixin, forms.ModelForm):
+    """ """
+    class Meta:
+        model = Project
+        fields = ('visibility_level',)
+        widgets = {
+            'visibility_level': ProjectForm.Meta.widgets['visibility_level'],
+        }
+
+    def form_helper(self):
+        super().form_helper()
+        self.helper.form_show_labels = False
 
 
 class ImportedArchiveForm(UntaggedFormMixin, forms.ModelForm):

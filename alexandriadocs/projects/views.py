@@ -14,7 +14,8 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.views.generic.list import ListView
 from projects.forms import (
-    ImportedArchiveForm, ProjectCollaboratorForm, ProjectEditForm, ProjectForm)
+    ImportedArchiveForm, ProjectCollaboratorForm, ProjectEditForm,
+    ProjectForm, ProjectVisibilityForm)
 from projects.models import Project
 
 
@@ -114,6 +115,13 @@ class ProjectSettingsView(HasAccessLevelMixin, SuccessMessageMixin,
 
     def get_queryset(self):
         return self.model._default_manager.collaborate(self.request.user)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'visibility_form': ProjectVisibilityForm(instance=self.object),
+        })
+        return context
 
     def get_success_url(self):
         return reverse('projects:project-settings', args=[self.object.slug])

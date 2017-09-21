@@ -1,5 +1,8 @@
+# -*- coding: utf-8 -*-
+from accounts.mixins import HasAccessLevelMixin
+from accounts.models import AccessLevel
 from ajax_cbv.mixins import AjaxResponseAction
-from ajax_cbv.views import CreateAjaxView, DeleteAjaxView
+from ajax_cbv.views import CreateAjaxView, DeleteAjaxView, UpdateAjaxView
 from core.mixins import SuccessDeleteMessageMixin
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -7,8 +10,22 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import get_object_or_404
 from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext_lazy as _
-from groups.forms import GroupCollaboratorForm
-from groups.models import GroupCollaborator
+from groups.forms import GroupCollaboratorForm, GroupVisibilityForm
+from groups.models import Group, GroupCollaborator
+
+
+@method_decorator(login_required, name='dispatch')
+class GroupVisibilityUpdateView(HasAccessLevelMixin, SuccessMessageMixin,
+                                UpdateAjaxView):
+    """ """
+    model = Group
+    form_class = GroupVisibilityForm
+    success_message = _("Visibility level updated successfully")
+    action = AjaxResponseAction.REFRESH
+    allowed_access_level = AccessLevel.OWNER
+
+    def get_queryset(self):
+        return self.request.user.collaborate_groups.all()
 
 
 class GroupSubViewMixin(object):

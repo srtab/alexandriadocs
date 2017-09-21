@@ -10,7 +10,8 @@ from django.utils.translation import ugettext_lazy as _
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.views.generic.list import ListView
-from groups.forms import GroupCollaboratorForm, GroupForm
+from groups.forms import (
+    GroupCollaboratorForm, GroupEditForm, GroupForm, GroupVisibilityForm)
 from groups.models import Group
 
 
@@ -68,13 +69,20 @@ class GroupCollaboratorsView(HasAccessLevelMixin, DetailView):
 class GroupSettingsView(HasAccessLevelMixin, SuccessMessageMixin, UpdateView):
     """ """
     model = Group
-    form_class = GroupForm
+    form_class = GroupEditForm
     template_name_suffix = '_settings'
     success_message = _("%(title)s was updated successfully")
     allowed_access_level = AccessLevel.ADMIN
 
     def get_queryset(self):
         return self.request.user.collaborate_groups.all()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'visibility_form': GroupVisibilityForm(instance=self.object)
+        })
+        return context
 
     def get_success_url(self):
         return reverse('groups:group-settings', args=[self.object.slug])

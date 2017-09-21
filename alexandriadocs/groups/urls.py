@@ -2,7 +2,8 @@
 from django.conf.urls import url
 
 from groups.ajax import (
-    GroupCollaboratorCreateView, GroupCollaboratorDeleteView)
+    GroupCollaboratorCreateView, GroupCollaboratorDeleteView,
+    GroupVisibilityUpdateView)
 from groups.views import (
     GroupCollaboratorsView, GroupCreateView, GroupDeleteView, GroupDetailView,
     GroupListView, GroupSettingsView)
@@ -51,6 +52,11 @@ ajax_urlpatterns = [
         regex=r'^(?P<group_slug>[-\w]+)/collaborators/(?P<pk>\d+)/delete/$',
         view=GroupCollaboratorDeleteView.as_view(),
         name='group-collaborator-delete'
+    ),
+    url(
+        regex=r'^(?P<slug>[-\w]+)/settings/visibility/$',
+        view=GroupVisibilityUpdateView.as_view(),
+        name='group-visibility-update'
     ),
 ]
 

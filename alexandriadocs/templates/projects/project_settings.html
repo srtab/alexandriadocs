@@ -33,6 +33,20 @@
             </div>
         </div>
 
+        {% has_access OWNER project as can_access %}
+        {% if can_access %}
+            <div class="card mb-4">
+                <h4 class="card-header">{% trans "Visibility level" %}</h4>
+                <div class="card-body">
+                    <div class="alert alert-dark">{% include "core/includes/visibility_help_text.html" with entity='project' %}</div>
+                    <form class="project-visibility" method="post" action="{% url 'projects:project-visibility-update' project.slug %}" novalidate data-ajax-submit>
+                        {% crispy visibility_form %}
+                        <button class="btn btn-success" type="submit">{% trans "Update visibility" %}</button>
+                    </form>
+                </div>
+            </div>
+        {% endif %}
+
         <div class="card mb-4">
             <h4 class="card-header">{% trans "Project API" %}</h4>
             <div class="card-body">

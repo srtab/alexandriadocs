@@ -1,14 +1,31 @@
-
+# -*- coding: utf-8 -*-
+from accounts.mixins import HasAccessLevelMixin
+from accounts.models import AccessLevel
 from ajax_cbv.mixins import AjaxResponseAction
-from ajax_cbv.views import CreateAjaxView, DeleteAjaxView
+from ajax_cbv.views import CreateAjaxView, DeleteAjaxView, UpdateAjaxView
 from core.mixins import SuccessDeleteMessageMixin
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import get_object_or_404
 from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext_lazy as _
-from projects.forms import ImportedArchiveForm, ProjectCollaboratorForm
+from projects.forms import (
+    ImportedArchiveForm, ProjectCollaboratorForm, ProjectVisibilityForm)
 from projects.models import ImportedArchive, Project, ProjectCollaborator
+
+
+@method_decorator(login_required, name='dispatch')
+class ProjectVisibilityUpdateView(HasAccessLevelMixin, SuccessMessageMixin,
+                                  UpdateAjaxView):
+    """ """
+    model = Project
+    form_class = ProjectVisibilityForm
+    success_message = _("Visibility level updated successfully")
+    action = AjaxResponseAction.REFRESH
+    allowed_access_level = AccessLevel.OWNER
+
+    def get_queryset(self):
+        return self.model._default_manager.collaborate(self.request.user)
 
 
 class ProjectSubViewMixin(object):
