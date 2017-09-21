@@ -20,7 +20,7 @@ class ProjectQuerySet(models.QuerySet):
             return self.filter(Q(pk__in=project_ids) | Q(group__in=group_ids))
         return self.empty()
 
-    def public_and_collaborate(self, user=None):
+    def public_or_collaborate(self, user=None):
         if user and user.is_authenticated:
             group_ids = user.collaborate_groups.values('pk')
             project_ids = user.collaborate_projects.values('pk')

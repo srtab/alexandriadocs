@@ -30,7 +30,8 @@ class ProjectListView(ListView):
     model = Project
 
     def get_queryset(self):
-        return self.model._default_manager.collaborate(self.request.user)
+        return self.model._default_manager.collaborate(self.request.user)\
+            .select_related('group')
 
 
 @method_decorator(login_required, name='dispatch')
@@ -56,14 +57,20 @@ class ProjectDetailView(DetailView):
     model = Project
 
     def get_queryset(self):
-        return self.model._default_manager.public_and_collaborate(
-            self.request.user)
+        return self.model._default_manager\
+            .public_or_collaborate(self.request.user)\
+            .select_related('group')
 
 
 class ProjectBadgeView(DetailView):
     """ """
     model = Project
     template_name_suffix = '_badge'
+
+    def get_queryset(self):
+        return self.model._default_manager\
+            .public_or_collaborate(self.request.user)\
+            .select_related('group')
 
 
 @method_decorator(login_required, name='dispatch')
@@ -74,7 +81,8 @@ class ProjectUploadsView(HasAccessLevelMixin, DetailView):
     allowed_access_level = AccessLevel.ADMIN
 
     def get_queryset(self):
-        return self.model._default_manager.collaborate(self.request.user)
+        return self.model._default_manager.collaborate(self.request.user)\
+            .select_related('group')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -93,13 +101,12 @@ class ProjectCollaboratorsView(HasAccessLevelMixin, DetailView):
     allowed_access_level = AccessLevel.ADMIN
 
     def get_queryset(self):
-        return self.model._default_manager.collaborate(self.request.user)
+        return self.model._default_manager.collaborate(self.request.user)\
+            .select_related('group')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context.update({
-            'form': ProjectCollaboratorForm(),
-        })
+        context.update({'form': ProjectCollaboratorForm()})
         return context
 
 
@@ -114,7 +121,8 @@ class ProjectSettingsView(HasAccessLevelMixin, SuccessMessageMixin,
     allowed_access_level = AccessLevel.ADMIN
 
     def get_queryset(self):
-        return self.model._default_manager.collaborate(self.request.user)
+        return self.model._default_manager.collaborate(self.request.user)\
+            .select_related('group')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

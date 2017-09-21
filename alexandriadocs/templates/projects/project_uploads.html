@@ -54,7 +54,7 @@
             </div>
         </div>
 
-        {% if project.imported_archives.count %}
+        {% if project.imported_archives.exists %}
             <div class="card">
                 <h4 class="card-header">{% trans "History" %}</h4>
                 <div class="card-body">
