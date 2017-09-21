@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import get_object_or_404
 from django.utils.decorators import method_decorator
+from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 from projects.forms import (
     ImportedArchiveForm, ProjectCollaboratorForm, ProjectVisibilityForm)
@@ -28,15 +29,20 @@ class ProjectVisibilityUpdateView(HasAccessLevelMixin, SuccessMessageMixin,
         return self.model._default_manager.collaborate(self.request.user)
 
 
-class ProjectSubViewMixin(object):
+class ProjectSubViewMixin(HasAccessLevelMixin):
     """ """
     project_url_kwarg = 'project_slug'
     action = AjaxResponseAction.REFRESH
+    allowed_access_level = AccessLevel.ADMIN
 
-    def get_project(self):
+    @cached_property
+    def project(self):
         project_slug = self.kwargs.get(self.project_url_kwarg)
         projects = Project._default_manager.collaborate(self.request.user)
         return get_object_or_404(projects, slug=project_slug)
+
+    def access_object(self):
+        return self.project
 
 
 @method_decorator(login_required, name='dispatch')
@@ -49,7 +55,7 @@ class ImportedArchiveCreateView(SuccessMessageMixin, ProjectSubViewMixin,
 
     def form_valid(self, form):
         form.instance.uploaded_by = self.request.user
-        form.instance.project = self.get_project()
+        form.instance.project = self.project
         return super().form_valid(form)
 
 
@@ -62,7 +68,7 @@ class ProjectCollaboratorCreateView(SuccessMessageMixin, ProjectSubViewMixin,
     success_message = _("%(user)s added successfully")
 
     def form_valid(self, form):
-        form.instance.project = self.get_project()
+        form.instance.project = self.project
         return super().form_valid(form)
 
 
@@ -74,4 +80,4 @@ class ProjectCollaboratorDeleteView(SuccessDeleteMessageMixin,
     success_message = _("Collaborator deleted successfully")
 
     def get_queryset(self):
-        return self.get_project().project_collaborators.all()
+        return self.project.project_collaborators.all()

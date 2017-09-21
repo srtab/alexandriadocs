@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import get_object_or_404
 from django.utils.decorators import method_decorator
+from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 from groups.forms import GroupCollaboratorForm, GroupVisibilityForm
 from groups.models import Group, GroupCollaborator
@@ -28,15 +29,20 @@ class GroupVisibilityUpdateView(HasAccessLevelMixin, SuccessMessageMixin,
         return self.request.user.collaborate_groups.all()
 
 
-class GroupSubViewMixin(object):
+class GroupSubViewMixin(HasAccessLevelMixin):
     """ """
     group_slug_url_kwarg = 'group_slug'
     action = AjaxResponseAction.REFRESH
+    allowed_access_level = AccessLevel.ADMIN
 
-    def get_group(self):
+    @cached_property
+    def group(self):
         groups = self.request.user.collaborate_groups
         group_slug = self.kwargs.get(self.group_slug_url_kwarg)
         return get_object_or_404(groups, slug=group_slug)
+
+    def access_object(self):
+        return self.group
 
 
 @method_decorator(login_required, name='dispatch')
@@ -48,7 +54,7 @@ class GroupCollaboratorCreateView(SuccessMessageMixin, GroupSubViewMixin,
     success_message = _("%(user)s added successfully")
 
     def form_valid(self, form):
-        form.instance.group = self.get_group()
+        form.instance.group = self.group
         return super().form_valid(form)
 
 
@@ -61,7 +67,7 @@ class GroupCollaboratorDeleteView(SuccessDeleteMessageMixin, GroupSubViewMixin,
     owner_needed_message = _('The group need to have at least one owner')
 
     def get_queryset(self):
-        return self.get_group().group_collaborators.all()
+        return self.group.group_collaborators.all()
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
