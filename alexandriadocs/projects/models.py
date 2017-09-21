@@ -104,6 +104,7 @@ class ProjectCollaborator(CollaboratorMixin, TimeStampedModel):
 
     class Meta:
         unique_together = ('user', 'project')
+        index_together = ('user', 'project')
         verbose_name = _('project collaborator')
 
 

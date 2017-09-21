@@ -52,4 +52,5 @@ class GroupCollaborator(CollaboratorMixin, TimeStampedModel):
 
     class Meta:
         unique_together = ('user', 'group')
+        index_together = ('user', 'group')
         verbose_name = _('group collaborator')
