@@ -7,7 +7,7 @@ class AccessChecker(object):
 
     def get_object(self, user, obj):
         try:
-            return self.model._default_manager.get(
+            return self.model._default_manager.only('access_level').get(
                 user=user, **{self.object_field_name: obj})
         except self.model.DoesNotExist:
             return None
