@@ -1,3 +1,4 @@
+from django.core.exceptions import ObjectDoesNotExist
 
 
 class AccessChecker(object):
@@ -9,7 +10,7 @@ class AccessChecker(object):
         try:
             return self.model._default_manager.only('access_level').get(
                 user=user, **{self.object_field_name: obj})
-        except self.model.DoesNotExist:
+        except ObjectDoesNotExist:
             return None
 
     def has_access(self, user, obj, access_level):
