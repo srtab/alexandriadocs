@@ -1,61 +1,53 @@
-/*
-Header
-*/
+// Header
 
 .navbar {
-    .navbar-nav .nav-link {
-        padding: 0.6rem 1rem 0.40rem 1rem;
+  .navbar-nav .nav-link {
+    padding: .6rem 1rem .40rem;
 
-        &.active {
-            font-weight: 600;
-        }
+    &.active {
+      font-weight: 600;
+    }
+  }
+
+  .form-search {
+    position: relative;
+  }
+
+  .form-control {
+    @include transition(background-color ease-in-out 150ms, width ease-in-out 150ms);
+    background-color: rgba(255, 255, 255, .2);
+    border-color: transparent;
+    color: #fff;
+    width: 20rem;
+
+    @include placeholder {
+      color: rgba(255, 255, 255, .8);
     }
 
-    .form-search {
-        position: relative;
-
-        .form-control {
-            width: 20rem;
-            border-color: transparent;
-            color: #fff;
-            background-color: rgba(255,255,255,0.2);
-            @include transition(background-color ease-in-out 150ms, width ease-in-out 150ms);
-
-            &:focus,
-            &:hover {
-                background-color: rgba(255,255,255,0.3);
-            }
-            &:focus {
-                width: 25rem;
-            }
-            &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-                color: rgba(255,255,255,0.8);
-            }
-            &::-moz-placeholder { /* Firefox 19+ */
-                color: rgba(255,255,255,0.8);
-            }
-            &:-ms-input-placeholder { /* IE 10+ */
-                color: rgba(255,255,255,0.8);
-            }
-            &:-moz-placeholder { /* Firefox 18- */
-                color: rgba(255,255,255,0.8);
-            }
-        }
-
-        .search-icon {
-            position: absolute;
-            right: 20px;
-            top: 50%;
-            margin-top: -12px;
-            color: white;
-            opacity: 0.8;
-        }
+    &:focus,
+    &:hover {
+      background-color: rgba(255, 255, 255, .3);
     }
 
-    .btn-outline-light:hover {
-        color: #007bff;
+    &:focus {
+      width: 25rem;
     }
-    .dropdown-profile .dropdown-menu {
-        font-size: 90%;
-    }
+  }
+
+  .search-icon {
+    color: #fff;
+    margin-top: -12px;
+    opacity: .8;
+    position: absolute;
+    right: 20px;
+    top: 50%;
+  }
+
+  .btn-outline-light:hover {
+    color: #007bff;
+  }
+
+  .dropdown-profile .dropdown-menu {
+    font-size: 90%;
+  }
 }

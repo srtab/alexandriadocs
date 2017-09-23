@@ -1,18 +1,17 @@
-/*
-Print rules
-*/
-
+// Print rules
 @media print {
-    @page {
-        size: A4;
-    }
+  @page {
+    size: A4;
+  }
 
-    html, body {
-        width: 210mm;
-        height: 297mm;
-    }
-    main {
-        width: 100%;
-        max-width: 100%;
-    }
+  html,
+  body {
+    height: 297mm;
+    width: 210mm;
+  }
+
+  main {
+    max-width: 100%;
+    width: 100%;
+  }
 }

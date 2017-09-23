@@ -3,10 +3,10 @@
 
 (function($) {
 
-    $(document).ready(function() {
-        $('[data-toggle="tooltip"]').tooltip();
-        $('[data-dj-messages-noty]').djMessagesNoty();
-        $('[data-ajax-submit]').djangoAjaxForms();
-    });
+  $(document).ready(function() {
+    $('[data-toggle="tooltip"]').tooltip();
+    $('[data-dj-messages-noty]').djMessagesNoty();
+    $('[data-ajax-submit]').djangoAjaxForms()
+  });
 
 })(jQuery);
