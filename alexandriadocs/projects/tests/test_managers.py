@@ -30,7 +30,7 @@ class ProjectQuerySetTest(SimpleTestCase):
         self.queryset.collaborate(user=user)
         user.collaborate_groups.values.assert_called_with('pk')
         user.collaborate_projects.values.assert_called_with('pk')
-        mfilter.assert_called_once()
+        self.assertTrue(mfilter.called)
 
     @patch.object(ProjectQuerySet, 'public')
     def test_public_or_collaborate_user_none(self, mpublic):
@@ -43,7 +43,7 @@ class ProjectQuerySetTest(SimpleTestCase):
         self.queryset.public_or_collaborate(user=user)
         user.collaborate_groups.values.assert_called_with('pk')
         user.collaborate_projects.values.assert_called_with('pk')
-        mfilter.assert_called_once()
+        self.assertTrue(mfilter.called)
 
 
 @patch('projects.managers.hashlib.md5', return_value=md5(b"unit"))

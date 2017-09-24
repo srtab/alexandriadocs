@@ -117,7 +117,7 @@ class ImportedArchiveModelTest(SimpleTestCase):
     def test_post_save(self):
         self.archive.fileify = MagicMock()
         ImportedArchive.post_save(ImportedArchive, self.archive, True)
-        self.archive.fileify.assert_called_once()
+        self.assertTrue(self.archive.fileify.called)
 
     def test_post_save_not_created(self):
         self.archive.fileify = MagicMock()

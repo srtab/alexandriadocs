@@ -10,7 +10,7 @@ class GroupAccessCheckerTest(SimpleTestCase):
     @patch.object(group_access_checker, 'get_object', return_value=None)
     def test_has_access_no_collaborator(self, mget_object):
         self.assertFalse(group_access_checker.has_access('user', Mock(), 1))
-        mget_object.assert_called_once()
+        self.assertTrue(mget_object.called)
 
     @patch.object(group_access_checker, 'get_object',
                   return_value=Mock(access_level=1))

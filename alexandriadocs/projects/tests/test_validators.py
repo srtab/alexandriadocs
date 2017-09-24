@@ -1,8 +1,8 @@
 import io
+from unittest.mock import patch
 
 from django.core.exceptions import ValidationError
 from django.test import SimpleTestCase
-from mock import patch
 from projects.validators import MimeTypeValidator
 
 

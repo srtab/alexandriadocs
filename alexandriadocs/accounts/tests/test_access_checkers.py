@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
+from unittest.mock import Mock
+
 from accounts.access_checkers import AccessChecker
 from django.core.exceptions import ObjectDoesNotExist
 from django.test import SimpleTestCase
-from mock import Mock
 
 
 class AccessCheckerTest(SimpleTestCase):

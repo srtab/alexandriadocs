@@ -13,7 +13,7 @@ class ProjectAccessCheckerTest(SimpleTestCase):
         obj = Mock()
         mgroup_checker.has_access.return_value = False
         self.assertFalse(project_access_checker.has_access('user', obj, 1))
-        mget_object.assert_called_once()
+        self.assertTrue(mget_object.called)
         mgroup_checker.has_access.assert_called_with('user', obj.group, 1)
         mgroup_checker.has_access.return_value = True
         self.assertTrue(project_access_checker.has_access('user', obj, 1))
