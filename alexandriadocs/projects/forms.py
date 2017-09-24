@@ -5,6 +5,7 @@ from core.forms import UntaggedFormMixin
 from crispy_forms.bootstrap import PrependedText
 from crispy_forms.layout import Div, Layout
 from django import forms
+from django.urls import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 from groups.access_checkers import group_access_checker
 from projects.models import ImportedArchive, Project, ProjectCollaborator
@@ -33,6 +34,11 @@ class ProjectForm(UntaggedFormMixin, forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
+        if 'group' in self.fields:
+            self.fields['group'].help_text = _(
+                'House several projects under the same namespace, just like a '
+                'folder. <a href="{url}">Create group</a>.'
+            ).format(url=reverse_lazy('groups:group-create'))
         self.fields['title'].label = _('Project name')
         self.fields['repo'].widget.attrs['placeholder'] = \
             'ex: https://github.com/srtab/alexandriadocs'
