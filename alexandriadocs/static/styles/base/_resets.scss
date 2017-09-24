@@ -1,8 +1,50 @@
-/*
-Resets
- - Reset Styles / Default styles (only for tags)
-*/
+// Resets
+// - Reset Styles / Default styles (only for tags)
 
-html, body {
-    height: 100%;
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  font-family: $raleway;
+}
+
+main {
+  min-height: calc(100vh - 256px);  // header height + breadcrumb + footer height + margin-top footer
+}
+
+a {
+  @include transition(color ease-in-out 150ms);
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+label {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: .3rem;
+}
+
+h4 {
+  margin-bottom: 1rem;
+}
+
+
+// Bootstrao Reset
+
+.card {
+  .card-header + .list-group .list-group-item:first-child {
+    border-top: 0;
+  }
+
+  .list-group + .card-footer {
+    border-top: 0;
+  }
+}
+
+.list-group-item {
+  @include transition(background-color ease-in-out 150ms);
 }

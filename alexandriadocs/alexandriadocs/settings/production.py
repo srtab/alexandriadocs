@@ -1,5 +1,3 @@
-from __future__ import unicode_literals
-
 import os
 
 from alexandriadocs.settings import *  # NOQA
@@ -10,7 +8,7 @@ COMPRESS_OFFLINE = True
 
 
 ALLOWED_HOSTS = [os.environ.get('DJ_ALLOWED_HOSTS')]
-SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = os.environ.get('DJ_SECRET_KEY')
 
 
 # database configs

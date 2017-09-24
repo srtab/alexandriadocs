@@ -1,8 +1,5 @@
-from __future__ import unicode_literals
-
-from rest_framework import serializers
-
 from projects.models import ImportedArchive
+from rest_framework import serializers
 
 
 class ImportedArchiveSerializer(serializers.ModelSerializer):

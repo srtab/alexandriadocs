@@ -1,14 +1,5 @@
-from __future__ import unicode_literals
-
 from django.contrib import admin
-
-from projects.models import (
-    Organization, Project, ImportedArchive, ImportedFile)
-
-
-@admin.register(Organization)
-class OrganizationAdmin(admin.ModelAdmin):
-    """ """
+from projects.models import ImportedArchive, ImportedFile, Project
 
 
 class ImportedArchiveInline(admin.TabularInline):

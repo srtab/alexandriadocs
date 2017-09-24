@@ -1,10 +1,7 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from django.test import SimpleTestCase
-
-from projects.models import Project, ImportedArchive
-from projects.utils import projects_upload_to, clean_html
+from projects.models import ImportedArchive, Project
+from projects.utils import clean_html, projects_upload_to
 
 
 class UtilsTest(SimpleTestCase):

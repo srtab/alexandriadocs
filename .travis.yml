@@ -1,9 +1,21 @@
-language: python
-python:
- - 2.7
 sudo: false
+language: python
+
+python:
+  - "3.4"
+  - "3.5"
+  - "3.6"
+
 install:
- - pip install tox
+  - pip install --upgrade pip wheel setuptools
+  - pip install coveralls codacy-coverage tox-travis
+
+before_script:
+  - export PYTHONPATH=$PYTHONPATH:$(pwd)/alexandriadocs
+
 script:
- - tox -e flake8
- - tox -e travis
+  - tox
+
+after_success:
+  - coveralls
+  - python-codacy-coverage -r coverage.xml

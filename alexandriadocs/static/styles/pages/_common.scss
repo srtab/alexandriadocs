@@ -1,24 +1,38 @@
-/*
-Common styles
-*/
-
-main {
-    min-height: calc(100% - 200px);  // header height + footer height + margin-top footer
-}
-
-a {
-    @include transition(color 150ms linear);
-}
-a:hover {
-    text-decoration: none;
-}
-
-.navbar-inverse .navbar-nav .nav-link {
-    padding-right: 15px;
-    padding-left: 15px;
-    text-transform: uppercase;
-}
+// Common styles
 
 .highlighted {
-    font-weight: bold;
+  font-weight: 700;
+}
+
+.jumbotron-header {
+  background-color: #f8f9fa;
+  margin-bottom: 1.5rem;
+  margin-top: -1rem;
+  padding-bottom: 3rem;
+  padding-top: 3rem;
+
+  p {
+    margin-bottom: 0;
+  }
+
+  &.jumbotron-header-tabs {
+    padding-bottom: 3rem;
+    padding-top: 2rem;
+
+    .nav-tabs {
+      margin-bottom: -3rem;
+      margin-top: 1.5rem;
+    }
+  }
+}
+
+.header-action {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin: 0;
+  }
 }

@@ -1,12 +1,8 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals, absolute_import
-
 from django.views.generic.list import ListView
-
-from haystack.query import SearchQuerySet
 from haystack.inputs import Clean
-
-from projects.models import Project, ImportedFile
+from haystack.query import SearchQuerySet
+from projects.models import ImportedFile, Project
 
 
 class SearchView(ListView):

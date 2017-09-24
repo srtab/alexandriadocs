@@ -1,0 +1,49 @@
+{% load i18n humanize %}
+{% load crispy_forms_tags %}
+
+{% if not hide_list %}
+    <div class="card mb-4">
+        {% if title %}
+            <div class="card-header">{{title|safe}}</div>
+        {% endif %}
+        <ul class="list-group list-group-flush">
+            {% for collaborator in collaborator_list %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div class="d-inline-block">
+                        {{collaborator.user}}
+                        <span class="badge badge-dark ml-3">{{collaborator.get_access_level_display}}</span>
+                        {% ifequal collaborator.user_id request.user.pk %}
+                            <span class="badge badge-success">{% trans "It's you" %}</span>
+                        {% endifequal %}
+                        <br>
+                        <small class="text-muted">{% trans "since" %} {{collaborator.created|timesince}}</small>
+                    </div>
+                    {% if show_delete_button %}
+                        <div class="email-form">
+                            <form class="d-inline-block" method="post" action="{% url delete_url_name object.slug collaborator.pk %}" data-ajax-submit>
+                                {% csrf_token %}
+                                {% if collaborator.user_id == request.user.pk %}
+                                    <button class="btn btn-outline-danger btn-sm" type="submit" data-toggle="tooltip" data-placement="left"><i class="fa fa-sign-out" aria-hidden="true"></i> {% trans "Leave" %}</button>
+                                {% else %}
+                                    <button class="btn btn-outline-danger btn-sm" type="submit" data-toggle="tooltip" data-placement="left"><i class="fa fa-trash" aria-hidden="true"></i> {% trans "Remove" %}</button>
+                                {% endif %}
+                            </form>
+                        </div>
+                    {% endif %}
+                </li>
+            {% empty %}
+                <li class="list-group-item">
+                    <p class="text-muted mb-0 text-center">{% trans "No associated collaborators." %}</p>
+                </li>
+            {% endfor %}
+        </ul>
+        {% if show_create_form %}
+            <div class="card-footer">
+                <form class="group-collaborator mb-0" method="post" action="{% url create_url_name object.slug %}" novalidate data-ajax-submit>
+                    {% crispy form %}
+                    <button class="btn btn-success btn-sm" type="submit">{% trans "Add collaborator" %}</button>
+                </form>
+            </div>
+        {% endif %}
+    </div>
+{% endif %}

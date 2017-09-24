@@ -1,0 +1,25 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+{% load django_bootstrap_breadcrumbs %}
+
+
+{% block head_title %}{% trans "Verification Email" %}{% endblock %}
+
+
+{% block breadcrumbs %}
+    {{block.super}}
+    {% breadcrumb "Signup" "account_signup" %}
+    {% breadcrumb "Verification Email" "account_email_verification_sent" %}
+{% endblock breadcrumbs %}
+
+
+{% block content %}
+    <div class="jumbotron jumbotron-fluid jumbotron-header">
+        <div class="container">
+            <h1 class="display-4">{% trans "Verify Your E-mail Address" %}</h1>
+
+            <p class="lead"><i class="fa fa-info-circle text-info fa-lg" aria-hidden="true"></i> {% blocktrans %}We have sent an e-mail to you for verification. Follow the link provided to finalize the signup process. Please contact us if you do not receive it within a few minutes.{% endblocktrans %}</p>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+{% load django_bootstrap_breadcrumbs %}
+
+
+{% block head_title %}{% trans "Signup Closed" %}{% endblock %}
+
+
+{% block breadcrumbs %}
+    {{block.super}}
+    {% breadcrumb "Signup Closed" %}
+{% endblock breadcrumbs %}
+
+
+{% block content %}
+    <div class="jumbotron jumbotron-fluid jumbotron-header">
+        <div class="container">
+            <h1 class="display-4">{% trans "Signup Closed" %}</h1>
+            <p class="lead"><i class="fa fa-info-circle text-info fa-lg" aria-hidden="true"></i> {% trans "We are sorry, but the signup is currently closed." %}</p>
+        </div>
+    </div>
+{% endblock %}

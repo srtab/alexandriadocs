@@ -1,9 +1,10 @@
 """
 Django settings for alexandriadocs project.
 """
-from __future__ import unicode_literals
-
 import os
+
+from django.urls import reverse_lazy
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,29 +21,43 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+SITE_ID = 1
 
 # Application definition
 
 INSTALLED_APPS = [
+    'django.contrib.sites',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
 
-    'haystack',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.github',
+    'allauth.socialaccount.providers.gitlab',
+    'allauth.socialaccount.providers.google',
     'rest_framework',
     'rest_framework.authtoken',
     'django_extensions',
-    'taggit',
     'compressor',
     'raven.contrib.django.raven_compat',
+    'haystack',
+    'taggit',
+    'crispy_forms',
+    'django_bootstrap_breadcrumbs',
+    'ajax_cbv',
 
+    'accounts',
     'core',
+    'groups',
     'projects',
     'search',
-    'api',
+    'api'
 ]
 
 MIDDLEWARE = [
@@ -71,6 +86,7 @@ TEMPLATES = [
                 'django.template.context_processors.static',
                 'django.template.context_processors.tz',
                 'django.contrib.messages.context_processors.messages',
+                'accounts.context_processors.access_levels'
             ],
         },
     },
@@ -109,6 +125,36 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',  # NOQA
     },
 ]
+
+AUTH_USER_MODEL = 'accounts.User'
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+LOGIN_REDIRECT_URL = reverse_lazy('homepage')
+
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_CONFIRM_EMAIL_ON_GET = True
+ACCOUNT_PRESERVE_USERNAME_CASING = False
+ACCOUNT_SESSION_REMEMBER = True
+ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = True
+ACCOUNT_USERNAME_MIN_LENGTH = 3
+ACCOUNT_LOGOUT_ON_GET = True
+ACCOUNT_LOGOUT_REDIRECT_URL = reverse_lazy('homepage')
+ACCOUNT_FORMS = {
+    'change_password': 'accounts.forms.ChangePasswordForm',
+    'reset_password': 'accounts.forms.ResetPasswordForm',
+    'reset_password_from_key': 'accounts.forms.ResetPasswordKeyForm',
+    'set_password': 'accounts.forms.SetPasswordForm',
+    'signup': 'accounts.forms.SignupForm',
+}
+SOCIALACCOUNT_FORMS = {
+    'signup': 'accounts.forms.SocialSignupForm'
+}
 
 
 # Internationalization
@@ -164,6 +210,15 @@ REST_FRAMEWORK = {
 COMPRESS_PRECOMPILERS = (
     ('text/x-scss', 'django_libsass.SassCompiler'),
 )
+
+
+# CRISPY FORMS
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+
+# HAYSTACK
+HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
 
 
 # PROJECTS SETTINGS

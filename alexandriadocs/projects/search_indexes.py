@@ -1,13 +1,10 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 import codecs
 import logging
 
 from haystack import indexes
-
+from projects.models import ImportedFile, Project
 from search.extractors import HtmlExtractor
-from projects.models import Project, ImportedFile
 
 
 logger = logging.getLogger('alexandria.search')

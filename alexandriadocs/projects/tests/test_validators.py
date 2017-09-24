@@ -1,11 +1,8 @@
-from __future__ import unicode_literals
-
 import io
-from mock import patch
+from unittest.mock import patch
 
 from django.core.exceptions import ValidationError
 from django.test import SimpleTestCase
-
 from projects.validators import MimeTypeValidator
 
 

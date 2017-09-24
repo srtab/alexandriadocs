@@ -1,39 +1,33 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from collections import OrderedDict
 
-from django.core.exceptions import ImproperlyConfigured
-from django.utils.http import urlencode
-from django.utils.html import escape
-from django.conf import settings
 from django import template
+from django.conf import settings
+from django.utils.html import escape
+from django.utils.http import urlencode
 
 
 register = template.Library()
-context_processor_error_msg = (
-    'Tag {%% %s %%} requires django.template.context_processors.request to be '
-    'in the template configuration'
-)
 
 
-@register.simple_tag(takes_context=True)
-def menu_active(context, namespace=None, url_name=None, css_class='active'):
-    if 'request' not in context:
-        raise ImproperlyConfigured(context_processor_error_msg % 'menu_active')
+@register.assignment_tag(takes_context=True)
+def is_current_url(context, namespace=None, url_name=None):
     request = context.get('request')
     check = True
     if namespace:
         check = check and namespace == request.resolver_match.namespace
     if url_name:
         check = check and url_name == request.resolver_match.url_name
-    return css_class if check else ''
+    return check
+
+
+@register.simple_tag(takes_context=True)
+def menu_active(context, namespace=None, url_name=None, css_class='active'):
+    return css_class if is_current_url(context, namespace, url_name) else ''
 
 
 @register.simple_tag(takes_context=True)
 def querystring(context, **kwargs):
-    if 'request' not in context:
-        raise ImproperlyConfigured(context_processor_error_msg % 'querystring')
     params = dict(context.get('request').GET)
     ordered = OrderedDict()
     ordered.update(params)
@@ -53,3 +47,27 @@ def sentry_ravenjs():
     return {
         'SENTRY': getattr(settings, 'SENTRY_CONFIG', None)
     }
+
+
+@register.simple_tag(takes_context=True)
+def body_class(context):
+    request = context.get('request')
+    namespace = request.resolver_match.namespace
+    url_name = request.resolver_match.url_name
+    if namespace:
+        return "view-{namespace}-{url_name}".format(
+            namespace=namespace, url_name=url_name)
+    return "view-{url_name}".format(url_name=url_name)
+
+
+@register.inclusion_tag("core/includes/visibility_icon.html")
+def visibility_icon(visibility_obj):
+    return {
+        'visibility_obj': visibility_obj,
+    }
+
+
+@register.simple_tag(takes_context=True)
+def absolute_uri(context, location):
+    request = context.get('request')
+    return request.build_absolute_uri(location)

@@ -1,18 +1,23 @@
-{% load i18n staticfiles compress core_tags %}
+{% load i18n staticfiles %}
+{% load compress core_tags django_bootstrap_breadcrumbs %}
+
 <!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE|default:"pt" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/ico" href="{% static 'images/favicon.ico' %}"/>
 
-    <title>{% block title %} Alexandria Docs{% endblock title %}</title>
+    <title>{% block head_title %} AlexandriaDocs{% endblock head_title %}</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Raleway:400,600,700,800" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
 
     <!-- BEGIN: stylesheets from vendors -->
     {% compress css %}
         <link rel="stylesheet" type="text/css" href="{% static 'vendor/font-awesome/css/font-awesome.min.css' %}">
         <link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/dist/css/bootstrap.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'vendor/tether/dist/css/tether.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'vendor/noty/lib/noty.css' %}">
     {% endcompress %}
     <!-- END: stylesheets from vendors -->
 
@@ -24,11 +29,19 @@
 
     {% block extrastyle %}{% endblock extrastyle %}
 </head>
-<body class="{% block bodyextraclass %}{% endblock bodyextraclass %}">
+<body class="{% block body_class %}{% body_class %}{% endblock body_class %}">
 
     {% block header %}
         {% include "includes/header.html" %}
     {% endblock header %}
+
+    {% block breadcrumbs %}
+        {% breadcrumb "Home" "homepage" %}
+    {% endblock breadcrumbs %}
+
+    {% render_breadcrumbs "includes/breadcrumbs.html" %}
+
+    {% include "includes/messages.html" %}
 
     <!-- Container -->
     <main role="main">
@@ -45,8 +58,9 @@
     <!-- BEGIN: javascripts from vendors -->
     {% compress js %}
         <script type="text/javascript" charset="utf-8" src="{% static 'vendor/jquery/dist/jquery.min.js' %}"></script>
-        <script type="text/javascript" charset="utf-8" src="{% static 'vendor/tether/dist/js/tether.min.js' %}"></script>
+        <script type="text/javascript" charset="utf-8" src="{% static 'vendor/popper.js/dist/umd/popper.min.js' %}"></script>
         <script type="text/javascript" charset="utf-8" src="{% static 'vendor/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+        <script type="text/javascript" charset="utf-8" src="{% static 'vendor/noty/lib/noty.min.js' %}"></script>
     {% endcompress %}
     <!-- END: javascripts from vendors -->
 
@@ -54,6 +68,8 @@
 
     <!-- BEGIN: internal javascripts -->
     {% compress js %}
+        <script type="text/javascript" charset="utf-8" src="{% static 'ajax_cbv/forms.jquery.js' %}"></script>
+        <script type="text/javascript" charset="utf-8" src="{% static 'js/dj-messages-noty.jquery.js' %}"></script>
         <script type="text/javascript" charset="utf-8" src="{% static 'js/main.jquery.js' %}"></script>
     {% endcompress %}
     <!-- END: internal javascripts -->

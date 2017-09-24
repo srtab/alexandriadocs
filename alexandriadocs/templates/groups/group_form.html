@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load crispy_forms_tags django_bootstrap_breadcrumbs %}
+
+
+{% block head_title %}{% trans "Groups" %}{% endblock %}
+
+
+{% block breadcrumbs %}
+    {{block.super}}
+    {% breadcrumb "Groups" "groups:group-list" %}
+    {% breadcrumb "New" "groups:group-create" %}
+{% endblock breadcrumbs %}
+
+
+{% block container %}
+    <div class="container">
+        <h1 class="h3">{% trans "Groups" %}</h1>
+    </div>
+    <hr>
+    <div class="container">
+        <form class="group" method="post" action="{% url 'groups:group-create' %}" novalidate>
+            {% crispy form %}
+            <button class="btn btn-success" type="submit">{% trans "Create group" %}</button>
+            <a href="{% url 'groups:group-list' %}" class="btn btn-secondary">{% trans "Cancel" %}</a>
+        </form>
+    </div>
+{% endblock %}

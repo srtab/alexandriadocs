@@ -1,11 +1,6 @@
-/*
-Components module
- - contains each self-contained component in its own .scss partial; e.g. buttons, popups, etc.
-*/
+// Components module
+// - contains each self-contained component in its own .scss partial; e.g. buttons, popups, etc.
 
-@import 'avatar';
-// @import 'buttons';
-// @import 'navigation';
-// @import 'alerts';
-// @import 'tables';
-// @import 'modals';
+@import 'noty';
+@import 'breadcrumbs';
+@import 'content-list';

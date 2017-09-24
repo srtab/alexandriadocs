@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load accounts_tags django_bootstrap_breadcrumbs %}
+
+
+{% block head_title %}{{group}}{% endblock %}
+
+
+{% block breadcrumbs %}
+    {{block.super}}
+    {% if user.is_authenticated %}
+        {% breadcrumb "Groups" "groups:group-list" %}
+    {% endif %}
+    {% breadcrumb group "groups:group-detail" slug=group.slug %}
+{% endblock breadcrumbs %}
+
+
+{% block container %}
+
+    {% include "groups/includes/group_detail_header.html" %}
+
+    <div class="container">
+        {% if group.projects.exists %}
+            {% include "projects/includes/project_list.html" with project_list=group.projects.all %}
+        {% else %}
+            <p class="lead text-muted mt-5 text-center">{% trans "You don't have any project associated with this group." %}</p>
+        {% endif %}
+
+        {% has_access ADMIN group as can_access %}
+        {% if can_access %}
+            <div class="text-center"><a href="{% url 'projects:project-create' %}?group={{group.slug}}" class="btn btn-success">{% trans "Create project" %}</a></div>
+        {% endif %}
+    </div>
+
+{% endblock %}

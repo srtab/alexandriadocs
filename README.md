@@ -1,40 +1,15 @@
-# Alexandria Documentation
+# Alexandria Docs
 
 [![Build Status](https://travis-ci.org/srtab/alexandriadocs.svg?branch=master)](https://travis-ci.org/srtab/alexandriadocs)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/f3ff11fbcbdd4ef1ade40d8033e7642f)](https://www.codacy.com/app/srtabs/alexandriadocs?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=srtab/alexandriadocs&amp;utm_campaign=Badge_Grade)
 [![Coverage Status](https://coveralls.io/repos/github/srtab/alexandriadocs/badge.svg?branch=master)](https://coveralls.io/github/srtab/alexandriadocs?branch=master)
+[![BCH compliance](https://bettercodehub.com/edge/badge/srtab/alexandriadocs?branch=master)](https://bettercodehub.com/)
 
 ## Purpose
-Alexandria is a static generated documentation centralizer. Receive, store, index and serve documentation generated using tools like sphinx, mkdocs, etc...
+Alexandria Docs host static generated documentation. It supports documentation generated using tools like sphinx, mkdocs, etc...
 
-## Starting development
-Steps to start developing and contributing:
+## Under Development
+This project is still under development.
 
-```
-// clone the project
-$ git clone https://github.com/srtab/alexandriadocs.git
-$ cd alexandriadocs
-
-// build the image
-$ docker build -t alexandria .
-
-// run the container
-$ docker run -d -p 8000:8000 -v $(pwd):/app --name alexandria alexandria
-
-// stop container
-$ docker stop alexandria
-
-// start container
-$ docker start alexandria
-```
-
-## Running tests
-To run unit tests we use tox. You need to access the container bash and run tox:
-
-```
-// access to container bash
-$ docker exec -it alexandria bash
-
-// run unit tests inside the container
-$ tox -e py27
-```
+## License
+Apache-2.0 license, see the LICENSE file.
