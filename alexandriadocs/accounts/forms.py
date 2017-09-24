@@ -8,8 +8,10 @@ from allauth.account.forms import (
 )
 from allauth.socialaccount.forms import SignupForm as AllauthSocialSignupForm
 from core.forms import UnlabeledFormMixin, UntaggedFormMixin
+from core.widgets import Select2
 from django import forms
 from django.contrib.auth import get_user_model
+from django.urls import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 
 
@@ -59,3 +61,6 @@ class CollaboratorForm(UntaggedFormMixin, forms.ModelForm):
 
     class Meta:
         fields = ('user', 'access_level')
+        widgets = {
+            'user': Select2(url=reverse_lazy('accounts:user-search'))
+        }

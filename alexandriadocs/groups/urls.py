@@ -2,8 +2,8 @@
 from django.conf.urls import url
 
 from groups.ajax import (
-    GroupCollaboratorCreateView, GroupCollaboratorDeleteView,
-    GroupVisibilityUpdateView)
+    GroupAutocompleteView, GroupCollaboratorCreateView,
+    GroupCollaboratorDeleteView, GroupVisibilityUpdateView)
 from groups.views import (
     GroupCollaboratorsView, GroupCreateView, GroupDeleteView, GroupDetailView,
     GroupListView, GroupSettingsView)
@@ -43,6 +43,11 @@ base_urlpatterns = [
 ]
 
 ajax_urlpatterns = [
+    url(
+        regex=r'^search/group/$',
+        view=GroupAutocompleteView.as_view(),
+        name='group-search'
+    ),
     url(
         regex=r'^(?P<group_slug>[-\w]+)/collaborators/new/$',
         view=GroupCollaboratorCreateView.as_view(),

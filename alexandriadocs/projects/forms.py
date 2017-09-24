@@ -2,6 +2,7 @@
 from accounts.forms import CollaboratorForm
 from accounts.models import AccessLevel
 from core.forms import UntaggedFormMixin
+from core.widgets import Select2
 from crispy_forms.bootstrap import PrependedText
 from crispy_forms.layout import Div, Layout
 from django import forms
@@ -27,8 +28,9 @@ class ProjectForm(UntaggedFormMixin, forms.ModelForm):
         model = Project
         fields = PROJECT_COMMON_FIELDS + ('group', 'visibility_level')
         widgets = {
+            'group': Select2(url=reverse_lazy('groups:group-search')),
             'description': forms.Textarea(attrs={'rows': 3}),
-            'visibility_level': forms.RadioSelect
+            'visibility_level': forms.RadioSelect,
         }
 
     def __init__(self, *args, **kwargs):

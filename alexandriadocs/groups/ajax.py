@@ -4,6 +4,7 @@ from accounts.models import AccessLevel
 from ajax_cbv.mixins import AjaxResponseAction
 from ajax_cbv.views import CreateAjaxView, DeleteAjaxView, UpdateAjaxView
 from core.mixins import SuccessDeleteMessageMixin
+from core.views import BaseSelect2View
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
@@ -76,3 +77,15 @@ class GroupCollaboratorDeleteView(SuccessDeleteMessageMixin, GroupSubViewMixin,
             return super().delete(request, *args, **kwargs)
         messages.warning(self.request, self.owner_needed_message)
         return self.json_to_response()
+
+
+@method_decorator(login_required, name='dispatch')
+class GroupAutocompleteView(BaseSelect2View):
+    """ """
+    model = Group
+
+    def get_queryset(self):
+        qs = self.request.user.collaborate_groups.all()
+        if self.term:
+            return qs.filter(title__icontains=self.term)
+        return qs
