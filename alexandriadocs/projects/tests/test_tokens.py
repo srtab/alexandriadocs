@@ -1,6 +1,7 @@
+from unittest.mock import Mock
+
 from django.test import SimpleTestCase
 from django.utils.crypto import salted_hmac
-from mock import Mock
 from projects.tokens import token_generator
 
 

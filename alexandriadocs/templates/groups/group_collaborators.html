@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% load i18n %}
-{% load crispy_forms_tags django_bootstrap_breadcrumbs %}
+{% load accounts_tags django_bootstrap_breadcrumbs %}
 
 
 {% block head_title %}{{group}}{% endblock %}
@@ -22,7 +22,8 @@
     {% include "groups/includes/group_detail_header.html" %}
 
     <div class="container">
-
+        {% trans "Collaborators in the group" as group_title %}
+        {% render_collaborator_list group.group_collaborators.all 'groups:group-collaborator-create' 'groups:group-collaborator-delete' title=group_title %}
     </div>
 
 {% endblock %}

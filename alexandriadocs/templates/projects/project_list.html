@@ -22,6 +22,10 @@
     </div>
     <hr>
     <div class="container">
-        {% include "projects/includes/project_list.html" with show_group_name=True %}
+        {% if project_list.exists %}
+            {% include "projects/includes/project_list.html" with show_group_name=True %}
+        {% else %}
+            <p class="lead text-muted mt-5 text-center">{% trans "You don't have any project created." %}</p>
+        {% endif %}
     </div>
 {% endblock %}

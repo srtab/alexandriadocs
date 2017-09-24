@@ -1,35 +1,38 @@
-/*
-Common styles
-*/
+// Common styles
 
 .highlighted {
-    font-weight: 700;
+  font-weight: 700;
 }
 
 .jumbotron-header {
-    padding-top: 3rem;
+  background-color: #f8f9fa;
+  margin-bottom: 1.5rem;
+  margin-top: -1rem;
+  padding-bottom: 3rem;
+  padding-top: 3rem;
+
+  p {
+    margin-bottom: 0;
+  }
+
+  &.jumbotron-header-tabs {
     padding-bottom: 3rem;
-    margin-bottom: 1.5rem;
-    margin-top: -1rem;
-    background-color: #f8f9fa;
+    padding-top: 2rem;
 
-    p {
-        margin-bottom: 0;
+    .nav-tabs {
+      margin-bottom: -3rem;
+      margin-top: 1.5rem;
     }
-
-    &.jumbotron-header-tabs {
-        padding-top: 2rem;
-        padding-bottom: 3rem;
-
-        .nav-tabs {
-            margin-top: 1.5rem;
-            margin-bottom: -3rem;
-        }
-    }
+  }
 }
 
 .header-action {
-    & h1, & h2, & h3, & h4, & h5, & h6 {
-        margin: 0;
-    }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin: 0;
+  }
 }

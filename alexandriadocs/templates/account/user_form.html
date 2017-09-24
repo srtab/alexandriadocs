@@ -22,7 +22,7 @@
     </div>
 
     <div class="container">
-        <form class="account" id="account_form" method="post" action="{% url 'accounts:index' user.slug %}">
+        <form class="account" id="account_form" method="post" action="{% url 'accounts:index' user.slug %}" novalidate>
             {% crispy form %}
             <button class="btn btn-success" type="submit">{% trans "Update profile" %}</button>
         </form>

@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
 from django.conf.urls import url
+from projects.ajax import (
+    ImportedArchiveCreateView, ProjectCollaboratorCreateView,
+    ProjectCollaboratorDeleteView, ProjectVisibilityUpdateView)
 from projects.views import (
     ProjectBadgeUrlView, ProjectBadgeView, ProjectCollaboratorsView,
     ProjectCreateView, ProjectDeleteView, ProjectDetailView,
-    ProjectImportedArchiveView, ProjectListView, ProjectSettingsView)
+    ProjectListView, ProjectSettingsView, ProjectUploadsView)
 
 
-urlpatterns = [
+base_urlpatterns = [
     url(
         regex=r'^$',
         view=ProjectListView.as_view(),
@@ -28,6 +31,11 @@ urlpatterns = [
         name='project-badge'
     ),
     url(
+        regex=r'^(?P<slug>[-\w]+)/uploads/$',
+        view=ProjectUploadsView.as_view(),
+        name='project-uploads'
+    ),
+    url(
         regex=r'^(?P<slug>[-\w]+)/collaborators/$',
         view=ProjectCollaboratorsView.as_view(),
         name='project-collaborators'
@@ -47,9 +55,29 @@ urlpatterns = [
         view=ProjectBadgeUrlView.as_view(),
         name='project-badge-url'
     ),
+]
+
+ajax_urlpatterns = [
     url(
-        regex=r'^(?P<slug>[-\w]+)/imported-archives/$',
-        view=ProjectImportedArchiveView.as_view(),
-        name='project-imported-archive'
+        regex=r'^(?P<project_slug>[-\w]+)/uploads/new/$',
+        view=ImportedArchiveCreateView.as_view(),
+        name='imported-archive-create'
+    ),
+    url(
+        regex=r'^(?P<project_slug>[-\w]+)/collaborators/new/$',
+        view=ProjectCollaboratorCreateView.as_view(),
+        name='project-collaborator-create'
+    ),
+    url(
+        regex=r'^(?P<project_slug>[-\w]+)/collaborators/(?P<pk>\d+)/delete/$',
+        view=ProjectCollaboratorDeleteView.as_view(),
+        name='project-collaborator-delete'
+    ),
+    url(
+        regex=r'^(?P<slug>[-\w]+)/settings/visibility/$',
+        view=ProjectVisibilityUpdateView.as_view(),
+        name='project-visibility-update'
     ),
 ]
+
+urlpatterns = base_urlpatterns + ajax_urlpatterns

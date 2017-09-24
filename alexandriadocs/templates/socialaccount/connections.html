@@ -16,17 +16,17 @@
 
 {% block content %}
 
-    <div class="jumbotron jumbotron-fluid jumbotron-header bg-light">
+    <div class="jumbotron jumbotron-fluid jumbotron-header">
         <div class="container">
             <h1 class="display-4">{% trans "Connections" %}</h1>
 
             {% if form.accounts %}
-                <p class="lead mb-0">{% blocktrans %}You can sign in to your account using any of the following social services:{% endblocktrans %}</p>
+                <p class="lead">{% blocktrans %}You can sign in to your account using any of the following social services:{% endblocktrans %}</p>
             {% else %}
-                <p class="lead mb-0">
+                <p class="lead">
                     {% trans 'You currently have no social services connected to this account.' %}
                 </p>
-                <p class="lead mb-0">
+                <p class="lead">
                     {% trans 'Click on connect to activate login with one of the following social services:' %}
                 </p>
             {% endif %}

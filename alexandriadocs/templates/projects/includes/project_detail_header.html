@@ -1,20 +1,21 @@
 {% load i18n %}
-{% load core_tags %}
+{% load accounts_tags core_tags %}
 
-<div class="jumbotron jumbotron-fluid jumbotron-header {% if user.is_authenticated and project.author == user %}jumbotron-header-tabs{% endif %}">
+<div class="jumbotron jumbotron-fluid jumbotron-header jumbotron-header-tabs">
     <div class="container">
-        <h1 class="h2"><a href="{% url 'groups:group-detail' project.group.slug %}">{{project.group}}</a> / <strong class="bold-light">{{project}}</strong> <small class="pull-right">{% include "core/includes/visibility_icon.html" with object=project %}</small></h1>
+        <h1 class="h2"><a href="{% url 'groups:group-detail' project.group.slug %}">{{project.group}}</a> / <strong class="bold-light">{{project}}</strong> <small class="pull-right">{% visibility_icon visibility_obj=project %}</small></h1>
 
-        {% if user.is_authenticated and project.author == user %}
-            <ul class="nav nav-tabs">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link {% menu_active 'projects' 'project-detail' %}" href="{% url 'projects:project-detail' project.slug %}"><i class="fa fa-home fa-fw" aria-hidden="true"></i> {% trans "Overview" %} <span class="badge badge-pill badge-light ml-2">{{project.projects.count}}</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% menu_active 'projects' 'project-badge' %}" href="{% url 'projects:project-badge' project.slug %}"><i class="fa fa-square fa-fw" aria-hidden="true"></i> {% trans "Badge" %}</a>
+            </li>
+            {% has_access ADMIN project as can_access %}
+            {% if can_access %}
                 <li class="nav-item">
-                    <a class="nav-link {% menu_active 'projects' 'project-detail' %}" href="{% url 'projects:project-detail' project.slug %}"><i class="fa fa-home fa-fw" aria-hidden="true"></i> {% trans "Overview" %} <span class="badge badge-pill badge-light ml-2">{{project.projects.count}}</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {% menu_active 'projects' 'project-imported-archive' %}" href="{% url 'projects:project-imported-archive' project.slug %}"><i class="fa fa-cloud-download fa-fw" aria-hidden="true"></i> {% trans "Uploads" %}</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {% menu_active 'projects' 'project-badge' %}" href="{% url 'projects:project-badge' project.slug %}"><i class="fa fa-square fa-fw" aria-hidden="true"></i> {% trans "Badge" %}</a>
+                    <a class="nav-link {% menu_active 'projects' 'project-uploads' %}" href="{% url 'projects:project-uploads' project.slug %}"><i class="fa fa-cloud-download fa-fw" aria-hidden="true"></i> {% trans "Uploads" %}</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {% menu_active 'projects' 'project-collaborators' %}" href="{% url 'projects:project-collaborators' project.slug %}"><i class="fa fa-users fa-fw" aria-hidden="true"></i> {% trans "Collaborators" %}</a>
@@ -22,7 +23,7 @@
                 <li class="nav-item">
                     <a class="nav-link {% menu_active 'projects' 'project-settings' %}" href="{% url 'projects:project-settings' project.slug %}"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> {% trans "Settings" %}</a>
                 </li>
-            </ul>
-        {% endif %}
+            {% endif %}
+        </ul>
     </div>
 </div>

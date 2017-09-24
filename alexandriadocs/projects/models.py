@@ -2,6 +2,8 @@ import os
 import shutil
 import tarfile
 
+from accounts.managers import CollaboratorManager
+from accounts.models import AccessLevel, CollaboratorMixin
 from core.models import TitleSlugDescriptionMixin, VisibilityMixin
 from django.conf import settings
 from django.db import models
@@ -18,15 +20,21 @@ from taggit.managers import TaggableManager
 
 
 class Project(VisibilityMixin, TitleSlugDescriptionMixin, TimeStampedModel):
-    """An project represents a namespace
+    """
+    An project represents a namespace
     """
     group = models.ForeignKey(
-        Group, models.PROTECT, verbose_name=_('group'),
-        help_text=_('Just like a folder, helps you to organize you projects'),
-        related_name='projects')
+        Group, on_delete=models.PROTECT, verbose_name=_('group'),
+        related_name='projects',
+        help_text=_('House several projects under the same namespace, '
+                    'just like a folder'))
     author = models.ForeignKey(
-        settings.AUTH_USER_MODEL, models.PROTECT, verbose_name=_('author'),
-        help_text=_('project author'), related_name='projects')
+        settings.AUTH_USER_MODEL, on_delete=models.PROTECT,
+        verbose_name=_('author'), help_text=_('project author'),
+        related_name='projects')
+    collaborators = models.ManyToManyField(
+        settings.AUTH_USER_MODEL, through='ProjectCollaborator',
+        related_name='collaborate_projects')
     repo = models.CharField(_('repository URL'), max_length=255)
     tags = TaggableManager(blank=True)
 
@@ -38,8 +46,15 @@ class Project(VisibilityMixin, TitleSlugDescriptionMixin, TimeStampedModel):
     def __str__(self):
         return self.title
 
-    def get_absolute_url(self):
-        return "{}{}/index.html".format(settings.PROJECTS_SERVE_URL, self.slug)
+    @property
+    def is_private(self):
+        return bool(self.group.is_private or
+                    self.visibility_level == self.Level.PRIVATE)
+
+    @property
+    def is_public(self):
+        return bool(self.group.is_public or
+                    self.visibility_level == self.Level.PUBLIC)
 
     @property
     def serve_root_path(self):
@@ -60,17 +75,50 @@ class Project(VisibilityMixin, TitleSlugDescriptionMixin, TimeStampedModel):
     def api_token(self):
         return token_generator.make_token(self)
 
+    def get_absolute_url(self):
+        return "{}{}/index.html".format(settings.PROJECTS_SERVE_URL, self.slug)
+
+    @staticmethod
+    def post_save(sender, instance, created, **kwargs):
+        """
+        Create default collaborator for the project author with max access
+        level.
+        """
+        if created:
+            ProjectCollaborator.objects.create(
+                project_id=instance.pk,
+                user_id=instance.author_id,
+                access_level=AccessLevel.OWNER
+            )
+
+
+post_save.connect(Project.post_save, sender=Project)
+
+
+class ProjectCollaborator(CollaboratorMixin, TimeStampedModel):
+    """ """
+    project = models.ForeignKey(
+        Project, on_delete=models.CASCADE,
+        related_name='project_collaborators')
+    objects = CollaboratorManager()
+
+    class Meta:
+        unique_together = ('user', 'project')
+        index_together = ('user', 'project')
+        verbose_name = _('project collaborator')
+
 
 class ImportedArchive(TimeStampedModel):
-    """An imported archive holds the result of an static generated site version
+    """
+    An imported archive holds the result of an static generated site version
     for a project.
     """
     uploaded_by = models.ForeignKey(
-        settings.AUTH_USER_MODEL, models.PROTECT,
+        settings.AUTH_USER_MODEL, on_delete=models.PROTECT,
         verbose_name=_('who uploaded'),
         help_text=_('who uploaded the documentation'))
     project = models.ForeignKey(
-        Project, models.CASCADE, verbose_name=_('project'),
+        Project, on_delete=models.CASCADE, verbose_name=_('project'),
         related_name='imported_archives')
     archive = models.FileField(
         _('archive'), upload_to=projects_upload_to,
@@ -102,7 +150,8 @@ class ImportedArchive(TimeStampedModel):
 
     @staticmethod
     def post_save(sender, instance, created, **kwargs):
-        """Fileyfi the imported archive on each ImportedArchive object creation
+        """
+        Fileyfi the imported archive on each ImportedArchive object creation
         """
         if created:
             instance.fileify()
@@ -112,10 +161,11 @@ post_save.connect(ImportedArchive.post_save, sender=ImportedArchive)
 
 
 class ImportedFile(TimeStampedModel):
-    """Holds info about html files imported for indexing proposes.
+    """
+    Holds info about html files imported for indexing proposes.
     """
     project = models.ForeignKey(
-        Project, models.CASCADE, verbose_name=_('project'),
+        Project, on_delete=models.CASCADE, verbose_name=_('project'),
         related_name='imported_files')
     path = models.CharField(_('file path'), max_length=255)
     md5 = models.CharField(_('MD5 checksum'), max_length=255)

@@ -52,3 +52,10 @@ class ProfileUpdateForm(UntaggedFormMixin, forms.ModelForm):
     class Meta:
         model = get_user_model()
         fields = ('username', 'name')
+
+
+class CollaboratorForm(UntaggedFormMixin, forms.ModelForm):
+    """ """
+
+    class Meta:
+        fields = ('user', 'access_level')

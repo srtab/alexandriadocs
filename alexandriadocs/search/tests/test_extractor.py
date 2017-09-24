@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
+from unittest.mock import Mock
+
 from django.test import SimpleTestCase
-from mock import Mock
 from pyquery import PyQuery
 from search.extractors import HtmlExtractor
 

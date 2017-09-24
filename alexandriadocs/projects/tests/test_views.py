@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
+from unittest.mock import Mock, patch
+
 from django.test import SimpleTestCase
 from django.urls import reverse
-from mock import Mock, patch
 from projects.views import BADGE_URL
 
 

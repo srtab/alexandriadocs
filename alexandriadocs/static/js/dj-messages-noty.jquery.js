@@ -13,56 +13,56 @@
 
 (function($) {
 
-    $.showMessages = function (type, content, options)
+  $.showMessages = function (type, content, options)
+  {
+    var icon_class = '';
+
+    switch(type) {
+      case 'success':
+        icon_class = 'fa-check-circle';
+        break;
+      case 'warning':
+        icon_class = 'fa-exclamation-triangle';
+        break;
+      case 'error':
+        icon_class = 'fa-exclamation-circle';
+        break;
+      default:
+        icon_class = 'fa-info-circle';
+    }
+
+    var icon = '<i class="fa fa-lg ' + icon_class + ' noty-icon" aria-hidden="true"></i>',
+        text = "<div class='media'><span class='d-flex align-self-center'>" + icon + "</span><div class='media-body align-self-center'>" + content + "</div></div>";
+
+    var settings = $.extend({
+      text: text,
+      type: type,
+      theme: 'bootstrap-v4',
+      layout: 'topCenter',
+      timeout: 5000,
+      progressBar: true,
+      animation: {
+        open: 'animated fadeInDown', // Animate.css class names
+        close: 'animated fadeOutUp' // Animate.css class names
+      }
+    }, $.fn.djMessagesNoty.defaults, options);
+
+    new Noty(settings).show();
+  };
+
+  $.fn.djMessagesNoty = function(options)
+  {
+    return this.each(function()
     {
-        var icon_class = '';
+      $(this).find('li').each(function() {
+        var notification = $(this),
+            type = notification.attr('class');
 
-        switch(type) {
-            case 'success':
-                icon_class = 'fa-check-circle';
-                break;
-            case 'warning':
-                icon_class = 'fa-exclamation-triangle';
-                break;
-            case 'error':
-                icon_class = 'fa-exclamation-circle';
-                break;
-            default:
-                icon_class = 'fa-info-circle';
-        }
+        $.showMessages(type, notification.html(), options);
+      });
+    });
+  };
 
-        var icon = '<i class="fa fa-lg ' + icon_class + ' noty-icon" aria-hidden="true"></i>',
-            text = "<div class='media'><span class='d-flex align-self-center'>" + icon + "</span><div class='media-body align-self-center'>" + content + "</div></div>";
-
-        var settings = $.extend({
-            text: text,
-            type: type,
-            theme: 'bootstrap-v4',
-            layout: 'topCenter',
-            timeout: 5000,
-            progressBar: true,
-            animation: {
-                open: 'animated fadeInDown', // Animate.css class names
-                close: 'animated fadeOutUp' // Animate.css class names
-            }
-        }, $.fn.djMessagesNoty.defaults, options);
-
-        new Noty(settings).show();
-    };
-
-    $.fn.djMessagesNoty = function(options)
-    {
-        return this.each(function()
-        {
-            $(this).find('li').each(function() {
-                var notification = $(this),
-                    type = notification.attr('class');
-
-                $.showMessages(type, notification.html(), options);
-            });
-        });
-    };
-
-    $.fn.djMessagesNoty.defaults = {};
+  $.fn.djMessagesNoty.defaults = {};
 
 })(jQuery);

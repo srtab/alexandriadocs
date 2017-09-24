@@ -1,31 +1,34 @@
 import hashlib
 import os
 
-from core.managers import AuthorVisibilityQuerySet
 from django.conf import settings
 from django.db import models
 from django.db.models import Q
 
 
-class ProjectQuerySet(AuthorVisibilityQuerySet):
+class ProjectQuerySet(models.QuerySet):
     """ """
 
-    def visible(self, user=None):
-        """
-        Unauthenticated user can only view public projects in public groups.
-        Authenticated user can see public projects in public groups or private
-        projects in private/public groups if it is the author of both.
-        TODO: check if query is heavy
-        """
-        if user and user.is_authenticated:
-            return self.filter(
-                Q(visibility_level=self.model.Level.PUBLIC) |
-                Q(visibility_level=self.model.Level.PRIVATE, author=user),
-                Q(group__visibility_level=self.model.Level.PUBLIC) |
-                Q(group__visibility_level=self.model.Level.PRIVATE,
-                  author=user))
+    def public(self):
         return self.filter(visibility_level=self.model.Level.PUBLIC,
                            group__visibility_level=self.model.Level.PUBLIC)
+
+    def collaborate(self, user=None):
+        if user and user.is_authenticated:
+            group_ids = user.collaborate_groups.values('pk')
+            project_ids = user.collaborate_projects.values('pk')
+            return self.filter(Q(pk__in=project_ids) | Q(group__in=group_ids))
+        return self.none()
+
+    def public_or_collaborate(self, user=None):
+        if user and user.is_authenticated:
+            group_ids = user.collaborate_groups.values('pk')
+            project_ids = user.collaborate_projects.values('pk')
+            return self.filter(
+                Q(pk__in=project_ids) | Q(group__in=group_ids) |
+                Q(visibility_level=self.model.Level.PUBLIC,
+                  group__visibility_level=self.model.Level.PUBLIC))
+        return self.public()
 
 
 ProjectManager = ProjectQuerySet.as_manager

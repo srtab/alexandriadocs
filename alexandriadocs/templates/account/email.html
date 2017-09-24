@@ -64,7 +64,7 @@
                 {% endfor %}
             </ul>
             <div class="card-footer">
-                <form method="post" action="{% url 'account_email' %}" class="mb-0">
+                <form method="post" action="{% url 'account_email' %}" class="mb-0" novalidate>
                     {% csrf_token %}
                     <div class="input-group">
                         {% crispy_field form.email %}

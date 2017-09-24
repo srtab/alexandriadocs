@@ -23,7 +23,7 @@
     <hr>
 
     <div class="container">
-        {% if group_list %}
+        {% if group_list.exists %}
             <div class="content-list list-group">
                 {% for group in group_list %}
                     <a href="{% url 'groups:group-detail' group.slug %}" class="list-group-item list-group-item-action">
@@ -35,7 +35,7 @@
                                 {% endif %}
                             </div>
                             <div class="content-info text-right">
-                                {% include "core/includes/visibility_icon.html" with object=group %}
+                                {% visibility_icon visibility_obj=group %}
                             </div>
                         </div>
                     </a>
