@@ -25,9 +25,7 @@ class Project(VisibilityMixin, TitleSlugDescriptionMixin, TimeStampedModel):
     """
     group = models.ForeignKey(
         Group, on_delete=models.PROTECT, verbose_name=_('group'),
-        related_name='projects',
-        help_text=_('House several projects under the same namespace, '
-                    'just like a folder'))
+        related_name='projects')
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.PROTECT,
         verbose_name=_('author'), help_text=_('project author'),
