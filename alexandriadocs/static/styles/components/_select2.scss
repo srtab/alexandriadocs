@@ -1,0 +1,25 @@
+$select2-height: 38px;
+
+.select2-container--default {
+
+  .select2-selection--single,
+  .select2-dropdown {
+    border: 1px solid rgba(0, 0, 0, .15);
+  }
+
+  .select2-selection--single {
+    height: $select2-height;
+
+    .select2-selection__rendered {
+      line-height: $select2-height;
+    }
+
+    .select2-selection__arrow {
+      height: $select2-height;
+    }
+  }
+
+  .select2-dropdown {
+    border-top: 0;
+  }
+}

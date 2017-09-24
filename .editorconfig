@@ -12,13 +12,9 @@ indent_style = space
 insert_final_newline = true
 trim_trailing_whitespace = true
 
-# Matches the exact files either package.json or .travis.yml
-[{package.json,}]
-
-indent_size = 2
-
-# The JSON files contain newlines inconsistently
-[{.travis.yml,*.json,*.js,*.scss}]
+[{*.json,*.js,*.scss}]
 indent_size = 2
 indent_style = space
+
+[{.travis.yml,*.json}]
 insert_final_newline = ignore
