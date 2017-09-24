@@ -9,7 +9,7 @@ class AccessCheckerRegistry(object):
         })
 
     def get_checker(self, model_class):
-        return self._registry[model_class]
+        return self._registry.get(model_class, None)
 
 
 access_checker_register = AccessCheckerRegistry()

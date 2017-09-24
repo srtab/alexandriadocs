@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from autoslug import AutoSlugField
-from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.urls import reverse
@@ -26,8 +25,9 @@ class AccessLevel:
 
 class User(AbstractUser):
     """ """
-    slug = AutoSlugField(populate_from='username', unique=True,
-                         always_update=True, db_index=True)
+    slug = AutoSlugField(
+        populate_from='username', unique=True, always_update=True,
+        db_index=True)
     name = models.CharField(_('name'), max_length=128, blank=True)
 
     def __str__(self):
@@ -39,10 +39,9 @@ class User(AbstractUser):
 
 class CollaboratorMixin(models.Model):
     """ """
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, models.CASCADE)
+    user = models.ForeignKey(User, models.CASCADE)
     access_level = models.PositiveSmallIntegerField(
-        _('role'), choices=AccessLevel.choices,
-        default=AccessLevel.READER)
+        _('role'), choices=AccessLevel.choices, default=AccessLevel.READER)
 
     class Meta:
         abstract = True

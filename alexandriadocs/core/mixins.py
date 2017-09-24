@@ -2,11 +2,11 @@ from django.contrib import messages
 
 
 class SuccessDeleteMessageMixin(object):
-
+    """ """
     def delete(self, request, *args, **kwargs):
         # SuccessMessageMixin not supported on delete views
         response = super().delete(request, *args, **kwargs)
-        messages.success(self.request, self.get_success_message())
+        messages.success(request, self.get_success_message())
         return response
 
     def get_success_message(self):

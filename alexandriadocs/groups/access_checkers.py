@@ -13,10 +13,5 @@ class GroupAccessChecker(AccessChecker):
         collaborator = self.get_object(user, obj)
         return bool(collaborator and collaborator.access_level >= access_level)
 
-    def get_access_level(self, user, obj):
-        collaborator = self.get_object()
-        if not collaborator:
-            return None
-        return collaborator.access_level
 
 group_access_checker = GroupAccessChecker()
