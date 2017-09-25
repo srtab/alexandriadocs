@@ -27,11 +27,16 @@ class HtmlExtractor(object):
     title_tags = ['h1', 'h2', 'head title']
 
     def __init__(self, html):
-        self.doc = PyQuery(html)
+        try:
+            self.doc = PyQuery(html)
+        except ParserError:
+            self.doc = None
 
     @property
     def content(self):
         """ """
+        if not self.doc:
+            return None
         for path in self.content_tags:
             try:
                 content = self.doc(path).html()
@@ -45,6 +50,8 @@ class HtmlExtractor(object):
     @property
     def title(self):
         """ """
+        if not self.doc:
+            return None
         for path in self.title_tags:
             try:
                 title = self.doc(path).eq(0).html()
