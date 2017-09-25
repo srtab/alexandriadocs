@@ -111,10 +111,21 @@ class ImportedArchive(TimeStampedModel):
     An imported archive holds the result of an static generated site version
     for a project.
     """
+    class Source:
+        FORM = 0
+        API = 1
+
+        choices = (
+            (FORM, _('Form')),
+            (API, _('API')),
+        )
+
     uploaded_by = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.PROTECT,
-        verbose_name=_('who uploaded'),
+        null=True, verbose_name=_('who uploaded'),
         help_text=_('who uploaded the documentation'))
+    uploaded_from = models.PositiveSmallIntegerField(
+        _('source'), choices=Source.choices, default=Source.FORM)
     project = models.ForeignKey(
         Project, on_delete=models.CASCADE, verbose_name=_('project'),
         related_name='imported_archives')

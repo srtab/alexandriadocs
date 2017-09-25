@@ -63,6 +63,7 @@
                             <tr>
                                 <th>{% trans "Uploaded at" %}</th>
                                 <th>{% trans "Uploaded by" %}</th>
+                                <th>{% trans "Uploaded from" %}</th>
                                 <th>{% trans "Archive" %}</th>
                                 <th>{% trans "Size" %}</th>
                             </tr>
@@ -72,6 +73,7 @@
                                 <tr>
                                     <td>{{imported_archive.created|timesince}}</td>
                                     <td>{{imported_archive.uploaded_by}}</td>
+                                    <td>{{imported_archive.get_uploaded_from_display}}</td>
                                     <td>{{imported_archive.archive.url}}</td>
                                     <td>{{imported_archive.archive.size|filesizeformat}}</td>
                                 </tr>
