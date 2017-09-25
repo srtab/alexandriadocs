@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.gitlab',
     'allauth.socialaccount.providers.google',
     'rest_framework',
-    'rest_framework.authtoken',
     'django_extensions',
     'compressor',
     'raven.contrib.django.raven_compat',
@@ -95,17 +94,6 @@ TEMPLATES = [
 ROOT_URLCONF = 'alexandriadocs.urls'
 
 WSGI_APPLICATION = 'alexandriadocs.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/1.10/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(DATA_DIR, 'db.sqlite3'),
-    }
-}
 
 
 # Password validation
@@ -198,10 +186,7 @@ TAGGIT_CASE_INSENSITIVE = True
 # REST_FRAMEWORK
 
 REST_FRAMEWORK = {
-    'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.URLPathVersioning',
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.TokenAuthentication',
-    )
+    'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.URLPathVersioning'
 }
 
 

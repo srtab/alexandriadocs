@@ -50,11 +50,14 @@
         <div class="card mb-4">
             <h4 class="card-header">{% trans "Project API" %}</h4>
             <div class="card-body">
-                <p>{% trans "Send your documentation through the API." %}</p>
+                <p>{% trans "To send your documentation through the API, you will need this API Token." %}</p>
                 <div class="form-group row mb-0">
                     <label class="col-sm-2 col-form-label">{% trans "Project API Token" %}</label>
                     <div class="col-sm-10">
                         <input class="form-control" type="text" value="{{project.api_token}}" readonly>
+                        <small class="form-text text-muted">
+                            {% trans "This is a personal secret key to interact with the API. Do not share or publish this private token." %}
+                        </small>
                     </div>
                 </div>
             </div>
