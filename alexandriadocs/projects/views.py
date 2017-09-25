@@ -13,6 +13,7 @@ from django.views.generic import View
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.views.generic.list import ListView
+from groups.models import Group
 from projects.forms import (
     ImportedArchiveForm, ProjectCollaboratorForm, ProjectEditForm,
     ProjectForm, ProjectVisibilityForm)
@@ -46,6 +47,13 @@ class ProjectCreateView(SuccessMessageMixin, CreateView):
         kwargs = super(ProjectCreateView, self).get_form_kwargs()
         kwargs.update({'user': self.request.user})
         return kwargs
+
+    def get_initial(self):
+        group_slug = self.request.GET.get('group')
+        group = Group.objects.filter(slug=group_slug).values('pk').first()
+        if not group:
+            return {}
+        return {'group': group.get('pk')}
 
     def form_valid(self, form):
         form.instance.author = self.request.user
