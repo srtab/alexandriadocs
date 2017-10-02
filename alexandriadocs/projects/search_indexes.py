@@ -15,8 +15,9 @@ class ProjectIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(
         document=True, use_template=True,
         template_name="projects/search/project.txt")
-    title = indexes.CharField(model_attr='title')
+    title = indexes.CharField(model_attr='title', boost=1.125)
     description = indexes.CharField(model_attr='description', null=True)
+    visibility_level = indexes.CharField(model_attr='visibility_level')
     absolute_url = indexes.CharField()
 
     def get_model(self):
@@ -32,6 +33,7 @@ class ImportedFileIndex(indexes.SearchIndex, indexes.Indexable):
         document=True, template_name="projects/search/imported_file.txt")
     title = indexes.CharField()
     body = indexes.CharField()
+    visibility_level = indexes.CharField()
     absolute_url = indexes.CharField()
 
     def get_model(self):
@@ -39,6 +41,9 @@ class ImportedFileIndex(indexes.SearchIndex, indexes.Indexable):
 
     def prepare_absolute_url(self, obj):
         return obj.get_absolute_url()
+
+    def prepare_visibility_level(self, obj):
+        return obj.project.visibility_level
 
     def prepare(self, obj):
         """Open the expected .html file and extract body and title to index"""

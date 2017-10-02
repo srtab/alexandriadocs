@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.views.generic.list import ListView
 from haystack.inputs import Clean
-from haystack.query import SearchQuerySet
+from haystack.query import SearchQuerySet, SQ
 from projects.models import ImportedFile, Project
 
 
@@ -29,7 +29,9 @@ class SearchView(ListView):
         return context
 
     def search(self, query):
-        return SearchQuerySet().filter(content__contains=Clean(query))
+        return SearchQuerySet().filter(visibility_level=Project.Level.PUBLIC)\
+            .filter(SQ(content__contains=Clean(query)) |
+                    SQ(title__contains=Clean(query)))
 
 
 class SearchProjectView(SearchView):
