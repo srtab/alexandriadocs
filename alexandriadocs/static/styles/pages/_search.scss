@@ -2,22 +2,15 @@
 
 .view-search-index,
 .view-search-pages {
-
-  .jumbotron {
-    margin-bottom: 1.5rem;
-    padding-bottom: 1.5rem;
-    padding-top: 3rem;
-  }
-
   .card {
     margin-bottom: 1rem;
   }
 
   .card-title a {
     color: #464a4c;
-  }
 
-  .card-title a:hover {
-    color: #0275d8;
+    &:hover {
+      color: #0275d8;
+    }
   }
 }
