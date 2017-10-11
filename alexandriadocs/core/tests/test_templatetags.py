@@ -151,9 +151,9 @@ class VisibilityIconTagTest(TemplateTagsTest, SimpleTestCase):
             'object': Mock(is_private=True)
         })
         expected = (
-            "<span data-toggle='tooltip' data-placement='left' title='Private'"
-            "><i class='fa fa-user-secret' aria-hidden='true'></i>"
-            "</span>"
+            "<span data-toggle='tooltip' data-placement='right' "
+            "title='Private'><i class='fa fa-user-secret' aria-hidden='true'>"
+            "</i></span>"
         )
         self.assertHTMLEqual(rendered, expected)
 
@@ -163,8 +163,8 @@ class VisibilityIconTagTest(TemplateTagsTest, SimpleTestCase):
             'object': Mock(is_private=False)
         })
         expected = (
-            "<span data-toggle='tooltip' data-placement='left' title='Public'>"
-            "<i class='fa fa-globe' aria-hidden='true'></i>"
+            "<span data-toggle='tooltip' data-placement='right' "
+            "title='Public'><i class='fa fa-globe' aria-hidden='true'></i>"
             "</span>"
         )
         self.assertHTMLEqual(rendered, expected)
