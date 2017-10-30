@@ -203,7 +203,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 
 # HAYSTACK
-HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
+HAYSTACK_SIGNAL_PROCESSOR = 'search.signals.AlexandriaSignalProcessor'
 
 
 # PROJECTS SETTINGS

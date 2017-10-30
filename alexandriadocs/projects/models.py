@@ -39,6 +39,7 @@ class Project(VisibilityMixin, TitleSlugDescriptionMixin, TimeStampedModel):
     objects = ProjectManager()
 
     class Meta:
+        ordering = ['created']
         verbose_name = _('project')
 
     def __str__(self):

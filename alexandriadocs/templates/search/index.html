@@ -15,35 +15,34 @@
 
 {% block container %}
     <form method="GET" action="" novalidate>
-        <div class="jumbotron jumbotron-fluid jumbotron-header bg-light">
+        <div class="jumbotron jumbotron-fluid jumbotron-header jumbotron-header-tabs">
             <div class="container">
                 <h1 class="display-4">{% trans 'Search' %}</h1>
                 <p class="lead">{% trans "Explore available public projects documentations." %}</p>
                 <hr>
                 {% trans 'Search term...' as search_placeholder %}
                 {% include "search/includes/search-form.html" with query=query placeholder=search_placeholder only %}
+
+                {% is_current_url namespace='search' url_name='index' as is_search_projects %}
+                {% is_current_url namespace='search' url_name='pages' as is_search_pages %}
+
+                 <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link {% if is_search_projects %}active{% endif %}" href="{% url 'search:index' %}?q={{query|safe}}">
+                            {% trans 'Projects' %} <span class="badge badge-pill badge-dark ml-1">{{projects_count}}</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if is_search_pages %}active{% endif %}" href="{% url 'search:pages' %}?q={{query|safe}}">
+                            {% trans 'Docs' %} <span class="badge badge-pill badge-dark ml-1">{{pages_count}}</span>
+                        </a>
+                    </li>
+                </ul>
             </div>
         </div>
         {% if query %}
             <div class="container">
 
-                {% is_current_url namespace='search' url_name='index' as is_search_projects %}
-                {% is_current_url namespace='search' url_name='pages' as is_search_pages %}
-
-                 <ul class="nav nav-tabs mb-3">
-                    <li class="nav-item">
-                        <a class="nav-link {% if is_search_projects %}active{% endif %}" href="{% url 'search:index' %}?q={{query|safe}}">
-                            <i class="fa fa-book fa-fw" aria-hidden="true"></i>
-                            {% trans 'Projects' %} <span class="badge badge-pill badge-default ml-1">{{projects_count}}</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {% if is_search_pages %}active{% endif %}" href="{% url 'search:pages' %}?q={{query|safe}}">
-                            <i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i>
-                            {% trans 'Pages' %} <span class="badge badge-pill badge-default ml-1">{{pages_count}}</span>
-                        </a>
-                    </li>
-                </ul>
 
                 {% for result in object_list %}
 
@@ -88,7 +87,7 @@
                         {% if is_search_projects %}
                             {% trans "We couldn't find any project matching" %}
                         {% elif is_search_pages %}
-                            {% trans "We couldn't find any pages matching" %}
+                            {% trans "We couldn't find any documentation matching" %}
                         {% endif %}
 
                         <strong>"{{query|safe}}"</strong>

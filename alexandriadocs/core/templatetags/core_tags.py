@@ -13,12 +13,14 @@ register = template.Library()
 @register.assignment_tag(takes_context=True)
 def is_current_url(context, namespace=None, url_name=None):
     request = context.get('request')
-    check = True
-    if namespace:
-        check = check and namespace == request.resolver_match.namespace
-    if url_name:
-        check = check and url_name == request.resolver_match.url_name
-    return check
+    if request.resolver_match:
+        check = True
+        if namespace:
+            check = check and namespace == request.resolver_match.namespace
+        if url_name:
+            check = check and url_name == request.resolver_match.url_name
+        return check
+    return False
 
 
 @register.simple_tag(takes_context=True)
@@ -52,12 +54,14 @@ def sentry_ravenjs():
 @register.simple_tag(takes_context=True)
 def body_class(context):
     request = context.get('request')
-    namespace = request.resolver_match.namespace
-    url_name = request.resolver_match.url_name
-    if namespace:
-        return "view-{namespace}-{url_name}".format(
-            namespace=namespace, url_name=url_name)
-    return "view-{url_name}".format(url_name=url_name)
+    if request.resolver_match:
+        namespace = request.resolver_match.namespace
+        url_name = request.resolver_match.url_name
+        if namespace:
+            return "view-{namespace}-{url_name}".format(
+                namespace=namespace, url_name=url_name)
+        return "view-{url_name}".format(url_name=url_name)
+    return "view-noresolver-match"
 
 
 @register.inclusion_tag("core/includes/visibility_icon.html")

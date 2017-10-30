@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.utils.html import strip_tags
+from lxml.etree import ParserError
 from lxml.html.clean import Cleaner
 from pyquery import PyQuery
 
@@ -26,11 +27,16 @@ class HtmlExtractor(object):
     title_tags = ['h1', 'h2', 'head title']
 
     def __init__(self, html):
-        self.doc = PyQuery(html)
+        try:
+            self.doc = PyQuery(html)
+        except ParserError:
+            self.doc = None
 
     @property
     def content(self):
         """ """
+        if not self.doc:
+            return None
         for path in self.content_tags:
             try:
                 content = self.doc(path).html()
@@ -44,6 +50,8 @@ class HtmlExtractor(object):
     @property
     def title(self):
         """ """
+        if not self.doc:
+            return None
         for path in self.title_tags:
             try:
                 title = self.doc(path).eq(0).html()
@@ -55,9 +63,14 @@ class HtmlExtractor(object):
         return None
 
     def strip_all(self, html):
-        """Clean html content striping all html tags and removing all inline
-        script and style."""
-        cleaner = Cleaner(style=True, kill_tags=self.kill_tags)
-        cleaned_html = cleaner.clean_html(html)
-        text = strip_tags(cleaned_html).replace('¶', '')
+        """
+        Clean html content striping all html tags and removing all inline
+        script and style.
+        """
+        try:
+            cleaner = Cleaner(style=True, kill_tags=self.kill_tags)
+            cleaned_html = cleaner.clean_html(html)
+            text = strip_tags(cleaned_html).replace('¶', '')
+        except ParserError:
+            return ""
         return " ".join(text.split())
