@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 from unittest.mock import patch
 
+from django.test import SimpleTestCase
+
 from accounts.managers import CollaboratorQuerySet
 from accounts.models import AccessLevel
-from django.test import SimpleTestCase
 
 
 class CollaboratorManagerTest(SimpleTestCase):

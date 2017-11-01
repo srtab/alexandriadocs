@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 from unittest.mock import Mock, patch
 
-from accounts.templatetags.accounts_tags import get_providers_unconnected
 from django.test import SimpleTestCase
+
+from accounts.templatetags.accounts_tags import get_providers_unconnected
 
 
 class GetProvidersUnconnectedTest(SimpleTestCase):

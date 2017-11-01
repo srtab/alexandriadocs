@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 from unittest.mock import Mock, patch
 
-from core.tests.utils import TemplateTagsTest
 from django.test import RequestFactory, SimpleTestCase
+
+from core.tests.utils import TemplateTagsTest
 
 
 class IsCurrentUrlTagTest(TemplateTagsTest, SimpleTestCase):

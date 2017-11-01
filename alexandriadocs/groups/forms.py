@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
+from django import forms
+
 from accounts.forms import CollaboratorForm
 from core.forms import UntaggedFormMixin
 from crispy_forms.layout import Div, Layout
-from django import forms
 from groups.models import Group, GroupCollaborator
-
 
 GROUP_COMMON_FIELDS = ('title', 'description')
 

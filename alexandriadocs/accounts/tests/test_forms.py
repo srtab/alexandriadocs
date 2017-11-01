@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
-from accounts.forms import ChangePasswordForm
 from django.test import SimpleTestCase
+
+from accounts.forms import ChangePasswordForm
 
 
 class ChangePasswordFormTest(SimpleTestCase):

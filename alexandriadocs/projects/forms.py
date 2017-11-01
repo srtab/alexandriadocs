@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
+from django import forms
+from django.urls import reverse_lazy
+from django.utils.translation import ugettext_lazy as _
+
 from accounts.forms import CollaboratorForm
 from accounts.models import AccessLevel
 from core.forms import UntaggedFormMixin
 from core.widgets import Select2
 from crispy_forms.bootstrap import PrependedText
 from crispy_forms.layout import Div, Layout
-from django import forms
-from django.urls import reverse_lazy
-from django.utils.translation import ugettext_lazy as _
 from groups.access_checkers import group_access_checker
 from projects.models import ImportedArchive, Project, ProjectCollaborator
-
 
 PROJECT_COMMON_FIELDS = ('title', 'description', 'repo', 'tags')
 

@@ -1,10 +1,4 @@
 # -*- coding: utf-8 -*-
-from accounts.mixins import HasAccessLevelMixin
-from accounts.models import AccessLevel
-from ajax_cbv.mixins import AjaxResponseAction
-from ajax_cbv.views import CreateAjaxView, DeleteAjaxView, UpdateAjaxView
-from core.mixins import SuccessDeleteMessageMixin
-from core.views import BaseSelect2View
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
@@ -12,6 +6,13 @@ from django.shortcuts import get_object_or_404
 from django.utils.decorators import method_decorator
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
+
+from accounts.mixins import HasAccessLevelMixin
+from accounts.models import AccessLevel
+from ajax_cbv.mixins import AjaxResponseAction
+from ajax_cbv.views import CreateAjaxView, DeleteAjaxView, UpdateAjaxView
+from core.mixins import SuccessDeleteMessageMixin
+from core.views import BaseSelect2View
 from groups.forms import GroupCollaboratorForm, GroupVisibilityForm
 from groups.models import Group, GroupCollaborator
 

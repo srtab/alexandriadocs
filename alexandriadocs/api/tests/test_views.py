@@ -1,9 +1,10 @@
 from unittest.mock import patch
 
-from autofixture import create_one
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db.models.signals import post_save
 from django.urls import reverse
+
+from autofixture import create_one
 from projects.models import ImportedArchive, Project
 from rest_framework import status
 from rest_framework.test import APITestCase

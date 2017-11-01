@@ -1,10 +1,12 @@
-from unittest.mock import MagicMock, patch, PropertyMock
+from unittest.mock import MagicMock, PropertyMock, patch
+
+from django.test import SimpleTestCase
 
 from accounts.models import AccessLevel
-from django.test import SimpleTestCase
 from groups.models import Group
 from projects.models import (
-    ImportedArchive, ImportedFile, Project, ProjectCollaborator)
+    ImportedArchive, ImportedFile, Project, ProjectCollaborator
+)
 
 
 class ProjectModelTest(SimpleTestCase):

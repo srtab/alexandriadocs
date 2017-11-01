@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 from unittest.mock import Mock, patch
 
-from accounts.mixins import HasAccessLevelMixin
-from accounts.models import AccessLevel
 from django.test import SimpleTestCase
 from django.views.generic import View
+
+from accounts.mixins import HasAccessLevelMixin
+from accounts.models import AccessLevel
 
 
 class HasAccessLevelMixinTest(SimpleTestCase):

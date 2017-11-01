@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
-from core.tests.utils import TemplateTagsTest
 from django.test import SimpleTestCase
+
+from core.tests.utils import TemplateTagsTest
 from groups.models import Group
 from projects.models import Project
 

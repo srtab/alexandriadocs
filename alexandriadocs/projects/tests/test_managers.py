@@ -2,8 +2,9 @@
 from hashlib import md5
 from unittest.mock import Mock, mock_open, patch
 
-from autofixture import create_one
 from django.test import SimpleTestCase, TestCase
+
+from autofixture import create_one
 from projects.managers import ProjectQuerySet
 from projects.models import ImportedFile, Project
 

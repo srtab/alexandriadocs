@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 from unittest.mock import patch
 
-from accounts.models import AccessLevel
 from django.test import SimpleTestCase
+
+from accounts.models import AccessLevel
 from groups.models import Group, GroupCollaborator
 
 

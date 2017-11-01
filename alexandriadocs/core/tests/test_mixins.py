@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 from unittest.mock import Mock, patch
 
-from core.mixins import CacheObjectMixin, SuccessDeleteMessageMixin
 from django.test import SimpleTestCase
 from django.views.generic.edit import DeleteView, UpdateView
+
+from core.mixins import CacheObjectMixin, SuccessDeleteMessageMixin
 
 
 class SuccessDeleteMessageMixinTest(SimpleTestCase):

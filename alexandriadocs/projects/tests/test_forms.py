@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 from unittest.mock import patch
 
-from accounts.models import AccessLevel
 from django.forms import ValidationError
 from django.test import SimpleTestCase
+
+from accounts.models import AccessLevel
 from projects.forms import (
-    ImportedArchiveForm, ProjectEditForm, ProjectForm, ProjectVisibilityForm)
+    ImportedArchiveForm, ProjectEditForm, ProjectForm, ProjectVisibilityForm
+)
 
 
 class ProjectFormTest(SimpleTestCase):

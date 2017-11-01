@@ -2,7 +2,6 @@ import mimetypes
 
 from alexandriadocs.settings import *  # NOQA
 
-
 # to serve svg images on development mode
 mimetypes.add_type("image/svg+xml", ".svg", True)
 mimetypes.add_type("image/svg+xml", ".svgz", True)

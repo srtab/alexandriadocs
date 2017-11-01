@@ -2,6 +2,7 @@
 from unittest.mock import Mock, patch
 
 from django.test import SimpleTestCase
+
 from projects.access_checkers import project_access_checker
 
 

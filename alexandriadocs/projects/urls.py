@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
 from django.conf.urls import url
+
 from projects.ajax import (
     ImportedArchiveCreateView, ProjectCollaboratorCreateView,
-    ProjectCollaboratorDeleteView, ProjectVisibilityUpdateView)
+    ProjectCollaboratorDeleteView, ProjectVisibilityUpdateView
+)
 from projects.views import (
     ProjectBadgeUrlView, ProjectBadgeView, ProjectCollaboratorsView,
-    ProjectCreateView, ProjectDeleteView, ProjectDetailView,
-    ProjectListView, ProjectSettingsView, ProjectUploadsView)
-
+    ProjectCreateView, ProjectDeleteView, ProjectDetailView, ProjectListView,
+    ProjectSettingsView, ProjectUploadsView
+)
 
 base_urlpatterns = [
     url(

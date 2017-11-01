@@ -1,7 +1,8 @@
+from django.contrib.auth.mixins import UserPassesTestMixin
+
 from accounts.models import AccessLevel
 from accounts.register import access_checker_register
 from core.mixins import CacheObjectMixin
-from django.contrib.auth.mixins import UserPassesTestMixin
 
 
 class HasAccessLevelMixin(CacheObjectMixin, UserPassesTestMixin):

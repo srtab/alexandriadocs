@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
-from accounts.models import AccessLevel, CollaboratorMixin, User
 from django.test import SimpleTestCase
 from django.urls import reverse
+
+from accounts.models import AccessLevel, CollaboratorMixin, User
 
 
 class UserModelTest(SimpleTestCase):

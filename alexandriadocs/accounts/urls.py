@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-from accounts.ajax import UserAutocompleteView
-from accounts.views import ProfileUpdateView
 from django.conf.urls import url
 
+from accounts.ajax import UserAutocompleteView
+from accounts.views import ProfileUpdateView
 
 base_urlpatterns = [
     url(
