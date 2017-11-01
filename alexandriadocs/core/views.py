@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from django.views.generic import ListView
 from django.views.generic.list import BaseListView
 
+from core.conf import settings
 from projects.models import Project
 
 
@@ -10,7 +11,7 @@ class HomepageView(ListView):
     """ """
     template_name = "homepage.html"
     model = Project
-    paginate_by = 10
+    paginate_by = settings.ALEXANDRIA_PAGINATE_BY
 
     def get_queryset(self):
         return self.model._default_manager.public()
@@ -18,7 +19,7 @@ class HomepageView(ListView):
 
 class BaseSelect2View(BaseListView):
     """ """
-    paginate_by = 10
+    paginate_by = settings.ALEXANDRIA_AUTOCOMPLETE_RESULTS
 
     def dispatch(self, request, *args, **kwargs):
         self.term = request.GET.get('term', None)

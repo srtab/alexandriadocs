@@ -5,12 +5,12 @@ from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView, DeleteView, UpdateView
+from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic.list import ListView
 
 from accounts.mixins import HasAccessLevelMixin
 from accounts.models import AccessLevel
-from core.mixins import SuccessDeleteMessageMixin
+from core.conf import settings
 from groups.forms import (
     GroupCollaboratorForm, GroupEditForm, GroupForm, GroupVisibilityForm
 )
@@ -21,6 +21,7 @@ from groups.models import Group
 class GroupListView(ListView):
     """ """
     model = Group
+    paginate_by = settings.ALEXANDRIA_PAGINATE_BY
 
     def get_queryset(self):
         return self.request.user.collaborate_groups.all()

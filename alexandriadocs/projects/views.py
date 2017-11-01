@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from django.conf import settings
+from django.conf import settings as djsettings
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import redirect
@@ -13,6 +13,7 @@ from django.views.generic.list import ListView
 
 from accounts.mixins import HasAccessLevelMixin
 from accounts.models import AccessLevel
+from core.conf import settings
 from groups.models import Group
 from projects.forms import (
     ImportedArchiveForm, ProjectCollaboratorForm, ProjectEditForm, ProjectForm,
@@ -29,6 +30,7 @@ BADGE_URL = (
 class ProjectListView(ListView):
     """ """
     model = Project
+    paginate_by = settings.ALEXANDRIA_PAGINATE_BY
 
     def get_queryset(self):
         return self.model._default_manager.collaborate(self.request.user)\
@@ -96,7 +98,7 @@ class ProjectUploadsView(HasAccessLevelMixin, DetailView):
         context = super().get_context_data(**kwargs)
         context.update({
             'form': ImportedArchiveForm(),
-            'allowed_mimetypes': settings.PROJECTS_ALLOWED_MIMETYPES,
+            'allowed_mimetypes': djsettings.PROJECTS_ALLOWED_MIMETYPES,
         })
         return context
 

@@ -24,7 +24,7 @@
 
     <div class="container">
         {% if group_list.exists %}
-            <div class="content-list list-group">
+            <div class="content-list list-group mb-4">
                 {% for group in group_list %}
                     <a href="{% url 'groups:group-detail' group.slug %}" class="list-group-item list-group-item-action">
                         <div class="d-flex justify-content-between align-items-center">
@@ -41,6 +41,7 @@
                     </a>
                 {% endfor %}
             </div>
+            {% include "includes/pagination.html" %}
         {% else %}
             <p class="lead text-muted mt-5 text-center">{% trans "You don't have any group created." %}</p>
         {% endif %}
