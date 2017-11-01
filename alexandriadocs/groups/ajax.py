@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import get_object_or_404
+from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
@@ -25,6 +26,20 @@ class GroupVisibilityUpdateView(HasAccessLevelMixin, SuccessMessageMixin,
     form_class = GroupVisibilityForm
     success_message = _("Visibility level updated successfully")
     action = AjaxResponseAction.REFRESH
+    allowed_access_level = AccessLevel.OWNER
+
+    def get_queryset(self):
+        return self.request.user.collaborate_groups.all()
+
+
+@method_decorator(login_required, name='dispatch')
+class GroupDeleteView(HasAccessLevelMixin, SuccessDeleteMessageMixin,
+                      DeleteAjaxView):
+    """ """
+    model = Group
+    success_url = reverse_lazy('groups:group-list')
+    success_message = _("%(title)s was deleted successfully")
+    action = AjaxResponseAction.REDIRECT
     allowed_access_level = AccessLevel.OWNER
 
     def get_queryset(self):

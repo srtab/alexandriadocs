@@ -54,10 +54,7 @@
                 <div class="card-body text-danger">
                     <div class="d-flex justify-content-between align-items-center">
                         {% blocktrans %}Once you delete a group, you will delete all associated projects too and there is no going back. Please be certain.{% endblocktrans %}
-                        <form class="group-delete d-inline-block" method="post" action="{% url 'groups:group-delete' group.slug %}" novalidate>
-                            {% csrf_token %}
-                            <button class="btn btn-danger" type="submit">{% trans "Delete group" %}</button>
-                        </form>
+                        <a href="#" class="btn btn-danger" data-partial-url="{% url 'groups:group-delete' group.slug %}" data-partial="#modalPartials" data-toggle="modal" data-target="#modalPartials">{% trans "Delete group" %}</a>
                     </div>
                 </div>
             </div>

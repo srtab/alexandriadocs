@@ -88,16 +88,3 @@ class GroupSettingsView(HasAccessLevelMixin, SuccessMessageMixin, UpdateView):
 
     def get_success_url(self):
         return reverse('groups:group-settings', args=[self.object.slug])
-
-
-@method_decorator(login_required, name='dispatch')
-class GroupDeleteView(HasAccessLevelMixin, SuccessDeleteMessageMixin,
-                      DeleteView):
-    """ """
-    model = Group
-    success_url = reverse_lazy('groups:group-list')
-    success_message = _("%(title)s was deleted successfully")
-    allowed_access_level = AccessLevel.OWNER
-
-    def get_queryset(self):
-        return self.request.user.collaborate_groups.all()
