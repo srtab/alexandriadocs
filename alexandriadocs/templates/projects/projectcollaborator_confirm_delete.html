@@ -1,17 +1,16 @@
 {% load i18n %}
 {% spaceless %}
     <div class="modal-header">
-        <h5 class="modal-title text-danger">{% trans "Delete project" %}</h5>
+        <h5 class="modal-title text-danger">{% trans "Delete project collaborator" %}</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <i class="fa fa-times-circle" aria-hidden="true"></i>
         </button>
     </div>
     <div class="modal-body">
-        <p>{% blocktrans %}Are you sure you want to delete the project <strong>{{project}}</strong>?{% endblocktrans %}</p>
-        <p class="mb-0">{% blocktrans %}Once you delete it, there is no going back!{% endblocktrans %}</p>
+        <p class="mb-0">{% blocktrans with project=object.project %}Are you sure you want to delete <strong>{{object}}</strong> collaborator of <strong>{{project}}</strong> project?{% endblocktrans %}</p>
     </div>
     <div class="modal-footer">
-        <form class="project-delete d-inline-block" method="post" action="{% url 'projects:project-delete' project.slug %}">
+        <form class="d-inline-block" method="post" action="{% url 'projects:project-collaborator-delete' object.project.slug object.pk %}">
             {% csrf_token %}
             <button class="btn btn-danger" type="submit">{% trans "Confirm" %}</button>
         </form>
