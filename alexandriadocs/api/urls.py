@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-from api.views import ImportedArchiveView
 from django.conf.urls import url
 
+from api.views import ImportedArchiveView
 
 urlpatterns = [
     url(

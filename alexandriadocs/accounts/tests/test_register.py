@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 from unittest.mock import Mock
 
-from accounts.register import access_checker_register
 from django.test import SimpleTestCase
+
+from accounts.register import access_checker_register
 
 
 class AccessCheckerRegistryTest(SimpleTestCase):

@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.views.generic.list import ListView
+
 from haystack.inputs import Clean
-from haystack.query import SearchQuerySet, SQ
+from haystack.query import SQ, SearchQuerySet
 from projects.models import ImportedFile, Project
 
 

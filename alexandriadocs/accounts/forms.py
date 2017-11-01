@@ -1,18 +1,19 @@
 # -*- coding: utf-8 -*-
-from allauth.account.forms import (
-    ChangePasswordForm as AllauthChangePasswordForm,
-    ResetPasswordForm as AllauthResetPasswordForm,
-    ResetPasswordKeyForm as AllauthResetPasswordKeyForm,
-    SetPasswordForm as AllauthSetPasswordForm,
-    SignupForm as AllauthSignupForm,
-)
-from allauth.socialaccount.forms import SignupForm as AllauthSocialSignupForm
-from core.forms import UnlabeledFormMixin, UntaggedFormMixin
-from core.widgets import Select2
 from django import forms
 from django.contrib.auth import get_user_model
 from django.urls import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
+
+from allauth.account.forms import \
+    ChangePasswordForm as AllauthChangePasswordForm
+from allauth.account.forms import ResetPasswordForm as AllauthResetPasswordForm
+from allauth.account.forms import \
+    ResetPasswordKeyForm as AllauthResetPasswordKeyForm
+from allauth.account.forms import SetPasswordForm as AllauthSetPasswordForm
+from allauth.account.forms import SignupForm as AllauthSignupForm
+from allauth.socialaccount.forms import SignupForm as AllauthSocialSignupForm
+from core.forms import UnlabeledFormMixin, UntaggedFormMixin
+from core.widgets import Select2
 
 
 class ChangePasswordForm(UnlabeledFormMixin, UntaggedFormMixin,

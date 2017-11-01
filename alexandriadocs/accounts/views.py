@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
-from accounts.forms import ProfileUpdateForm
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
 from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic.edit import UpdateView
+
+from accounts.forms import ProfileUpdateForm
 
 
 @method_decorator(login_required, name='dispatch')

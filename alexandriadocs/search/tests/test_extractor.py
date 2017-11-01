@@ -2,6 +2,7 @@
 from unittest.mock import Mock
 
 from django.test import SimpleTestCase
+
 from pyquery import PyQuery
 from search.extractors import HtmlExtractor
 

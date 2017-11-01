@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
-from core.widgets import Select2
 from django.test import SimpleTestCase
+
+from core.widgets import Select2
 
 
 class Select2MixinTest(SimpleTestCase):

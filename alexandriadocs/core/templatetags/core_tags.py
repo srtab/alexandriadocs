@@ -6,7 +6,6 @@ from django.conf import settings
 from django.utils.html import escape
 from django.utils.http import urlencode
 
-
 register = template.Library()
 
 

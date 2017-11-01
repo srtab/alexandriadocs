@@ -1,5 +1,6 @@
-from accounts.models import AccessLevel
 from django.db import models
+
+from accounts.models import AccessLevel
 
 
 class CollaboratorQuerySet(models.QuerySet):

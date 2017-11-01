@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
+from django import template
+
 from accounts.register import access_checker_register
 from allauth.socialaccount import providers
 from allauth.socialaccount.models import SocialAccount
-from django import template
 
 register = template.Library()
 

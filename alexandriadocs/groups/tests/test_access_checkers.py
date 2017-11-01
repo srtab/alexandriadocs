@@ -2,6 +2,7 @@
 from unittest.mock import Mock, patch
 
 from django.test import SimpleTestCase
+
 from groups.access_checkers import group_access_checker
 
 

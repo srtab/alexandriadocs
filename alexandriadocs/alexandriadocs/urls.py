@@ -1,11 +1,11 @@
 """alexandriadocs URL Configuration
 """
-from core.views import HomepageView
 from django.conf import settings
 from django.conf.urls import include, url
 from django.contrib import admin
 from django.contrib.auth.decorators import login_required
 
+from core.views import HomepageView
 
 # https://django-allauth.readthedocs.io/en/latest/advanced.html#admin
 admin.site.login = login_required(admin.site.login)

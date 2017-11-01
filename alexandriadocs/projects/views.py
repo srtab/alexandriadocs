@@ -1,7 +1,4 @@
 # -*- coding: utf-8 -*-
-from accounts.mixins import HasAccessLevelMixin
-from accounts.models import AccessLevel
-from core.mixins import SuccessDeleteMessageMixin
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
@@ -13,12 +10,16 @@ from django.views.generic import View
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.views.generic.list import ListView
+
+from accounts.mixins import HasAccessLevelMixin
+from accounts.models import AccessLevel
+from core.mixins import SuccessDeleteMessageMixin
 from groups.models import Group
 from projects.forms import (
-    ImportedArchiveForm, ProjectCollaboratorForm, ProjectEditForm,
-    ProjectForm, ProjectVisibilityForm)
+    ImportedArchiveForm, ProjectCollaboratorForm, ProjectEditForm, ProjectForm,
+    ProjectVisibilityForm
+)
 from projects.models import Project
-
 
 BADGE_URL = (
     'https://img.shields.io/badge/docs-{status}-{color}.svg?style={style}'

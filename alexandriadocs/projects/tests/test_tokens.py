@@ -3,6 +3,7 @@ from unittest.mock import Mock, patch
 from django.test import SimpleTestCase
 from django.utils.crypto import salted_hmac
 from django.utils.http import int_to_base36
+
 from projects.tokens import token_generator
 
 

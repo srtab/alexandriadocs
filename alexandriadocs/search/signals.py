@@ -1,4 +1,5 @@
 from django.db.models.signals import post_delete, post_save
+
 from haystack.signals import BaseSignalProcessor
 from projects.models import ImportedFile, Project
 

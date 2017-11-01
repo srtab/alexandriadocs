@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
-from core.models import VisibilityMixin
 from django.test import SimpleTestCase
+
+from core.models import VisibilityMixin
 
 
 class VisibilityMixinTest(SimpleTestCase):

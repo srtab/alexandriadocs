@@ -1,7 +1,4 @@
 # -*- coding: utf-8 -*-
-from accounts.mixins import HasAccessLevelMixin
-from accounts.models import AccessLevel
-from core.mixins import SuccessDeleteMessageMixin
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse, reverse_lazy
@@ -10,8 +7,13 @@ from django.utils.translation import ugettext_lazy as _
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.views.generic.list import ListView
+
+from accounts.mixins import HasAccessLevelMixin
+from accounts.models import AccessLevel
+from core.mixins import SuccessDeleteMessageMixin
 from groups.forms import (
-    GroupCollaboratorForm, GroupEditForm, GroupForm, GroupVisibilityForm)
+    GroupCollaboratorForm, GroupEditForm, GroupForm, GroupVisibilityForm
+)
 from groups.models import Group
 
 

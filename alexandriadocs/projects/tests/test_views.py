@@ -3,6 +3,7 @@ from unittest.mock import Mock, patch
 
 from django.test import SimpleTestCase
 from django.urls import reverse
+
 from projects.views import BADGE_URL
 
 

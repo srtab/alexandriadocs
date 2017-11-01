@@ -3,7 +3,6 @@ from django.conf.urls import url
 
 from search.views import SearchPageView, SearchProjectView
 
-
 urlpatterns = [
     url(
         regex=r'^$',

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.utils.html import strip_tags
+
 from lxml.etree import ParserError
 from lxml.html.clean import Cleaner
 from pyquery import PyQuery

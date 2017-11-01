@@ -2,6 +2,7 @@
 from django.http import JsonResponse
 from django.views.generic import ListView
 from django.views.generic.list import BaseListView
+
 from projects.models import Project
 
 

@@ -1,6 +1,5 @@
 from alexandriadocs.settings import *  # NOQA
 
-
 DEBUG = False
 
 DATABASES = {

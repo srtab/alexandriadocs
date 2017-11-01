@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
+from django.test import SimpleTestCase
+
 from core.forms import UnlabeledFormMixin, UntaggedFormMixin
 from crispy_forms.helper import FormHelper
-from django.test import SimpleTestCase
 
 
 class UnlabeledFormMixinTest(SimpleTestCase):

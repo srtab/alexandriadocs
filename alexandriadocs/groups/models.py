@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
-from accounts.managers import CollaboratorManager
-from accounts.models import AccessLevel, CollaboratorMixin
-from core.models import TitleSlugDescriptionMixin, VisibilityMixin
 from django.conf import settings
 from django.db import models
 from django.db.models.signals import post_save
 from django.utils.translation import ugettext_lazy as _
+
+from accounts.managers import CollaboratorManager
+from accounts.models import AccessLevel, CollaboratorMixin
+from core.models import TitleSlugDescriptionMixin, VisibilityMixin
 from django_extensions.db.models import TimeStampedModel
 from groups.managers import GroupManager
 

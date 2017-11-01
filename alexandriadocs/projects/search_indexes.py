@@ -6,7 +6,6 @@ from haystack import indexes
 from projects.models import ImportedFile, Project
 from search.extractors import HtmlExtractor
 
-
 logger = logging.getLogger('alexandria.search')
 
 

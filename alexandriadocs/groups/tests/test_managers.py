@@ -2,6 +2,7 @@
 from unittest.mock import Mock, patch
 
 from django.test import SimpleTestCase
+
 from groups.managers import GroupQuerySet
 from groups.models import Group
 
