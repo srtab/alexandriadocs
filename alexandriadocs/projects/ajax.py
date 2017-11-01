@@ -2,6 +2,7 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import get_object_or_404
+from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
@@ -26,6 +27,20 @@ class ProjectVisibilityUpdateView(HasAccessLevelMixin, SuccessMessageMixin,
     success_message = _("Visibility level updated successfully")
     action = AjaxResponseAction.REFRESH
     allowed_access_level = AccessLevel.OWNER
+
+    def get_queryset(self):
+        return self.model._default_manager.collaborate(self.request.user)
+
+
+@method_decorator(login_required, name='dispatch')
+class ProjectDeleteView(HasAccessLevelMixin, SuccessDeleteMessageMixin,
+                        DeleteAjaxView):
+    """ """
+    model = Project
+    success_url = reverse_lazy('projects:project-list')
+    success_message = _("%(title)s was deleted successfully")
+    allowed_access_level = AccessLevel.OWNER
+    action = AjaxResponseAction.REDIRECT
 
     def get_queryset(self):
         return self.model._default_manager.collaborate(self.request.user)

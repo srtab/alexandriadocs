@@ -8,12 +8,11 @@ from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import View
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView, DeleteView, UpdateView
+from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic.list import ListView
 
 from accounts.mixins import HasAccessLevelMixin
 from accounts.models import AccessLevel
-from core.mixins import SuccessDeleteMessageMixin
 from groups.models import Group
 from projects.forms import (
     ImportedArchiveForm, ProjectCollaboratorForm, ProjectEditForm, ProjectForm,
@@ -142,19 +141,6 @@ class ProjectSettingsView(HasAccessLevelMixin, SuccessMessageMixin,
 
     def get_success_url(self):
         return reverse('projects:project-settings', args=[self.object.slug])
-
-
-@method_decorator(login_required, name='dispatch')
-class ProjectDeleteView(HasAccessLevelMixin, SuccessDeleteMessageMixin,
-                        DeleteView):
-    """ """
-    model = Project
-    success_url = reverse_lazy('projects:project-list')
-    success_message = _("%(title)s was deleted successfully")
-    allowed_access_level = AccessLevel.OWNER
-
-    def get_queryset(self):
-        return self.model._default_manager.collaborate(self.request.user)
 
 
 class ProjectBadgeUrlView(View):

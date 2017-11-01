@@ -1,0 +1,19 @@
+{% load i18n %}
+{% spaceless %}
+    <div class="modal-header">
+        <h5 class="modal-title text-danger">{% trans "Delete project collaborator" %}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <i class="fa fa-times-circle" aria-hidden="true"></i>
+        </button>
+    </div>
+    <div class="modal-body">
+        <p class="mb-0">{% blocktrans with project=object.project %}Are you sure you want to delete <strong>{{object}}</strong> collaborator from <strong>{{project}}</strong> project?{% endblocktrans %}</p>
+    </div>
+    <div class="modal-footer">
+        <form class="d-inline-block" method="post" action="{% url 'projects:project-collaborator-delete' object.project.slug object.pk %}">
+            {% csrf_token %}
+            <button class="btn btn-danger" type="submit">{% trans "Confirm" %}</button>
+        </form>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans "Close" %}</button>
+    </div>
+{% endspaceless %}

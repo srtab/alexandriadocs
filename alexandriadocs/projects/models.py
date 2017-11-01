@@ -25,7 +25,7 @@ class Project(VisibilityMixin, TitleSlugDescriptionMixin, TimeStampedModel):
     An project represents a namespace
     """
     group = models.ForeignKey(
-        Group, on_delete=models.PROTECT, verbose_name=_('group'),
+        Group, on_delete=models.CASCADE, verbose_name=_('group'),
         related_name='projects')
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.PROTECT,

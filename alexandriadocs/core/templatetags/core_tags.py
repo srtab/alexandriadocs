@@ -43,7 +43,7 @@ def analytics_tracking():
     }
 
 
-@register.inclusion_tag("includes/sentry_ravenjs.html")
+@register.inclusion_tag("includes/sentry-ravenjs.html")
 def sentry_ravenjs():
     return {
         'SENTRY': getattr(settings, 'SENTRY_CONFIG', None)

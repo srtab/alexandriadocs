@@ -1,0 +1,27 @@
+{% load i18n %}
+{% spaceless %}
+    <div class="modal-header">
+        <h5 class="modal-title text-danger">{% trans "Delete group" %}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <i class="fa fa-times-circle" aria-hidden="true"></i>
+        </button>
+    </div>
+    <div class="modal-body">
+        <p>
+            {% blocktrans %}Are you sure you want to delete the group <strong>{{group}}</strong> along with the following projects?{% endblocktrans %}
+            <ul>
+                {% for project in group.projects.all %}
+                    <li>{{project}}</li>
+                {% endfor %}
+            </ul>
+        </p>
+        <p class="mb-0">{% blocktrans %}Once you delete it you will loose all associated projects too, there is no going back!{% endblocktrans %}</p>
+    </div>
+    <div class="modal-footer">
+        <form class="project-delete d-inline-block" method="post" action="{% url 'groups:group-delete' group.slug %}">
+            {% csrf_token %}
+            <button class="btn btn-danger" type="submit">{% trans "Confirm" %}</button>
+        </form>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans "Close" %}</button>
+    </div>
+{% endspaceless %}

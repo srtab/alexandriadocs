@@ -1,0 +1,19 @@
+{% load i18n %}
+{% spaceless %}
+    <div class="modal-header">
+        <h5 class="modal-title text-danger">{% trans "Delete collaborator" %}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <i class="fa fa-times-circle" aria-hidden="true"></i>
+        </button>
+    </div>
+    <div class="modal-body">
+        <p class="mb-0">{% blocktrans with group=object.group %}Are you sure you want to delete <strong>{{object}}</strong> collaborator from <strong>{{group}}</strong> group?{% endblocktrans %}</p>
+    </div>
+    <div class="modal-footer">
+        <form class="d-inline-block" method="post" action="{% url 'groups:group-collaborator-delete' object.group.slug object.pk %}">
+            {% csrf_token %}
+            <button class="btn btn-danger" type="submit">{% trans "Confirm" %}</button>
+        </form>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans "Close" %}</button>
+    </div>
+{% endspaceless %}
