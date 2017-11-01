@@ -70,10 +70,7 @@
                 <div class="card-body text-danger">
                     <div class="d-flex justify-content-between align-items-center">
                         {% blocktrans %}Once you delete a project there is no going back. Please be certain.{% endblocktrans %}
-                        <form class="project-delete d-inline-block" method="post" action="{% url 'projects:project-delete' project.slug %}">
-                            {% csrf_token %}
-                            <button class="btn btn-danger" type="submit">{% trans "Delete project" %}</button>
-                        </form>
+                        <a href="#" class="btn btn-danger" data-partial-url="{% url 'projects:project-delete' project.slug %}" data-partial="#modalPartials" data-toggle="modal" data-target="#modalPartials">{% trans "Delete project" %}</a>
                     </div>
                 </div>
             </div>

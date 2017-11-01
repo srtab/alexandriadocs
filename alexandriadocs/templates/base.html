@@ -32,15 +32,19 @@
 </head>
 <body class="{% block body_class %}{% body_class %}{% endblock body_class %}">
 
+    <!-- Header -->
     {% block header %}
         {% include "includes/header.html" %}
     {% endblock header %}
+    <!-- END Header -->
 
+    <!-- Breadcrumbs -->
     {% block breadcrumbs %}
         {% breadcrumb "Home" "homepage" %}
     {% endblock breadcrumbs %}
 
     {% render_breadcrumbs "includes/breadcrumbs.html" %}
+    <!-- END Breadcrumbs -->
 
     {% include "includes/messages.html" %}
 
@@ -56,7 +60,13 @@
     {% endblock footer %}
     <!-- END Footer -->
 
-    <!-- BEGIN: javascripts from vendors -->
+    <!-- Modal -->
+    {% block modals %}
+        {% include "includes/modal_partials.html" %}
+    {% endblock modals %}
+    <!-- END Modal -->
+
+    <!-- javascripts from vendors -->
     {% compress js %}
         <script type="text/javascript" charset="utf-8" src="{% static 'vendor/jquery/dist/jquery.min.js' %}"></script>
         <script type="text/javascript" charset="utf-8" src="{% static 'vendor/popper.js/dist/umd/popper.min.js' %}"></script>
@@ -64,17 +74,18 @@
         <script type="text/javascript" charset="utf-8" src="{% static 'vendor/noty/lib/noty.min.js' %}"></script>
         <script type="text/javascript" charset="utf-8" src="{% static 'vendor/select2/dist/js/select2.min.js' %}"></script>
     {% endcompress %}
-    <!-- END: javascripts from vendors -->
+    <!-- END javascripts from vendors -->
 
     {% block extrajs %}{% endblock extrajs %}
 
-    <!-- BEGIN: internal javascripts -->
+    <!-- internal javascripts -->
     {% compress js %}
         <script type="text/javascript" charset="utf-8" src="{% static 'ajax_cbv/forms.jquery.js' %}"></script>
+        <script type="text/javascript" charset="utf-8" src="{% static 'ajax_cbv/partials.jquery.js' %}"></script>
         <script type="text/javascript" charset="utf-8" src="{% static 'js/dj-messages-noty.jquery.js' %}"></script>
         <script type="text/javascript" charset="utf-8" src="{% static 'js/main.jquery.js' %}"></script>
     {% endcompress %}
-    <!-- END: internal javascripts -->
+    <!-- END internal javascripts -->
 
     {% analytics_tracking %}
     {% sentry_ravenjs %}

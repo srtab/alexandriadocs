@@ -1,12 +1,14 @@
 /* globals jQuery */
 "use strict";
 
-(function($) {
-
-  $(document).ready(function() {
+(function ($) {
+  $(document).ready(function () {
     $('[data-toggle="tooltip"]').tooltip();
     $('[data-dj-messages-noty]').djMessagesNoty();
     $('[data-ajax-submit]').djangoAjaxForms();
+    $('[data-partial-url]').djangoPartials({
+      injectInSelector: '[data-partial-content]'
+    });
 
     $('.select2').each(function() {
       var $this = $(this),

@@ -1,0 +1,16 @@
+{% load i18n %}
+<div id="modalPartials" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" data-partial-content>
+            <div class="modal-header">
+                <h5 class="modal-title">{% trans "Loading..." %}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="fa fa-times-circle" aria-hidden="true"></i>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <i class="fa fa-cog fa-spin fa-3x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
