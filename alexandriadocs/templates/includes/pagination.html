@@ -2,14 +2,12 @@
 
 {% if is_paginated %}
     <nav>
-        <ul class="pagination justify-content-center">
-            {% if page_obj.has_previous %}
-                <li class="page-item">
-                    <a class="page-link" href="{% querystring page=page_obj.previous_page_number %}">
-                        <i class="fa fa-angle-double-left" aria-hidden="true"></i>
-                    </a>
-                </li>
-            {% endif %}
+        <ul class="pagination pagination-sm">
+            <li class="page-item{% if not page_obj.has_previous %} disabled{% endif %}">
+                <a class="page-link" href="{% if page_obj.has_previous %}{% querystring page=page_obj.previous_page_number %}{% else %}#{% endif %}">
+                    <i class="fa fa-angle-double-left" aria-hidden="true"></i>
+                </a>
+            </li>
 
             {% for page in paginator.page_range %}
                 <li class="page-item {% if page == page_obj.number %}active{% endif %}">
@@ -17,13 +15,11 @@
                 </li>
             {% endfor %}
 
-            {% if page_obj.has_next %}
-                <li class="page-item">
-                    <a class="page-link" href="{% querystring page=page_obj.next_page_number %}">
-                        <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-                    </a>
-                </li>
-            {% endif %}
+            <li class="page-item{% if not page_obj.has_next %} disabled{% endif %}">
+                <a class="page-link" href="{% if page_obj.has_next %}{% querystring page=page_obj.next_page_number %}{% else %}#{% endif %}">
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                </a>
+            </li>
         </ul>
     </nav>
 {% endif %}
