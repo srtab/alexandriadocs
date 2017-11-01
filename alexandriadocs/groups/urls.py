@@ -3,12 +3,11 @@ from django.conf.urls import url
 
 from groups.ajax import (
     GroupAutocompleteView, GroupCollaboratorCreateView,
-    GroupCollaboratorDeleteView, GroupVisibilityUpdateView,
-    GroupDeleteView
+    GroupCollaboratorDeleteView, GroupDeleteView, GroupVisibilityUpdateView
 )
 from groups.views import (
-    GroupCollaboratorsView, GroupCreateView, GroupDetailView,
-    GroupListView, GroupSettingsView
+    GroupCollaboratorsView, GroupCreateView, GroupDetailView, GroupListView,
+    GroupSettingsView
 )
 
 base_urlpatterns = [

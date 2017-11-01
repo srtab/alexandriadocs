@@ -49,15 +49,10 @@ base_urlpatterns = [
         name='project-settings'
     ),
     url(
-        regex=r'^(?P<slug>[-\w]+)/delete/$',
-        view=ProjectDeleteView.as_view(),
-        name='project-delete'
-    ),
-    url(
         regex=r'^(?P<slug>[-\w]+)/badge-url/$',
         view=ProjectBadgeUrlView.as_view(),
         name='project-badge-url'
-    ),
+    )
 ]
 
 ajax_urlpatterns = [
@@ -81,6 +76,11 @@ ajax_urlpatterns = [
         view=ProjectVisibilityUpdateView.as_view(),
         name='project-visibility-update'
     ),
+    url(
+        regex=r'^(?P<slug>[-\w]+)/delete/$',
+        view=ProjectDeleteView.as_view(),
+        name='project-delete'
+    )
 ]
 
 urlpatterns = base_urlpatterns + ajax_urlpatterns
