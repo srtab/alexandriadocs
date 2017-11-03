@@ -9,12 +9,9 @@
 
 {% block breadcrumbs %}
     {{block.super}}
-    {% if user.is_authenticated %}
-        {% breadcrumb "Projects" "projects:project-list" %}
-    {% else %}
-        {% breadcrumb project.group "groups:group-detail" slug=project.group.slug %}
-    {% endif %}
-    {% breadcrumb project "projects:project-uploads" slug=project.slug %}
+    {% breadcrumb project.group "groups:group-detail" slug=project.group.slug %}
+    {% breadcrumb project "projects:project-detail" slug=project.slug %}
+    {% breadcrumb "Uploads" "projects:project-uploads" slug=project.slug %}
 {% endblock breadcrumbs %}
 
 
