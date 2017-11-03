@@ -3,7 +3,7 @@ from django.conf import settings as djsettings
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import redirect
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import View
@@ -42,7 +42,6 @@ class ProjectCreateView(SuccessMessageMixin, CreateView):
     """ """
     model = Project
     form_class = ProjectForm
-    success_url = reverse_lazy('projects:project-list')
     success_message = _("%(title)s was created successfully")
 
     def get_form_kwargs(self):
