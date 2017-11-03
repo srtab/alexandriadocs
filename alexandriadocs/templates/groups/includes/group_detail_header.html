@@ -3,8 +3,10 @@
 
 <div class="jumbotron jumbotron-fluid jumbotron-header jumbotron-header-tabs">
     <div class="container">
-        <h1 class="h2">{{group}} <small class="pull-right">{% visibility_icon visibility_obj=group %}</small></h1>
-        <p>{{group.description}}</p>
+        <h1 class="h2 align-self-center">{{group}} <small class="text-muted ml-2">{% visibility_icon visibility_obj=group %}</small></h1>
+        {% if group.description %}
+            <p>{{group.description}}</p>
+        {% endif %}
 
         <ul class="nav nav-tabs">
             <li class="nav-item">

@@ -206,14 +206,6 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 HAYSTACK_SIGNAL_PROCESSOR = 'search.signals.AlexandriaSignalProcessor'
 
 
-# PROJECTS SETTINGS
-
-PROJECTS_ALLOWED_MIMETYPES = ('application/x-gzip',)
-PROJECTS_SERVE_URL = "/docs/"
-PROJECTS_SERVE_ROOT = os.path.join(DATA_DIR, 'staticsites')
-PROJECTS_VALID_IMPORT_EXTENSION = ['.html']
-
-
 # LOGGING
 
 LOGGING = {

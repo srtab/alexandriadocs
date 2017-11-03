@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
-from django.conf import settings as djsettings
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import redirect
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import View
@@ -42,7 +41,6 @@ class ProjectCreateView(SuccessMessageMixin, CreateView):
     """ """
     model = Project
     form_class = ProjectForm
-    success_url = reverse_lazy('projects:project-list')
     success_message = _("%(title)s was created successfully")
 
     def get_form_kwargs(self):
@@ -95,10 +93,12 @@ class ProjectUploadsView(HasAccessLevelMixin, DetailView):
             .select_related('group')
 
     def get_context_data(self, **kwargs):
+        limit = settings.UPLOADS_HISTORY_LIMIT
         context = super().get_context_data(**kwargs)
         context.update({
             'form': ImportedArchiveForm(),
-            'allowed_mimetypes': djsettings.PROJECTS_ALLOWED_MIMETYPES,
+            'allowed_mimetypes': settings.UPLOADS_ALLOWED_MIMETYPES,
+            'imported_archives': self.object.imported_archives.all()[:limit]
         })
         return context
 

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic.detail import DetailView
@@ -32,7 +32,6 @@ class GroupCreateView(SuccessMessageMixin, CreateView):
     """ """
     model = Group
     form_class = GroupForm
-    success_url = reverse_lazy('groups:group-list')
     success_message = _("%(title)s was created successfully")
 
     def form_valid(self, form):

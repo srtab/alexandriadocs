@@ -2,6 +2,7 @@
 from django.conf import settings
 from django.db import models
 from django.db.models.signals import post_save
+from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
 from accounts.managers import CollaboratorManager
@@ -28,6 +29,9 @@ class Group(VisibilityMixin, TitleSlugDescriptionMixin, TimeStampedModel):
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse('groups:group-detail', args=[self.slug])
 
     @staticmethod
     def post_save(sender, instance, created, **kwargs):

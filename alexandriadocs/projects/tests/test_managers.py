@@ -65,7 +65,7 @@ class ImportedFileManagerTest(TestCase):
 
     def test_walk_with_other_valid_import_extension(self, walk, md5):
         """ """
-        with self.settings(PROJECTS_VALID_IMPORT_EXTENSION=[".html", ".js"]):
+        with self.settings(ALEXANDRIA_VALID_IMPORT_EXT=[".html", ".js"]):
             result = ImportedFile.objects.walk(self.project.pk, "/root/")
         expected = ImportedFile.objects.filter(project_id=self.project.pk)
         self.assertEqual(ImportedFile.objects.count(), 2)

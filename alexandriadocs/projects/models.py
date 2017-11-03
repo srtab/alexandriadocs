@@ -2,14 +2,16 @@ import os
 import shutil
 import tarfile
 
-from django.conf import settings
+from django.conf import settings as djsettings
 from django.db import models
 from django.db.models.signals import post_save
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
+from django.urls import reverse
 
 from accounts.managers import CollaboratorManager
 from accounts.models import AccessLevel, CollaboratorMixin
+from core.conf import settings
 from core.models import TitleSlugDescriptionMixin, VisibilityMixin
 from django_extensions.db.models import TimeStampedModel
 from groups.models import Group
@@ -28,11 +30,11 @@ class Project(VisibilityMixin, TitleSlugDescriptionMixin, TimeStampedModel):
         Group, on_delete=models.CASCADE, verbose_name=_('group'),
         related_name='projects')
     author = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.PROTECT,
+        djsettings.AUTH_USER_MODEL, on_delete=models.PROTECT,
         verbose_name=_('author'), help_text=_('project author'),
         related_name='projects')
     collaborators = models.ManyToManyField(
-        settings.AUTH_USER_MODEL, through='ProjectCollaborator',
+        djsettings.AUTH_USER_MODEL, through='ProjectCollaborator',
         related_name='collaborate_projects')
     repo = models.CharField(_('repository URL'), max_length=255)
     tags = TaggableManager(blank=True)
@@ -58,7 +60,7 @@ class Project(VisibilityMixin, TitleSlugDescriptionMixin, TimeStampedModel):
 
     @property
     def serve_root_path(self):
-        return os.path.join(settings.PROJECTS_SERVE_ROOT, self.slug)
+        return os.path.join(settings.ALEXANDRIA_SERVE_ROOT, self.slug)
 
     @cached_property
     def last_imported_archive_date(self):
@@ -76,7 +78,11 @@ class Project(VisibilityMixin, TitleSlugDescriptionMixin, TimeStampedModel):
         return token_generator.make_token(self)
 
     def get_absolute_url(self):
-        return "{}{}/index.html".format(settings.PROJECTS_SERVE_URL, self.slug)
+        return reverse('projects:project-detail', args=[self.slug])
+
+    def get_docs_url(self):
+        return "{}{}/index.html".format(
+            settings.ALEXANDRIA_SERVE_URL, self.slug)
 
     @staticmethod
     def post_save(sender, instance, created, **kwargs):
@@ -123,7 +129,7 @@ class ImportedArchive(TimeStampedModel):
         )
 
     uploaded_by = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.PROTECT,
+        djsettings.AUTH_USER_MODEL, on_delete=models.PROTECT,
         null=True, verbose_name=_('who uploaded'),
         help_text=_('who uploaded the documentation'))
     uploaded_from = models.PositiveSmallIntegerField(
@@ -136,7 +142,7 @@ class ImportedArchive(TimeStampedModel):
         help_text=_('archive with project documentation.'),
         validators=[
             MimeTypeValidator(
-                allowed_mimetypes=settings.PROJECTS_ALLOWED_MIMETYPES)
+                allowed_mimetypes=settings.ALEXANDRIA_ALLOWED_MIMETYPES)
         ])
 
     class Meta:
@@ -189,5 +195,5 @@ class ImportedFile(TimeStampedModel):
         return self.path
 
     def get_absolute_url(self):
-        relpath = os.path.relpath(self.path, settings.PROJECTS_SERVE_ROOT)
-        return settings.PROJECTS_SERVE_URL + relpath
+        relpath = os.path.relpath(self.path, settings.ALEXANDRIA_SERVE_ROOT)
+        return settings.ALEXANDRIA_SERVE_URL + relpath
