@@ -9,9 +9,6 @@
 
 {% block breadcrumbs %}
     {{block.super}}
-    {% if user.is_authenticated %}
-        {% breadcrumb "Groups" "groups:group-list" %}
-    {% endif %}
     {% breadcrumb group "groups:group-detail" slug=group.slug %}
 {% endblock breadcrumbs %}
 
