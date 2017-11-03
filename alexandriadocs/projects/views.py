@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from django.conf import settings as djsettings
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import redirect
@@ -94,11 +93,12 @@ class ProjectUploadsView(HasAccessLevelMixin, DetailView):
             .select_related('group')
 
     def get_context_data(self, **kwargs):
+        limit = settings.UPLOADS_HISTORY_LIMIT
         context = super().get_context_data(**kwargs)
         context.update({
             'form': ImportedArchiveForm(),
-            'allowed_mimetypes': djsettings.PROJECTS_ALLOWED_MIMETYPES,
-            'imported_archives': self.object.imported_archives.all()[:10]
+            'allowed_mimetypes': settings.UPLOADS_ALLOWED_MIMETYPES,
+            'imported_archives': self.object.imported_archives.all()[:limit]
         })
         return context
 

@@ -54,12 +54,12 @@ class ProjectModelTest(SimpleTestCase):
         self.assertTrue(self.project.is_public)
 
     def test_get_absolute_url(self):
-        with self.settings(PROJECTS_SERVE_URL="/docs/"):
+        with self.settings(ALEXANDRIA_SERVE_URL="/docs/"):
             self.assertEqual(self.project.get_absolute_url(),
                              "/docs/slug/index.html")
 
     def test_serve_root_path(self):
-        with self.settings(PROJECTS_SERVE_ROOT="/test/"):
+        with self.settings(ALEXANDRIA_SERVE_ROOT="/test/"):
             self.assertEqual(self.project.serve_root_path, "/test/slug")
 
     @patch.object(Project, 'imported_archives')
@@ -137,6 +137,6 @@ class ImportedFileModelTest(SimpleTestCase):
 
     def test_get_absolute_url(self):
         with self.settings(
-                PROJECTS_SERVE_ROOT="/unit/", PROJECTS_SERVE_URL="/docs/"):
+                ALEXANDRIA_SERVE_ROOT="/unit/", ALEXANDRIA_SERVE_URL="/docs/"):
             self.assertEqual(self.imported_file.get_absolute_url(),
                              "/docs/test.html")

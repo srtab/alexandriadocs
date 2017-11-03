@@ -1,11 +1,12 @@
 """alexandriadocs URL Configuration
 """
-from django.conf import settings
+from django.conf import settings as djsettings
 from django.conf.urls import include, url
 from django.contrib import admin
 from django.contrib.auth.decorators import login_required
 
 from core.views import HomepageView
+from core.conf import settings
 
 # https://django-allauth.readthedocs.io/en/latest/advanced.html#admin
 admin.site.login = login_required(admin.site.login)
@@ -48,7 +49,7 @@ urlpatterns = [
 ]
 
 
-if settings.DEBUG:  # pragma: no cover
+if djsettings.DEBUG:  # pragma: no cover
     import debug_toolbar
     from django.conf.urls.static import static
     from django.contrib.staticfiles.urls import staticfiles_urlpatterns
@@ -58,7 +59,7 @@ if settings.DEBUG:  # pragma: no cover
     # Serve static and media files from development server
     urlpatterns += staticfiles_urlpatterns()
     urlpatterns += static(
-        settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+        djsettings.MEDIA_URL, document_root=djsettings.MEDIA_ROOT)
     # serve static generated documentation on debug mode
     urlpatterns += static(
         settings.PROJECTS_SERVE_URL,

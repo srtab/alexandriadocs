@@ -1,9 +1,10 @@
 import hashlib
 import os
 
-from django.conf import settings
 from django.db import models
 from django.db.models import Q
+
+from core.conf import settings
 
 
 class ProjectQuerySet(models.QuerySet):
@@ -46,7 +47,7 @@ class ImportedFileManager(models.Manager):
         for root, __, filenames in os.walk(walkpath):
             for filename in filenames:
                 extension = os.path.splitext(filename)[-1].lower()
-                if extension in settings.PROJECTS_VALID_IMPORT_EXTENSION:
+                if extension in settings.ALEXANDRIA_VALID_IMPORT_EXT:
                     full_path = os.path.abspath(os.path.join(root, filename))
                     with open(full_path, 'rb') as fp:
                         md5 = hashlib.md5(fp.read()).hexdigest()
