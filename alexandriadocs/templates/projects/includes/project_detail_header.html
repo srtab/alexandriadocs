@@ -5,9 +5,8 @@
     <div class="container">
         <div class="d-flex justify-content-between">
             <h1 class="h3 align-self-center"><a href="{% url 'groups:group-detail' project.group.slug %}">{{project.group}}</a> / <strong class="bold-light">{{project}}</strong> <small class="text-muted ml-2">{% visibility_icon visibility_obj=project %}</small></h1>
-            <a href="{{project.get_absolute_url}}" class="btn btn-success align-self-center">{% trans "Read docs" %} <i class="fa fa-chevron-right fa-fw" aria-hidden="true"></i></a>
+            <a href="{{project.get_docs_url}}" class="btn btn-success align-self-center">{% trans "Read docs" %} <i class="fa fa-chevron-right fa-fw" aria-hidden="true"></i></a>
         </div>
-
 
         <ul class="nav nav-tabs">
             <li class="nav-item">

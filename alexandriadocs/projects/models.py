@@ -7,11 +7,12 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
+from django.urls import reverse
 
 from accounts.managers import CollaboratorManager
 from accounts.models import AccessLevel, CollaboratorMixin
-from core.models import TitleSlugDescriptionMixin, VisibilityMixin
 from core.conf import settings
+from core.models import TitleSlugDescriptionMixin, VisibilityMixin
 from django_extensions.db.models import TimeStampedModel
 from groups.models import Group
 from projects.managers import ImportedFileManager, ProjectManager
@@ -77,6 +78,9 @@ class Project(VisibilityMixin, TitleSlugDescriptionMixin, TimeStampedModel):
         return token_generator.make_token(self)
 
     def get_absolute_url(self):
+        return reverse('projects:project-detail', args=[self.slug])
+
+    def get_docs_url(self):
         return "{}{}/index.html".format(
             settings.ALEXANDRIA_SERVE_URL, self.slug)
 

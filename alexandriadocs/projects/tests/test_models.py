@@ -55,8 +55,8 @@ class ProjectModelTest(SimpleTestCase):
 
     def test_get_absolute_url(self):
         with self.settings(ALEXANDRIA_SERVE_URL="/docs/"):
-            self.assertEqual(self.project.get_absolute_url(),
-                             "/docs/slug/index.html")
+            self.assertEqual(
+                self.project.get_docs_url(), "/docs/slug/index.html")
 
     def test_serve_root_path(self):
         with self.settings(ALEXANDRIA_SERVE_ROOT="/test/"):

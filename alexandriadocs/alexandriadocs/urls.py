@@ -5,8 +5,8 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.contrib.auth.decorators import login_required
 
-from core.views import HomepageView
 from core.conf import settings
+from core.views import HomepageView
 
 # https://django-allauth.readthedocs.io/en/latest/advanced.html#admin
 admin.site.login = login_required(admin.site.login)
@@ -62,5 +62,5 @@ if djsettings.DEBUG:  # pragma: no cover
         djsettings.MEDIA_URL, document_root=djsettings.MEDIA_ROOT)
     # serve static generated documentation on debug mode
     urlpatterns += static(
-        settings.PROJECTS_SERVE_URL,
-        document_root=settings.PROJECTS_SERVE_ROOT)
+        settings.ALEXANDRIA_SERVE_URL,
+        document_root=settings.ALEXANDRIA_SERVE_ROOT)
