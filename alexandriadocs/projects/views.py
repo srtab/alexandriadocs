@@ -98,6 +98,7 @@ class ProjectUploadsView(HasAccessLevelMixin, DetailView):
         context.update({
             'form': ImportedArchiveForm(),
             'allowed_mimetypes': djsettings.PROJECTS_ALLOWED_MIMETYPES,
+            'imported_archives': self.object.imported_archives.all()[:10]
         })
         return context
 
