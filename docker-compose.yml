@@ -37,9 +37,17 @@ services:
         condition: service_started
       redis:
         condition: service_started
+      selenium-chrome:
+        condition: service_started
     volumes:
       - ./data/static:/data/static
       - ./data/media:/data/media
       - .:/app
     ports:
       - 8000:8000
+
+  selenium-chrome:
+    image: selenium/standalone-chrome
+    restart: on-failure
+    ports:
+      - 4444:4444

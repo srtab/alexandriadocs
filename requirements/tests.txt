@@ -2,5 +2,6 @@
 
 django-autofixture
 tblib
+selenium
 
 django-ajax-cbv~=0.1.1
