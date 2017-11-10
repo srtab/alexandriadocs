@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% load i18n humanize %}
+{% load crispy_forms_tags django_bootstrap_breadcrumbs %}
+
+
+{% block head_title %}{{project.group}} / {{project}}{% endblock %}
+
+
+{% block breadcrumbs %}
+    {{block.super}}
+    {% breadcrumb project.group "groups:group-detail" slug=project.group.slug %}
+    {% breadcrumb project "projects:project-detail" slug=project.slug %}
+    {% breadcrumb "Uploads" "projects:project-uploads" slug=project.slug %}
+{% endblock breadcrumbs %}
+
+
+{% block container %}
+
+    {% include "projects/includes/project_detail_header.html" %}
+
+    <div class="container">
+        <p class="lead">
+            {% blocktrans %}You can upload the build result of your documentation using the form below.{% endblocktrans %}
+        </p>
+
+        <div class="card mb-4">
+            <h4 class="card-header">{% trans "Upload" %}</h4>
+            <div class="card-body">
+                <p>
+                    {% trans 'Before upload, make sure the archive:' %}
+                    <ul>
+                        <li>
+                            {% blocktrans with mimetypes=allowed_mimetypes|join:',' %}
+                                has the correct format (valid formats: {{mimetypes}}).
+                            {% endblocktrans %}
+                        </li>
+                        <li>{% blocktrans %}contain the files resulting from the build in the root and not the folder.{% endblocktrans %}</li>
+                    </ul>
+                </p>
+                <form class="project-uploads" method="post" action="{% url 'projects:imported-archive-create' project.slug %}" enctype="multipart/form-data" novalidate data-ajax-submit>
+                    <div class="row">
+                        <div class="col-lg-10">
+                            {% crispy form %}
+                        </div>
+                        <div class="col-lg-2">
+                            <button class="btn btn-success btn-block" type="submit">{% trans "Upload docs" %}</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        {% if imported_archives %}
+            <div class="card">
+                <h4 class="card-header">{% trans "History" %}</h4>
+                <div class="card-body">
+                    <table class="table table-responsive mb-0">
+                        <thead>
+                            <tr>
+                                <th>{% trans "Uploaded at" %}</th>
+                                <th>{% trans "Uploaded by" %}</th>
+                                <th>{% trans "Uploaded from" %}</th>
+                                <th>{% trans "Archive" %}</th>
+                                <th>{% trans "Size" %}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for imported_archive in imported_archives %}
+                                <tr>
+                                    <td>{{imported_archive.created|timesince}}</td>
+                                    <td>{{imported_archive.uploaded_by}}</td>
+                                    <td>{{imported_archive.get_uploaded_from_display}}</td>
+                                    <td>{{imported_archive.archive.url}}</td>
+                                    <td>{{imported_archive.archive.size|filesizeformat}}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+{% endblock %}

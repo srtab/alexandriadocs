@@ -1,0 +1,4 @@
+{{object.description|striptags}}
+{{object.group}}
+{{object.author}}
+{{object.tags.names|join:' '}}

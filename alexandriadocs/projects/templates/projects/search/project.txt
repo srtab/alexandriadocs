@@ -1,4 +1,0 @@
-{{object.title|striptags}}
-{{object.description|striptags}}
-{{object.author.username}}
-{{object.tags.names|join:' '}}

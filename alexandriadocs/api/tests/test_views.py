@@ -1,45 +1,34 @@
-from __future__ import unicode_literals
+from unittest.mock import patch
 
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db.models.signals import post_save
-from django.contrib.auth import get_user_model
-from django.test import TestCase
+from django.urls import reverse
 
-from rest_framework.test import force_authenticate, APIRequestFactory
+from autofixture import create_one
+from projects.models import ImportedArchive, Project
+from rest_framework import status
+from rest_framework.test import APITestCase
 
-from projects.models import Project, ImportedArchive, Organization
-from api.views import ImportArchiveView
 
-
-class ImportedArchiveViewTest(TestCase):
+class ImportedArchiveViewTest(APITestCase):
 
     def setUp(self):
-        self.factory = APIRequestFactory()
-        self.view = ImportArchiveView.as_view()
-        self.user = get_user_model().objects.create_user(
-            username='test',
-            email='t@t.c',
-            password='pass'
-        )
-        self.project = Project.objects.create(
-            author=self.user,
-            organization=Organization.objects.create()
-        )
+        self.project = create_one(Project, generate_fk=True)
+        self.headers = {'HTTP_API_KEY': self.project.api_token}
+        self.url = reverse('api:project-imported-archive', args=['v1'])
 
-    def test_post_with_unauthenticated_user(self):
+    def test_post_without_api_token(self):
         """must be athenticated to access api"""
-        request = self.factory.post('/test/', {})
-        response = self.view(request).render()
-        self.assertEqual(response.status_code, 401)
+        response = self.client.post(self.url, {})
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
-    def test_post_with_authenticated_user(self):
-        """"""
+    @patch('projects.models.MimeTypeValidator.__call__', return_value=None)
+    def test_post(self, mmime):
         # to avoid files extraction
         post_save.disconnect(ImportedArchive.post_save, sender=ImportedArchive)
         data = {
-            'project': self.project.pk,
-            'archive': open('api/tests/test.tar.gz', 'rb')
+            'archive': SimpleUploadedFile('docs.tar.gz', b'content')
         }
-        request = self.factory.post('/test/', data)
-        force_authenticate(request, user=self.user)
-        response = self.view(request).render()
-        self.assertEqual(response.status_code, 201)
+        response = self.client.post(self.url, data, **self.headers)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(ImportedArchive.objects.count(), 1)

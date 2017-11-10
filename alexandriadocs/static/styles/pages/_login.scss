@@ -1,7 +1,33 @@
-/*
-Login Styles
-*/
+// Login Styles
 
-body.login {
+body.view-account_login {
+  .rule-text {
+    margin-bottom: 2rem;
+    margin-top: 2rem;
+    position: relative;
+    text-align: center;
 
+    hr {
+      margin: 0;
+    }
+
+    span {
+      left: 50%;
+      margin-left: -15px;
+      padding: 0 10px;
+      position: absolute;
+      top: -17px;
+    }
+  }
+
+  input[name="login"] {
+    border-bottom: 0;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  input[name="password"] {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
 }

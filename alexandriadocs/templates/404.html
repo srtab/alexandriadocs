@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load highlight django_bootstrap_breadcrumbs %}
+
+
+{% block breadcrumbs %}
+    {{block.super}}
+    {% breadcrumb "404" "" %}
+{% endblock breadcrumbs %}
+
+
+{% block container %}
+    <div class="jumbotron jumbotron-fluid jumbotron-header">
+        <div class="container text-center">
+            <h1 class="display-2"><i class="fa fa-meh-o text-primary" aria-hidden="true"></i>{% trans "ops!" %}</h1>
+            <hr>
+            <p class="lead">{% blocktrans %}We can't seem to find the page you're looking for.{% endblocktrans %}</p>
+            <p class="text-muted">Error code: 404</p>
+        </div>
+    </div>
+{% endblock %}

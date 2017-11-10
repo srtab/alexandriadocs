@@ -1,14 +1,15 @@
 """
 Django settings for alexandriadocs project.
 """
-from __future__ import unicode_literals
-
 import os
+
+from django.urls import reverse_lazy
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROJECT_DIR = os.path.abspath(os.path.join(BASE_DIR, '..'))
-LOGS_DIR = os.path.abspath(os.path.join(PROJECT_DIR, '..', 'logs'))
+LOG_DIR = os.path.abspath(os.path.join(PROJECT_DIR, '..', 'log'))
 DATA_DIR = os.path.abspath(os.path.join(PROJECT_DIR, '..', 'data'))
 
 
@@ -20,28 +21,42 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+SITE_ID = 1
 
 # Application definition
 
 INSTALLED_APPS = [
+    'django.contrib.sites',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
 
-    'haystack',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.github',
+    'allauth.socialaccount.providers.gitlab',
+    'allauth.socialaccount.providers.google',
     'rest_framework',
-    'rest_framework.authtoken',
     'django_extensions',
-    'taggit',
     'compressor',
+    'raven.contrib.django.raven_compat',
+    'haystack',
+    'taggit',
+    'crispy_forms',
+    'django_bootstrap_breadcrumbs',
+    'ajax_cbv',
 
+    'accounts',
     'core',
+    'groups',
     'projects',
     'search',
-    'api',
+    'api'
 ]
 
 MIDDLEWARE = [
@@ -71,6 +86,7 @@ TEMPLATES = [
                 'django.template.context_processors.static',
                 'django.template.context_processors.tz',
                 'django.contrib.messages.context_processors.messages',
+                'accounts.context_processors.access_levels'
             ],
         },
     },
@@ -79,17 +95,6 @@ TEMPLATES = [
 ROOT_URLCONF = 'alexandriadocs.urls'
 
 WSGI_APPLICATION = 'alexandriadocs.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/1.10/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(DATA_DIR, 'db.sqlite3'),
-    }
-}
 
 
 # Password validation
@@ -110,18 +115,44 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL = 'accounts.User'
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+LOGIN_REDIRECT_URL = reverse_lazy('homepage')
+
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_CONFIRM_EMAIL_ON_GET = True
+ACCOUNT_PRESERVE_USERNAME_CASING = False
+ACCOUNT_SESSION_REMEMBER = True
+ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = True
+ACCOUNT_USERNAME_MIN_LENGTH = 3
+ACCOUNT_LOGOUT_ON_GET = True
+ACCOUNT_LOGOUT_REDIRECT_URL = reverse_lazy('homepage')
+ACCOUNT_FORMS = {
+    'change_password': 'accounts.forms.ChangePasswordForm',
+    'reset_password': 'accounts.forms.ResetPasswordForm',
+    'reset_password_from_key': 'accounts.forms.ResetPasswordKeyForm',
+    'set_password': 'accounts.forms.SetPasswordForm',
+    'signup': 'accounts.forms.SignupForm',
+}
+SOCIALACCOUNT_FORMS = {
+    'signup': 'accounts.forms.SocialSignupForm'
+}
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
 
@@ -143,6 +174,11 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(DATA_DIR, 'media')
 
 
+# SESSION
+
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+
+
 # TAGGIT
 
 TAGGIT_CASE_INSENSITIVE = True
@@ -151,10 +187,7 @@ TAGGIT_CASE_INSENSITIVE = True
 # REST_FRAMEWORK
 
 REST_FRAMEWORK = {
-    'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.URLPathVersioning',
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.TokenAuthentication',
-    )
+    'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.URLPathVersioning'
 }
 
 
@@ -165,12 +198,13 @@ COMPRESS_PRECOMPILERS = (
 )
 
 
-# PROJECTS SETTINGS
+# CRISPY FORMS
 
-PROJECTS_ALLOWED_MIMETYPES = ('application/x-gzip',)
-PROJECTS_SERVE_URL = "/docs/"
-PROJECTS_SERVE_ROOT = os.path.join(DATA_DIR, 'staticsites')
-PROJECTS_VALID_IMPORT_EXTENSION = ['.html']
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+
+# HAYSTACK
+HAYSTACK_SIGNAL_PROCESSOR = 'search.signals.AlexandriaSignalProcessor'
 
 
 # LOGGING
@@ -206,33 +240,29 @@ LOGGING = {
             'class': 'logging.StreamHandler',
             'formatter': 'simple'
         },
-        'mail_admins': {
-            'level': 'ERROR',
-            'filters': ['require_debug_false'],
-            'class': 'django.utils.log.AdminEmailHandler'
-        },
         'main_file': {
             'level': 'INFO',
             'filters': ['require_debug_false'],
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(LOGS_DIR, 'alexandria.log'),
+            'filename': os.path.join(LOG_DIR, 'alexandria.log'),
             'maxBytes': 10 * 1024 * 1024,
             'backupCount': 5,
             'formatter': 'verbose'
+        },
+        'sentry': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',  # NOQA
         },
     },
     'loggers': {
         'alexandria': {
             'level': 'INFO',
-            'handlers': ['console', 'mail_admins', 'main_file']
+            'handlers': ['console', 'main_file', 'sentry']
         },
         'django': {
             'level': 'INFO',
-            'handlers': ['console', 'mail_admins']
+            'handlers': ['console', 'sentry']
         },
-        'celery': {
-            'level': 'INFO',
-            'handlers': ['console', 'mail_admins']
-        }
     },
 }

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load accounts_tags projects_tags django_bootstrap_breadcrumbs %}
+
+
+{% block head_title %}{% trans "Collaborators" %} - {{project.group}} / {{project}}{% endblock %}
+
+
+{% block breadcrumbs %}
+    {{block.super}}
+    {% breadcrumb project.group "groups:group-detail" slug=project.group.slug %}
+    {% breadcrumb project "projects:project-detail" slug=project.slug %}
+    {% breadcrumb "Collaborators" "projects:project-collaborators" slug=project.slug %}
+{% endblock breadcrumbs %}
+
+
+{% block container %}
+    {% include "projects/includes/project_detail_header.html" %}
+
+    <div class="container">
+        <div class="alert alert-secondary" role="alert">
+            <i class="fa fa-info-circle text-info fa-lg" aria-hidden="true"></i>
+            {% blocktrans with group=project.group %}
+                The collaborator's roles defined on the group <strong>{{group}}</strong> are automatically inherited by the <strong>{{project}}</strong> project collaborators. If a user is a collaborator to a group and to some of their projects, the highest role level is used.
+            {% endblocktrans %}
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                {% render_inherited_collaborators project.group.group_collaborators.all %}
+            </div>
+            <div class="col-lg-6">
+                {% trans "Collaborators specific to this project" as specific_title %}
+                {% render_collaborator_list project.project_collaborators.all 'projects:project-collaborator-create' 'projects:project-collaborator-delete' title=specific_title %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

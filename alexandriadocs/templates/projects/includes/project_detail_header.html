@@ -1,0 +1,32 @@
+{% load i18n %}
+{% load accounts_tags core_tags %}
+
+<div class="jumbotron jumbotron-fluid jumbotron-header jumbotron-header-tabs">
+    <div class="container">
+        <div class="d-flex justify-content-between">
+            <h1 class="h3 align-self-center"><a href="{% url 'groups:group-detail' project.group.slug %}">{{project.group}}</a> / <strong class="bold-light">{{project}}</strong> <small class="text-muted ml-2">{% visibility_icon visibility_obj=project %}</small></h1>
+            <a href="{{project.get_docs_url}}" class="btn btn-success align-self-center">{% trans "Read docs" %} <i class="fa fa-chevron-right fa-fw" aria-hidden="true"></i></a>
+        </div>
+
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link {% menu_active 'projects' 'project-detail' %}" href="{% url 'projects:project-detail' project.slug %}"><i class="fa fa-home fa-fw" aria-hidden="true"></i> {% trans "Overview" %} <span class="badge badge-pill badge-light ml-2">{{project.projects.count}}</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% menu_active 'projects' 'project-badge' %}" href="{% url 'projects:project-badge' project.slug %}"><i class="fa fa-square fa-fw" aria-hidden="true"></i> {% trans "Badge" %}</a>
+            </li>
+            {% has_access ADMIN project as can_access %}
+            {% if can_access %}
+                <li class="nav-item">
+                    <a class="nav-link {% menu_active 'projects' 'project-uploads' %}" href="{% url 'projects:project-uploads' project.slug %}"><i class="fa fa-cloud-download fa-fw" aria-hidden="true"></i> {% trans "Uploads" %}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% menu_active 'projects' 'project-collaborators' %}" href="{% url 'projects:project-collaborators' project.slug %}"><i class="fa fa-users fa-fw" aria-hidden="true"></i> {% trans "Collaborators" %}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% menu_active 'projects' 'project-settings' %}" href="{% url 'projects:project-settings' project.slug %}"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> {% trans "Settings" %}</a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+</div>

@@ -1,14 +1,12 @@
-from __future__ import unicode_literals
-
+# -*- coding: utf-8 -*-
 from django.conf.urls import url
 
-from api.views import ImportArchiveView
-
+from api.views import ImportedArchiveView
 
 urlpatterns = [
     url(
         regex=r'^projects/upload/$',
-        view=ImportArchiveView.as_view(),
-        name='project-import-archive'
+        view=ImportedArchiveView.as_view(),
+        name='project-imported-archive'
     )
 ]

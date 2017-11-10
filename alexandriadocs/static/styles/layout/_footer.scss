@@ -1,3 +1,16 @@
-/*
-Footer
-*/
+// Footer
+
+.footer {
+  font-size: 85%;
+  margin-top: 3rem;
+  padding: 2rem 0;
+
+  .nav-link:not(.disabled) {
+    color: #464a4c;
+    font-weight: bold;
+  }
+
+  .nav-link:not(.disabled):hover {
+    color: #0275d8;
+  }
+}

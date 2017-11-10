@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load accounts_tags crispy_forms_tags django_bootstrap_breadcrumbs %}
+
+
+{% block head_title %}{% trans "Settings" %} - {{project.group}} / {{project}}{% endblock %}
+
+
+{% block breadcrumbs %}
+    {{block.super}}
+    {% breadcrumb project.group "groups:group-detail" slug=project.group.slug %}
+    {% breadcrumb project "projects:project-detail" slug=project.slug %}
+    {% breadcrumb "Settings" "projects:project-settings" slug=project.slug %}
+{% endblock breadcrumbs %}
+
+
+{% block container %}
+    {% include "projects/includes/project_detail_header.html" %}
+
+    <div class="container">
+        <div class="card mb-4">
+            <h4 class="card-header">{% trans "Update project" %}</h4>
+            <div class="card-body">
+                <form class="project-update" method="post" action="{% url 'projects:project-settings' project.slug %}" novalidate>
+                    {% crispy form %}
+                    <button class="btn btn-success" type="submit">{% trans "Update project" %}</button>
+                </form>
+            </div>
+        </div>
+
+        {% has_access OWNER project as can_access %}
+        {% if can_access %}
+            <div class="card mb-4">
+                <h4 class="card-header">{% trans "Visibility level" %}</h4>
+                <div class="card-body">
+                    <div class="alert alert-dark">{% include "core/includes/visibility_help_text.html" with entity='project' %}</div>
+                    <form class="project-visibility" method="post" action="{% url 'projects:project-visibility-update' project.slug %}" novalidate data-ajax-submit>
+                        {% crispy visibility_form %}
+                        <button class="btn btn-success" type="submit">{% trans "Update visibility" %}</button>
+                    </form>
+                </div>
+            </div>
+        {% endif %}
+
+        <div class="card mb-4">
+            <h4 class="card-header">{% trans "Project API" %}</h4>
+            <div class="card-body">
+                <p>{% trans "To send your documentation through the API, you will need this API Token." %}</p>
+                <div class="form-group row mb-0">
+                    <label class="col-sm-2 col-form-label">{% trans "Project API Token" %}</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" type="text" value="{{project.api_token}}" readonly>
+                        <small class="form-text text-muted">
+                            {% trans "This is a personal secret key to interact with the API. Do not share or publish this private token." %}
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% has_access OWNER project as can_access %}
+        {% if can_access %}
+            <div class="card border-danger">
+                <h4 class="card-header text-white bg-danger">{% trans "Delete this project" %}</h4>
+                <div class="card-body text-danger">
+                    <div class="d-flex justify-content-between align-items-center">
+                        {% blocktrans %}Once you delete a project there is no going back. Please be certain.{% endblocktrans %}
+                        <a href="#" class="btn btn-danger" data-partial-url="{% url 'projects:project-delete' project.slug %}" data-partial="#modalPartials" data-toggle="modal" data-target="#modalPartials">{% trans "Delete project" %}</a>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

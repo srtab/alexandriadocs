@@ -1,9 +1,6 @@
-from __future__ import unicode_literals
-
 import mimetypes
 
 from alexandriadocs.settings import *  # NOQA
-
 
 # to serve svg images on development mode
 mimetypes.add_type("image/svg+xml", ".svg", True)
@@ -21,6 +18,18 @@ DATABASES = {
 }
 
 
+# DEBUG TOOLBAR
+INSTALLED_APPS += ('debug_toolbar',)
+
+MIDDLEWARE += [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+]
+
+DEBUG_TOOLBAR_CONFIG = {
+    "SHOW_TOOLBAR_CALLBACK": lambda x: True
+}
+
+
 HAYSTACK_CONNECTIONS = {
     'default': {
         'ENGINE': 'haystack.backends.elasticsearch2_backend.Elasticsearch2SearchEngine',  # noqa
@@ -28,3 +37,17 @@ HAYSTACK_CONNECTIONS = {
         'INDEX_NAME': 'alexandria',
     },
 }
+
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://redis:6379/0",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

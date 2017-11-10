@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load django_bootstrap_breadcrumbs %}
+
+
+{% block head_title %}{% trans "Projects" %}{% endblock %}
+
+
+{% block breadcrumbs %}
+    {{block.super}}
+    {% breadcrumb "Projects" "projects:project-list" %}
+{% endblock breadcrumbs %}
+
+
+{% block container %}
+    <div class="container">
+        <div class="header-action d-flex justify-content-between">
+            <h1 class="h3 align-self-center">{% trans "Projects" %}</h1>
+            <a href="{% url 'projects:project-create' %}" class="btn btn-success align-self-center">{% trans "New project" %}</a>
+        </div>
+    </div>
+    <hr>
+    <div class="container">
+        {% if project_list.exists %}
+            {% include "projects/includes/project_list.html" with show_group_name=True %}
+            {% include "includes/pagination.html" %}
+        {% else %}
+            <p class="lead text-muted mt-5 text-center">{% trans "You don't have any project created." %}</p>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -1,12 +1,9 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals, absolute_import
-
 from django.views.generic.list import ListView
 
-from haystack.query import SearchQuerySet
 from haystack.inputs import Clean
-
-from projects.models import Project, ImportedFile
+from haystack.query import SQ, SearchQuerySet
+from projects.models import ImportedFile, Project
 
 
 class SearchView(ListView):
@@ -14,6 +11,7 @@ class SearchView(ListView):
     template_name = "search/index.html"
     search_model = None
     search_field = 'q'
+    paginate_by = 20
 
     def get_query(self):
         return self.request.GET.get(self.search_field, "")
@@ -32,7 +30,9 @@ class SearchView(ListView):
         return context
 
     def search(self, query):
-        return SearchQuerySet().filter(content__contains=Clean(query))
+        return SearchQuerySet().filter(visibility_level=Project.Level.PUBLIC)\
+            .filter(SQ(content__contains=Clean(query)) |
+                    SQ(title__contains=Clean(query)))
 
 
 class SearchProjectView(SearchView):

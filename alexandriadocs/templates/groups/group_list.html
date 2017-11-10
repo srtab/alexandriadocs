@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load core_tags django_bootstrap_breadcrumbs %}
+
+
+{% block head_title %}{% trans "Groups" %}{% endblock %}
+
+
+{% block breadcrumbs %}
+    {{block.super}}
+    {% breadcrumb "Groups" "groups:group-list" %}
+{% endblock breadcrumbs %}
+
+
+{% block container %}
+    <div class="container">
+        <div class="header-action d-flex justify-content-between">
+            <h1 class="h3 align-self-center">{% trans "Groups" %}</h1>
+            <a href="{% url 'groups:group-create' %}" class="btn btn-success align-self-center">{% trans "New group" %}</a>
+        </div>
+    </div>
+    <hr>
+
+    <div class="container">
+        {% if group_list.exists %}
+            <div class="content-list list-group mb-4">
+                {% for group in group_list %}
+                    <a href="{% url 'groups:group-detail' group.slug %}" class="list-group-item list-group-item-action">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="content-description">
+                                <strong class="bold-black">{{group}}</strong>
+                                {% if group.description %}
+                                    <p>{{group.description|truncatechars:130}}</p>
+                                {% endif %}
+                            </div>
+                            <div class="content-info text-right">
+                                {% visibility_icon visibility_obj=group %}
+                            </div>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+            {% include "includes/pagination.html" %}
+        {% else %}
+            <p class="lead text-muted mt-5 text-center">{% trans "You don't have any group created." %}</p>
+        {% endif %}
+    </div>
+{% endblock %}

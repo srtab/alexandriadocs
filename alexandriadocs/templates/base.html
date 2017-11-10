@@ -1,18 +1,24 @@
-{% load i18n staticfiles compress %}
+{% load i18n staticfiles %}
+{% load compress core_tags django_bootstrap_breadcrumbs %}
+
 <!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE|default:"pt" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/ico" href="{% static 'images/favicon.ico' %}"/>
 
-    <title>{% block title %} Alexandria Docs{% endblock title %}</title>
+    <title>{% block head_title %} AlexandriaDocs{% endblock head_title %}</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Raleway:400,600,700,800" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
 
     <!-- BEGIN: stylesheets from vendors -->
     {% compress css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'vendor/font-awesome/css/font-awesome.min.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/dist/css/bootstrap.min.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'vendor/tether/dist/css/tether.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'vendor/font-awesome/css/font-awesome.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/dist/css/bootstrap.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'vendor/noty/lib/noty.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'vendor/select2/dist/css/select2.min.css' %}">
     {% endcompress %}
     <!-- END: stylesheets from vendors -->
 
@@ -24,58 +30,64 @@
 
     {% block extrastyle %}{% endblock extrastyle %}
 </head>
-<body class="{% block bodyextraclass %}{% endblock bodyextraclass %}">
+<body class="{% block body_class %}{% body_class %}{% endblock body_class %}">
 
+    <!-- Header -->
     {% block header %}
-        <nav class="navbar navbar-toggleable-md navbar-inverse bg-primary">
-            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <a class="navbar-brand" href="{% url 'homepage' %}"><i class="fa fa-sitemap fa-fw" aria-hidden="true"></i> Alexandria Docs</a>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="{% url 'homepage' %}">{% trans "Home" %}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'search:index' %}">{% trans "Search" %}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled" href="#">{% trans "Docs" %}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'admin:index' %}">{% trans "Manage" %}</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+        {% include "includes/header.html" %}
     {% endblock header %}
+    <!-- END Header -->
+
+    <!-- Breadcrumbs -->
+    {% block breadcrumbs %}
+        {% breadcrumb "Home" "homepage" %}
+    {% endblock breadcrumbs %}
+
+    {% render_breadcrumbs "includes/breadcrumbs.html" %}
+    <!-- END Breadcrumbs -->
+
+    {% include "includes/messages.html" %}
 
     <!-- Container -->
-    {% block container %}{% endblock container %}
+    <main role="main">
+        {% block container %}{% endblock container %}
+    </main>
     <!-- END Container -->
 
     <!-- Footer -->
     {% block footer %}
-        <footer class="site-footer"></footer>
+        {% include "includes/footer.html" %}
     {% endblock footer %}
     <!-- END Footer -->
 
-    <!-- BEGIN: javascripts from vendors -->
+    <!-- Modal -->
+    {% block modals %}
+        {% include "includes/modal_partials.html" %}
+    {% endblock modals %}
+    <!-- END Modal -->
+
+    <!-- javascripts from vendors -->
     {% compress js %}
         <script type="text/javascript" charset="utf-8" src="{% static 'vendor/jquery/dist/jquery.min.js' %}"></script>
-        <script type="text/javascript" charset="utf-8" src="{% static 'vendor/tether/dist/js/tether.min.js' %}"></script>
+        <script type="text/javascript" charset="utf-8" src="{% static 'vendor/popper.js/dist/umd/popper.min.js' %}"></script>
         <script type="text/javascript" charset="utf-8" src="{% static 'vendor/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+        <script type="text/javascript" charset="utf-8" src="{% static 'vendor/noty/lib/noty.min.js' %}"></script>
+        <script type="text/javascript" charset="utf-8" src="{% static 'vendor/select2/dist/js/select2.min.js' %}"></script>
     {% endcompress %}
-    <!-- END: javascripts from vendors -->
+    <!-- END javascripts from vendors -->
 
     {% block extrajs %}{% endblock extrajs %}
 
-    <!-- BEGIN: internal javascripts -->
+    <!-- internal javascripts -->
     {% compress js %}
-        <!--script type="text/javascript" charset="utf-8" src="{% static 'js/main.jquery.js' %}"></script-->
+        <script type="text/javascript" charset="utf-8" src="{% static 'ajax_cbv/forms.jquery.js' %}"></script>
+        <script type="text/javascript" charset="utf-8" src="{% static 'ajax_cbv/partials.jquery.js' %}"></script>
+        <script type="text/javascript" charset="utf-8" src="{% static 'js/dj-messages-noty.jquery.js' %}"></script>
+        <script type="text/javascript" charset="utf-8" src="{% static 'js/main.jquery.js' %}"></script>
     {% endcompress %}
-    <!-- END: internal javascripts -->
+    <!-- END internal javascripts -->
 
+    {% analytics_tracking %}
+    {% sentry_ravenjs %}
 </body>
 </html>

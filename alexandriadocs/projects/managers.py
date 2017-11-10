@@ -1,10 +1,38 @@
-from __future__ import unicode_literals
-
 import hashlib
 import os
 
-from django.conf import settings
 from django.db import models
+from django.db.models import Q
+
+from core.conf import settings
+
+
+class ProjectQuerySet(models.QuerySet):
+    """ """
+
+    def public(self):
+        return self.filter(visibility_level=self.model.Level.PUBLIC,
+                           group__visibility_level=self.model.Level.PUBLIC)
+
+    def collaborate(self, user=None):
+        if user and user.is_authenticated:
+            group_ids = user.collaborate_groups.values('pk')
+            project_ids = user.collaborate_projects.values('pk')
+            return self.filter(Q(pk__in=project_ids) | Q(group__in=group_ids))
+        return self.none()
+
+    def public_or_collaborate(self, user=None):
+        if user and user.is_authenticated:
+            group_ids = user.collaborate_groups.values('pk')
+            project_ids = user.collaborate_projects.values('pk')
+            return self.filter(
+                Q(pk__in=project_ids) | Q(group__in=group_ids) |
+                Q(visibility_level=self.model.Level.PUBLIC,
+                  group__visibility_level=self.model.Level.PUBLIC))
+        return self.public()
+
+
+ProjectManager = ProjectQuerySet.as_manager
 
 
 class ImportedFileManager(models.Manager):
@@ -15,20 +43,22 @@ class ImportedFileManager(models.Manager):
         All objects associated to the project previously created will be
         deleted."""
         import_files = []
-        # delete all previous imported files to avoid indexing old data
-        self.filter(project_id=project_id).delete()
-        # walk through extratect files
+        # walk through extracted files
         for root, __, filenames in os.walk(walkpath):
             for filename in filenames:
                 extension = os.path.splitext(filename)[-1].lower()
-                if extension in settings.PROJECTS_VALID_IMPORT_EXTENSION:
+                if extension in settings.ALEXANDRIA_VALID_IMPORT_EXT:
                     full_path = os.path.abspath(os.path.join(root, filename))
                     with open(full_path, 'rb') as fp:
                         md5 = hashlib.md5(fp.read()).hexdigest()
-                    import_files.append(self.model(
+                    obj, created = self.get_or_create(
                         project_id=project_id,
                         path=full_path,
                         md5=md5
-                    ))
-        self.bulk_create(import_files)
-        return self.filter(project_id=project_id)
+                    )
+                    import_files.append(obj)
+        # delete all previous imported files to avoid indexing old data
+        imported_ids = [ifile.pk for ifile in import_files]
+        self.filter(project_id=project_id).exclude(pk__in=imported_ids)\
+            .delete()
+        return import_files

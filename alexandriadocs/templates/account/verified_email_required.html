@@ -1,0 +1,35 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+{% load django_bootstrap_breadcrumbs %}
+
+
+{% block head_title %}{% trans "Verified Email Required" %}{% endblock %}
+
+
+{% block breadcrumbs %}
+    {{block.super}}
+    {% breadcrumb "Profile" "accounts:index" user.slug %}
+    {% breadcrumb "Verified Email Required" %}
+{% endblock breadcrumbs %}
+
+
+{% block content %}
+    <div class="jumbotron jumbotron-fluid jumbotron-header">
+        <div class="container">
+            <h1 class="display-4">{% trans "Verified Email Required" %}</h1>
+
+            {% url 'account_email' as email_url %}
+
+            <p class="lead">{% blocktrans %}<i class="fa fa-info-circle text-info fa-lg fa-fw" aria-hidden="true"></i> This part of the site requires us to verify that
+            you are who you claim to be. For this purpose, we require that you verify ownership of your e-mail address. {% endblocktrans %}</p>
+        </div>
+    </div>
+    <div class="container">
+        <p>{% blocktrans %}We have sent an e-mail to you for
+        verification. Please click on the link inside this e-mail. Please
+        contact us if you do not receive it within a few minutes.{% endblocktrans %}</p>
+
+        <p>{% blocktrans %}You can still <a href="{{ email_url }}">change your e-mail address</a>.{% endblocktrans %}</p>
+    </div>
+{% endblock %}

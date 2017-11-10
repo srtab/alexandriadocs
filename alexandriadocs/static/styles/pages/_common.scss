@@ -1,13 +1,60 @@
-/*
-Common styles
-*/
-
-.navbar-inverse .navbar-nav .nav-link {
-    padding-right: 15px;
-    padding-left: 15px;
-    text-transform: uppercase;
-}
+// Common styles
 
 .highlighted {
-    font-weight: bold;
+  font-weight: 700;
+}
+
+.jumbotron-header {
+  background-color: #f8f9fa;
+  margin-bottom: 1.5rem;
+  margin-top: -1rem;
+  padding-bottom: 3rem;
+  padding-top: 3rem;
+
+  h1 {
+    margin-bottom: 0;
+  }
+
+  p {
+    margin-bottom: 0;
+  }
+
+  &.jumbotron-header-tabs {
+    padding-bottom: 3rem;
+    padding-top: 2rem;
+
+    .nav-tabs {
+      margin-bottom: -3rem;
+      margin-top: 2rem;
+    }
+
+    .nav-link {
+      border-top-width: 2px;
+      color: rgba(52, 58, 64, .8);
+
+      &.active {
+        border-top-color: #dc3545;
+      }
+
+      &:not(.active) {
+        border-color: transparent;
+      }
+
+      &.active,
+      &:hover {
+        color: #343a40;
+      }
+    }
+  }
+}
+
+.header-action {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin: 0;
+  }
 }

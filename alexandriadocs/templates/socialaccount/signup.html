@@ -1,0 +1,35 @@
+{% extends "socialaccount/base.html" %}
+
+{% load i18n %}
+{% load crispy_forms_tags django_bootstrap_breadcrumbs %}
+
+
+{% block head_title %}{% trans "Signup" %}{% endblock %}
+
+
+{% block breadcrumbs %}
+    {{block.super}}
+    {% breadcrumb "Social Signup" "socialaccount_signup" %}
+{% endblock breadcrumbs %}
+
+
+{% block content %}
+    <div class="jumbotron jumbotron-fluid jumbotron-header">
+        <div class="container">
+            <h1 class="display-4">{% trans "Signup" %}</h1>
+            <p class="lead">
+                {% blocktrans with provider_name=account.get_provider.name site_name=site.name %}You are about to use your {{provider_name}} account to login to
+                {{site_name}}. As a final step, please complete the following form:{% endblocktrans %}
+            </p>
+        </div>
+    </div>
+    <div class="container">
+        <form class="signup" id="signup_form" method="post" action="{% url 'socialaccount_signup' %}" novalidate>
+            {% crispy form %}
+            {% if redirect_field_value %}
+                <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+            {% endif %}
+            <button class="btn btn-dark" type="submit">{% trans "Sign Up" %}</button>
+        </form>
+    </div>
+{% endblock %}

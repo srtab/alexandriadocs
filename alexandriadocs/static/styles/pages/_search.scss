@@ -1,7 +1,16 @@
-/*
-Search Styles
-*/
+// Search Styles
 
-body.login {
+.view-search-index,
+.view-search-pages {
+  .card {
+    margin-bottom: 1rem;
+  }
 
+  .card-title a {
+    color: #464a4c;
+
+    &:hover {
+      color: #0275d8;
+    }
+  }
 }

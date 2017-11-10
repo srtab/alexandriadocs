@@ -1,7 +1,4 @@
-from __future__ import unicode_literals
-
 from alexandriadocs.settings import *  # NOQA
-
 
 DEBUG = False
 
@@ -13,13 +10,6 @@ DATABASES = {
 
 PASSWORD_HASHERS = (
     'django.contrib.auth.hashers.MD5PasswordHasher',
-)
-
-TEMPLATE_LOADERS = (
-    ('django.template.loaders.cached.Loader', (
-        'django.template.loaders.filesystem.Loader',
-        'django.template.loaders.app_directories.Loader',
-    )),
 )
 
 HAYSTACK_CONNECTIONS = {

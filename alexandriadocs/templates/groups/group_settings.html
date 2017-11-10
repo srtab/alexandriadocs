@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load accounts_tags crispy_forms_tags django_bootstrap_breadcrumbs %}
+
+
+{% block head_title %}{{group}}{% endblock %}
+
+
+{% block breadcrumbs %}
+    {{block.super}}
+    {% breadcrumb group "groups:group-detail" slug=group.slug %}
+    {% breadcrumb "Settings" "groups:group-settings" slug=group.slug %}
+{% endblock breadcrumbs %}
+
+
+{% block container %}
+
+    {% include "groups/includes/group_detail_header.html" %}
+
+    <div class="container">
+
+        <div class="card mb-4">
+            <h4 class="card-header">{% trans "Update group" %}</h4>
+            <div class="card-body">
+                <form class="group-update" method="post" action="{% url 'groups:group-settings' group.slug %}" novalidate>
+                    {% crispy form %}
+                    <button class="btn btn-success" type="submit">{% trans "Update group" %}</button>
+                </form>
+            </div>
+        </div>
+
+        {% has_access OWNER group as can_access %}
+        {% if can_access %}
+            <div class="card mb-4">
+                <h4 class="card-header">{% trans "Visibility level" %}</h4>
+                <div class="card-body">
+                    <div class="alert alert-dark">{% include "core/includes/visibility_help_text.html" with entity='group' %}</div>
+                    <form class="group-visibility" method="post" action="{% url 'groups:group-visibility-update' group.slug %}" novalidate data-ajax-submit>
+                        {% crispy visibility_form %}
+                        <button class="btn btn-success" type="submit">{% trans "Update visibility" %}</button>
+                    </form>
+                </div>
+            </div>
+        {% endif %}
+
+        {% has_access OWNER group as can_access %}
+        {% if can_access %}
+            <div class="card border-danger">
+                <h4 class="card-header text-white bg-danger">{% trans "Delete this group" %}</h4>
+                <div class="card-body text-danger">
+                    <div class="d-flex justify-content-between align-items-center">
+                        {% blocktrans %}Once you delete a group, you will delete all associated projects too and there is no going back. Please be certain.{% endblocktrans %}
+                        <a href="#" class="btn btn-danger" data-partial-url="{% url 'groups:group-delete' group.slug %}" data-partial="#modalPartials" data-toggle="modal" data-target="#modalPartials">{% trans "Delete group" %}</a>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+{% endblock %}

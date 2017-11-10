@@ -1,0 +1,33 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+{% load crispy_forms_tags django_bootstrap_breadcrumbs %}
+
+
+{% block head_title %}{% trans "Signup" %}{% endblock %}
+
+
+{% block breadcrumbs %}
+    {{block.super}}
+    {% breadcrumb "Signup" "account_signup" %}
+{% endblock breadcrumbs %}
+
+
+{% block content %}
+    <div class="jumbotron jumbotron-fluid jumbotron-header">
+        <div class="container">
+            <h1 class="display-4">{% trans "Signup" %}</h1>
+            <p class="lead">{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}" novalidate>
+            {% crispy form %}
+            {% if redirect_field_value %}
+                <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+            {% endif %}
+            <button class="btn btn-success" type="submit">{% trans "Sign Up" %}</button>
+        </form>
+    </div>
+{% endblock %}

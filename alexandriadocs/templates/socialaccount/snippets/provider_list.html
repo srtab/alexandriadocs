@@ -1,0 +1,15 @@
+{% load socialaccount i18n %}
+
+{% get_providers as socialaccount_providers %}
+
+<div class="row">
+    {% for provider in socialaccount_providers %}
+        <div class="col-12">
+            <a title="{{provider.name}}" class="btn btn-block btn-outline-dark btn-lg mb-2 socialaccount-provider {{provider.id}}"
+               href="{% provider_login_url provider.id process=process scope=scope auth_params=auth_params %}">
+                <i class="fa fa-{{provider.id}} fa-fw" aria-hidden="true"></i>
+                {% blocktrans with process=process|title provider_name=provider.name %} {{process}} with <strong>{{provider_name}}</strong>{% endblocktrans %}
+            </a>
+        </div>
+    {% endfor %}
+</div>

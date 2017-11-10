@@ -1,9 +1,8 @@
-/*
-Pages module
- - contains page-specific styling;
-*/
+// Pages module
+// - contains page-specific styling;
 
 @import 'common';
-@import 'login';
 @import 'homepage';
+@import 'login';
 @import 'search';
+@import 'projects';

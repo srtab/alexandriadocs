@@ -1,0 +1,80 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+{% load crispy_forms_field django_bootstrap_breadcrumbs %}
+
+
+{% block head_title %}{% trans "Emails" %}{% endblock %}
+
+
+{% block breadcrumbs %}
+    {{block.super}}
+    {% breadcrumb "Profile" "accounts:index" user.slug %}
+    {% breadcrumb "Emails" "account_email" %}
+{% endblock breadcrumbs %}
+
+
+{% block content %}
+    <div class="jumbotron jumbotron-fluid jumbotron-header">
+        <div class="container">
+            <h1 class="display-4">{% trans "Emails" %}</h1>
+            <p class="lead">{% trans 'Manage emails linked to your account.' %}</p>
+        </div>
+    </div>
+
+    <div class="container">
+
+        {% if not user.emailaddress_set.exists %}
+            <div class="alert alert-warning" role="alert">
+                <i class="fa fa-exclamation-triangle text-warning fa-lg fa-fw" aria-hidden="true"></i>
+                {% trans "You currently do not have any e-mail address set up. You should really add an e-mail address so you can receive notifications, reset your password, etc." %}
+            </div>
+        {% endif %}
+
+        <div class="card mb-3">
+            <ul class="list-group list-group-flush">
+                {% for emailaddress in user.emailaddress_set.all %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div class="email-label">
+                            <span class="mr-4">{{ emailaddress.email }}</span>
+
+                            {% if emailaddress.primary %}
+                                <span class="badge badge-primary badge-pill ">{% trans "Primary email" %}</span>
+                            {% endif %}
+                            {% if emailaddress.verified %}
+                                <span class="badge badge-success badge-pill">{% trans "Verified email" %}</span>
+                            {% else %}
+                                <span class="badge badge-warning badge-pill">{% trans "Unverified email" %}</span>
+                            {% endif %}
+                        </div>
+                        <div class="email-form">
+                            <form action="{% url 'account_email' %}" class="email_list d-inline-block" method="post">
+                                {% csrf_token %}
+                                <input id="email_radio_{{forloop.counter}}" type="hidden" name="email" value="{{emailaddress.email}}" />
+                                {% if not emailaddress.primary %}
+                                    <button class="btn btn-outline-primary btn-sm" type="submit" name="action_primary">{% trans 'Make Primary' %}</button>
+                                {% endif %}
+                                {% if not emailaddress.verified %}
+                                    <button class="btn btn-outline-dark btn-sm" type="submit" name="action_send">{% trans 'Re-send Verification' %}</button>
+                                {% endif %}
+                                <button class="btn btn-outline-danger btn-sm" type="submit" name="action_remove"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                            </form>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+            <div class="card-footer">
+                <form method="post" action="{% url 'account_email' %}" class="mb-0" novalidate>
+                    {% csrf_token %}
+                    <div class="input-group">
+                        {% crispy_field form.email %}
+                        <span class="input-group-btn">
+                            <button name="action_add" type="submit" class="btn btn-success">{% trans "Add email" %}</button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
