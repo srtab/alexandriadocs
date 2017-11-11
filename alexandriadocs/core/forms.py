@@ -2,26 +2,25 @@
 from crispy_forms.helper import FormHelper
 
 
-class UntaggedFormMixin(object):
+class FormHelperMixin(object):
+    """ """
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+
+
+class UntaggedFormMixin(FormHelperMixin):
     """Mixin to avoid crispy showing fields labels and rendering de form tag"""
 
     def __init__(self, *args, **kwargs):
-        super(UntaggedFormMixin, self).__init__(*args, **kwargs)
-        self.form_helper()
-
-    def form_helper(self):
-        if not hasattr(self, 'helper'):
-            self.helper = FormHelper()
+        super().__init__(*args, **kwargs)
         self.helper.form_tag = False
 
 
-class UnlabeledFormMixin(object):
+class UnlabeledFormMixin(FormHelperMixin):
     """Mixin to avoid crispy showing fields labels and rendering de form tag"""
-    def __init__(self, *args, **kwargs):
-        super(UnlabeledFormMixin, self).__init__(*args, **kwargs)
-        self.form_helper()
 
-    def form_helper(self):
-        if not hasattr(self, 'helper'):
-            self.helper = FormHelper()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.helper.form_show_labels = False

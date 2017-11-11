@@ -45,9 +45,9 @@ class ProjectForm(UntaggedFormMixin, forms.ModelForm):
         self.fields['repo'].widget.attrs['placeholder'] = \
             'ex: https://github.com/srtab/alexandriadocs'
         self.fields['tags'].widget.attrs['placeholder'] = 'ex: django, python'
+        self.form_helper()
 
     def form_helper(self):
-        super().form_helper()
         self.helper.layout = Layout(
             Div(
                 Div('group', css_class="col-4"),
@@ -77,14 +77,15 @@ class ProjectForm(UntaggedFormMixin, forms.ModelForm):
 
 class ProjectEditForm(ProjectForm):
     """ """
+
     class Meta(ProjectForm.Meta):
         fields = PROJECT_COMMON_FIELDS
         widgets = {
             'description': ProjectForm.Meta.widgets['description'],
         }
 
-    def form_helper(self):
-        super().form_helper()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         # remove row element with group an title an replace by title only
         self.helper.layout[0] = 'title'
         # remove visibility_level
@@ -93,6 +94,7 @@ class ProjectEditForm(ProjectForm):
 
 class ProjectVisibilityForm(UntaggedFormMixin, forms.ModelForm):
     """ """
+
     class Meta:
         model = Project
         fields = ('visibility_level',)
@@ -100,8 +102,8 @@ class ProjectVisibilityForm(UntaggedFormMixin, forms.ModelForm):
             'visibility_level': ProjectForm.Meta.widgets['visibility_level'],
         }
 
-    def form_helper(self):
-        super().form_helper()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.helper.form_show_labels = False
 
 
@@ -112,8 +114,8 @@ class ImportedArchiveForm(UntaggedFormMixin, forms.ModelForm):
         model = ImportedArchive
         fields = ('archive', )
 
-    def form_helper(self):
-        super().form_helper()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.helper.form_show_labels = False
         self.helper.layout = Layout(
             'archive'
