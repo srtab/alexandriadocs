@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 import os
+import logging
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
+from django.http import Http404
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.decorators import method_decorator
@@ -22,6 +24,9 @@ from projects.forms import (
 )
 from projects.models import Project
 from sendfile import sendfile
+
+logger = logging.getLogger('alexandria.projects')
+
 
 BADGE_URL = (
     'https://img.shields.io/badge/docs-{status}-{color}.svg?style={style}'
@@ -177,4 +182,10 @@ class ProjectServeDocs(DetailView):
         self.object = self.get_object()
         path = self.kwargs.get("path", "index.html")
         filename = os.path.join(self.object.serve_root_path, path)
+        if not os.path.exists(filename):
+            logger.warning("Serve docs: file not found path=%s", filename)
+            raise Http404("File not found")
+        # handle indexes
+        if filename[-1] == '/':
+            filename += 'index.html'
         return sendfile(request, filename)
