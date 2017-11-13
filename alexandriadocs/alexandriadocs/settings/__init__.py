@@ -211,7 +211,7 @@ HAYSTACK_SIGNAL_PROCESSOR = 'search.signals.AlexandriaSignalProcessor'
 
 SENDFILE_BACKEND = "sendfile.backends.nginx"
 SENDFILE_ROOT = os.path.join(DATA_DIR, 'protected')
-SENDFILE_URL = '/protected/'
+SENDFILE_URL = '/protected'
 
 
 # LOGGING
