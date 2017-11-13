@@ -39,6 +39,9 @@ HAYSTACK_CONNECTIONS = {
 }
 
 
+SENDFILE_BACKEND = "sendfile.backends.development"
+
+
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",

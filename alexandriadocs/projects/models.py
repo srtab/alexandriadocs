@@ -60,7 +60,7 @@ class Project(VisibilityMixin, TitleSlugDescriptionMixin, TimeStampedModel):
 
     @property
     def serve_root_path(self):
-        return os.path.join(settings.ALEXANDRIA_SERVE_ROOT, self.slug)
+        return os.path.join(settings.SENDFILE_ROOT, self.slug)
 
     @cached_property
     def last_imported_archive_date(self):
@@ -68,6 +68,10 @@ class Project(VisibilityMixin, TitleSlugDescriptionMixin, TimeStampedModel):
             return self.imported_archives.latest('created').created
         except ImportedArchive.DoesNotExist:
             return None
+
+    @cached_property
+    def imported_archive_exists(self):
+        return self.imported_archives.exists()
 
     @cached_property
     def imported_files_count(self):
@@ -81,8 +85,7 @@ class Project(VisibilityMixin, TitleSlugDescriptionMixin, TimeStampedModel):
         return reverse('projects:project-detail', args=[self.slug])
 
     def get_docs_url(self):
-        return "{}{}/index.html".format(
-            settings.ALEXANDRIA_SERVE_URL, self.slug)
+        return reverse('serve-docs', args=[self.slug, "index.html"])
 
     @staticmethod
     def post_save(sender, instance, created, **kwargs):
@@ -195,5 +198,5 @@ class ImportedFile(TimeStampedModel):
         return self.path
 
     def get_absolute_url(self):
-        relpath = os.path.relpath(self.path, settings.ALEXANDRIA_SERVE_ROOT)
-        return settings.ALEXANDRIA_SERVE_URL + relpath
+        relpath = os.path.relpath(self.path, settings.SENDFILE_ROOT)
+        return settings.SENDFILE_URL + relpath

@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
+import os
+
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
-from django.views.static import serve
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext_lazy as _
@@ -20,6 +21,7 @@ from projects.forms import (
     ProjectVisibilityForm
 )
 from projects.models import Project
+from sendfile import sendfile
 
 BADGE_URL = (
     'https://img.shields.io/badge/docs-{status}-{color}.svg?style={style}'
@@ -94,11 +96,11 @@ class ProjectUploadsView(HasAccessLevelMixin, DetailView):
             .select_related('group')
 
     def get_context_data(self, **kwargs):
-        limit = settings.UPLOADS_HISTORY_LIMIT
+        limit = settings.ALEXANDRIA_UPLOADS_HISTORY_LIMIT
         context = super().get_context_data(**kwargs)
         context.update({
             'form': ImportedArchiveForm(),
-            'allowed_mimetypes': settings.UPLOADS_ALLOWED_MIMETYPES,
+            'allowed_mimetypes': settings.ALEXANDRIA_ALLOWED_MIMETYPES,
             'imported_archives': self.object.imported_archives.all()[:limit]
         })
         return context
@@ -162,17 +164,17 @@ class ProjectBadgeUrlView(View):
         return redirect(url)
 
 
-class ProjectServeSiteView(View):
+class ProjectServeDocs(DetailView):
+    """ """
+    model = Project
+
+    def get_queryset(self):
+        return self.model._default_manager\
+            .public_or_collaborate(self.request.user)\
+            .select_related('group')
 
     def get(self, request, *args, **kwargs):
-        get_object_or_404(Project, slug=request.slug)
-        filename = "{slug}/{filename}".format(
-            slug=request.slug,
-            filename=self.kwargs.get('path') or "index.html")
-        serve_root = settings.PROJECTS_SERVE_ROOT
-        if settings.DEBUG:
-            # Serve with Python
-            return serve(request, filename, serve_root)
-        else:
-            pass
-            # TODO
+        self.object = self.get_object()
+        path = self.kwargs.get("path", "index.html")
+        filename = os.path.join(self.object.serve_root_path, path)
+        return sendfile(request, filename)

@@ -1,12 +1,12 @@
 """alexandriadocs URL Configuration
 """
-from django.conf import settings as djsettings
+from django.conf import settings
 from django.conf.urls import include, url
 from django.contrib import admin
 from django.contrib.auth.decorators import login_required
 
-from core.conf import settings
 from core.views import HomepageView
+from projects.views import ProjectServeDocs
 
 # https://django-allauth.readthedocs.io/en/latest/advanced.html#admin
 admin.site.login = login_required(admin.site.login)
@@ -17,6 +17,11 @@ urlpatterns = [
         regex=r'^$',
         view=HomepageView.as_view(),
         name="homepage"
+    ),
+    url(
+        regex=r'^docs/(?P<slug>[-\w]+)/(?P<path>.*)$',
+        view=ProjectServeDocs.as_view(),
+        name="serve-docs"
     ),
     url(
         regex=r'^accounts/',
@@ -49,7 +54,7 @@ urlpatterns = [
 ]
 
 
-if djsettings.DEBUG:  # pragma: no cover
+if settings.DEBUG:  # pragma: no cover
     import debug_toolbar
     from django.conf.urls.static import static
     from django.contrib.staticfiles.urls import staticfiles_urlpatterns
@@ -59,8 +64,4 @@ if djsettings.DEBUG:  # pragma: no cover
     # Serve static and media files from development server
     urlpatterns += staticfiles_urlpatterns()
     urlpatterns += static(
-        djsettings.MEDIA_URL, document_root=djsettings.MEDIA_ROOT)
-    # serve static generated documentation on debug mode
-    urlpatterns += static(
-        settings.ALEXANDRIA_SERVE_URL,
-        document_root=settings.ALEXANDRIA_SERVE_ROOT)
+        settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
