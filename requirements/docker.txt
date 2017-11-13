@@ -3,6 +3,6 @@
 ipython
 tox
 django-redis~=4.8.0
-django-debug-toolbar~=1.8.0
+django-debug-toolbar~=1.9.0
 
 -e git+git://github.com/dipcode-software/django-ajax-cbv.git#egg=ajax_cbv

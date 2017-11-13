@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import os
+
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import redirect
@@ -19,6 +21,7 @@ from projects.forms import (
     ProjectVisibilityForm
 )
 from projects.models import Project
+from sendfile import sendfile
 
 BADGE_URL = (
     'https://img.shields.io/badge/docs-{status}-{color}.svg?style={style}'
@@ -93,11 +96,11 @@ class ProjectUploadsView(HasAccessLevelMixin, DetailView):
             .select_related('group')
 
     def get_context_data(self, **kwargs):
-        limit = settings.UPLOADS_HISTORY_LIMIT
+        limit = settings.ALEXANDRIA_UPLOADS_HISTORY_LIMIT
         context = super().get_context_data(**kwargs)
         context.update({
             'form': ImportedArchiveForm(),
-            'allowed_mimetypes': settings.UPLOADS_ALLOWED_MIMETYPES,
+            'allowed_mimetypes': settings.ALEXANDRIA_ALLOWED_MIMETYPES,
             'imported_archives': self.object.imported_archives.all()[:limit]
         })
         return context
@@ -159,3 +162,19 @@ class ProjectBadgeUrlView(View):
         url = BADGE_URL.format(
             status="latest", color='brightgreen', style=style)
         return redirect(url)
+
+
+class ProjectServeDocs(DetailView):
+    """ """
+    model = Project
+
+    def get_queryset(self):
+        return self.model._default_manager\
+            .public_or_collaborate(self.request.user)\
+            .select_related('group')
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        path = self.kwargs.get("path", "index.html")
+        filename = os.path.join(self.object.serve_root_path, path)
+        return sendfile(request, filename)
