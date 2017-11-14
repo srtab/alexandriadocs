@@ -84,8 +84,8 @@ class Project(VisibilityMixin, TitleSlugDescriptionMixin, TimeStampedModel):
     def get_absolute_url(self):
         return reverse('projects:project-detail', args=[self.slug])
 
-    def get_docs_url(self):
-        return reverse('serve-docs', args=[self.slug, "index.html"])
+    def get_docs_url(self, filename="index.html"):
+        return reverse('serve-docs', args=[self.slug, filename])
 
     @staticmethod
     def post_save(sender, instance, created, **kwargs):
@@ -199,4 +199,6 @@ class ImportedFile(TimeStampedModel):
 
     def get_absolute_url(self):
         relpath = os.path.relpath(self.path, settings.SENDFILE_ROOT)
-        return settings.SENDFILE_URL + relpath
+        # remove first step of path
+        filepath = os.path.join(*os.path.split(relpath)[1:])
+        return self.project.get_docs_url(filepath)
