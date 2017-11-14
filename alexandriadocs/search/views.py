@@ -30,7 +30,12 @@ class SearchView(ListView):
         return context
 
     def search(self, query):
-        return SearchQuerySet().filter(visibility_level=Project.Level.PUBLIC)\
+        # OPTIMIZE: the number of public projects can increase substantially
+        # causing a really high number of project_ids to be sended to
+        # elasticsearch
+        projects = Project.objects.public_or_collaborate(self.request.user)
+        return SearchQuerySet()\
+            .filter(project_id__in=projects.values_list('pk', flat=True))\
             .filter(SQ(content__contains=Clean(query)) |
                     SQ(title__contains=Clean(query)))
 
