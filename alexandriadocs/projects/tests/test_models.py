@@ -1,6 +1,7 @@
 from unittest.mock import MagicMock, PropertyMock, patch
 
 from django.test import SimpleTestCase
+from django.urls import reverse
 
 from accounts.models import AccessLevel
 from groups.models import Group
@@ -54,9 +55,13 @@ class ProjectModelTest(SimpleTestCase):
         self.assertTrue(self.project.is_public)
 
     def test_get_absolute_url(self):
+        expected = reverse('projects:project-detail', args=["slug"])
+        self.assertEqual(self.project.get_absolute_url(), expected)
+
+    def test_get_docs_url(self):
+        expected = reverse('serve-docs', args=["slug", "index.html"])
         with self.settings(SENDFILE_URL="/docs/"):
-            self.assertEqual(
-                self.project.get_docs_url(), "/docs/slug/index.html")
+            self.assertEqual(self.project.get_docs_url(), expected)
 
     def test_serve_root_path(self):
         with self.settings(SENDFILE_ROOT="/test/"):
@@ -130,13 +135,13 @@ class ImportedArchiveModelTest(SimpleTestCase):
 class ImportedFileModelTest(SimpleTestCase):
 
     def setUp(self):
-        self.imported_file = ImportedFile(path="/unit/test.html")
+        self.imported_file = ImportedFile(
+            path="/unit/test.html", project=Project(slug='slug'))
 
     def test_str(self):
         self.assertEqual(str(self.imported_file), "/unit/test.html")
 
     def test_get_absolute_url(self):
-        with self.settings(
-                SENDFILE_ROOT="/unit/", SENDFILE_URL="/docs/"):
+        with self.settings(SENDFILE_ROOT="/unit/"):
             self.assertEqual(self.imported_file.get_absolute_url(),
-                             "/docs/test.html")
+                             "/docs/slug/test.html")
