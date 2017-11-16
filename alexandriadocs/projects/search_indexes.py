@@ -25,6 +25,9 @@ class ProjectIndex(indexes.SearchIndex, indexes.Indexable):
     def prepare_absolute_url(self, obj):
         return obj.get_absolute_url()
 
+    def load_all_queryset(self):
+        return self.get_model().objects.all().select_related('group')
+
 
 class ImportedFileIndex(indexes.SearchIndex, indexes.Indexable):
     """Index imported files"""
@@ -37,6 +40,9 @@ class ImportedFileIndex(indexes.SearchIndex, indexes.Indexable):
 
     def get_model(self):
         return ImportedFile
+
+    def load_all_queryset(self):
+        return self.get_model().objects.all().select_related('project__group')
 
     def prepare_absolute_url(self, obj):
         return obj.get_absolute_url()
