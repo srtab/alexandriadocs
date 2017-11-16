@@ -52,10 +52,12 @@ class ImportedFileManager(models.Manager):
                     with open(full_path, 'rb') as fp:
                         md5 = hashlib.md5(fp.read()).hexdigest()
                     obj, created = self.get_or_create(
-                        project_id=project_id,
-                        path=full_path,
-                        md5=md5
+                        project_id=project_id, md5=md5,
+                        defaults={'path': full_path}
                     )
+                    if not created and obj.path != full_path:
+                        obj.path = full_path
+                        obj.save(update_fields=['path'])
                     import_files.append(obj)
         # delete all previous imported files to avoid indexing old data
         imported_ids = [ifile.pk for ifile in import_files]
