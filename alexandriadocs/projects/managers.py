@@ -41,7 +41,10 @@ class ImportedFileManager(models.Manager):
     def walk(self, project_id, walkpath):
         """Walk through waklpath, create an object for every valid file found.
         All objects associated to the project previously created will be
-        deleted."""
+        deleted. Note: bulk can't be used to ensure that the save signal is
+        sended to force haystack update the index of each new file created and
+        deleted.
+        """
         import_files = []
         # walk through extracted files
         for root, __, filenames in os.walk(walkpath):
@@ -52,9 +55,7 @@ class ImportedFileManager(models.Manager):
                     with open(full_path, 'rb') as fp:
                         md5 = hashlib.md5(fp.read()).hexdigest()
                     obj, created = self.get_or_create(
-                        project_id=project_id,
-                        path=full_path,
-                        md5=md5
+                        project_id=project_id, md5=md5, path=full_path
                     )
                     import_files.append(obj)
         # delete all previous imported files to avoid indexing old data

@@ -14,15 +14,15 @@
             <hr class="my-4">
 
             <form method="GET" action="{% url 'search:index' %}">
-                {% trans 'Search projects...' as search_placeholder %}
-                {% include "search/includes/search-form.html" with placeholder=search_placeholder only %}
+                {% trans 'Search all the docs or projects...' as search_placeholder %}
+                {% include "search/includes/search_form.html" with placeholder=search_placeholder only %}
             </form>
         </div>
     </div>
 
     <div class="container">
 
-        <p class="lead">{% trans "Latest projects:" %}</p>
+        <p class="lead">{% trans "Latest public projects:" %}</p>
 
         {% if object_list.exists %}
             {% include "projects/includes/project_list.html" with show_group_name=True %}

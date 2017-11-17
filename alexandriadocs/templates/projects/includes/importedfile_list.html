@@ -1,0 +1,14 @@
+{% load highlight core_tags %}
+
+<div class="content-list list-group mb-4">
+    {% for result, importedfile in importedfile_list %}
+        <a href="{{ importedfile.get_absolute_url }}?highlight={{query}}" class="list-group-item list-group-item-action">
+            <strong>{{importedfile.project.group}}</strong> / <strong>{{importedfile.project}}</strong> / <strong class="bold-black">{{result.title}}</strong>
+            {% if query %}
+                <p>{% highlight result.body with query max_length 275 %}</p>
+            {% else %}
+                <p>{{result.body|truncatechars:275}}</p>
+            {% endif %}
+        </a>
+    {% endfor %}
+</div>

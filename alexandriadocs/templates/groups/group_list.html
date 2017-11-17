@@ -27,17 +27,20 @@
             <div class="content-list list-group mb-4">
                 {% for group in group_list %}
                     <a href="{% url 'groups:group-detail' group.slug %}" class="list-group-item list-group-item-action">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="content-description">
+                        <div class="row">
+                            <div class="col-12 col-lg-8">
                                 <strong class="bold-black">{{group}}</strong>
-                                {% if group.description %}
-                                    <p>{{group.description|truncatechars:130}}</p>
-                                {% endif %}
                             </div>
-                            <div class="content-info text-right">
-                                {% visibility_icon visibility_obj=group %}
+                            <div class="col-12 col-lg-4">
+                                <div class="metadata">
+                                    {% visibility_icon visibility_obj=group %}
+                                </div>
                             </div>
                         </div>
+
+                        {% if group.description %}
+                            <p>{{group.description|truncatechars:130}}</p>
+                        {% endif %}
                     </a>
                 {% endfor %}
             </div>
