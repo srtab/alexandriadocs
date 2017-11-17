@@ -68,7 +68,6 @@ class ImportedFileManagerTest(TestCase):
         with self.settings(ALEXANDRIA_VALID_IMPORT_EXT=[".html", ".js"]):
             result = ImportedFile.objects.walk(self.project.pk, "/root/")
         expected = ImportedFile.objects.filter(project_id=self.project.pk)
-        print(expected)
         self.assertEqual(ImportedFile.objects.count(), 2)
         self.assertQuerysetEqual(result, map(repr, expected), ordered=None)
 
