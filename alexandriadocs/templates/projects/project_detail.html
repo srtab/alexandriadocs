@@ -42,9 +42,7 @@
                     <hr>
 
                     <h4>{% trans "Tags" %}</h4>
-                    {% for tag in project.tags.all %}
-                        <span class="badge badge-light"><i class="fa fa-tag" aria-hidden="true"></i> {{tag}}</span>
-                    {% endfor %}
+                    {% include "projects/includes/project_tags.html" with tags=project.tags.all %}
                 </div>
             </div>
         </div>

@@ -1,3 +1,4 @@
+{{object.title|striptags}}
 {{object.description|striptags}}
 {{object.group}}
 {{object.author}}

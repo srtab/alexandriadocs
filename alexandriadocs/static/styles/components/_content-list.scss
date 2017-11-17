@@ -1,6 +1,20 @@
 .content-list {
-    .content-description p {
-        font-size: 90%;
-        margin-bottom: 0;
+  p {
+    font-size: 90%;
+    margin-bottom: 0;
+  }
+
+  time {
+    font-size: 80%;
+    margin-right: 15px;
+  }
+}
+
+// tablet
+@media (min-width: 992px) {
+  .content-list {
+    .metadata {
+      text-align: right;
     }
+  }
 }
