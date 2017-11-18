@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-import os
 import logging
+import os
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
