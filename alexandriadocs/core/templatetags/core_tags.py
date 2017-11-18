@@ -86,7 +86,7 @@ def absolute_uri(context, location):
 def repo_icon(value):
     icon = 'fa-git-square', 'Source'
     if GITHUB_HOSTNAME in value:
-        icon = 'fa-github-alt', 'Github'
+        icon = 'fa-github', 'Github'
     elif GITLAB_HOSTNAME in value:
         icon = 'fa-gitlab', 'Gitlab'
     elif BITBUCKET_HOSTNAME in value:
