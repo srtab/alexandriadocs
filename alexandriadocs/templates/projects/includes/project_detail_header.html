@@ -10,6 +10,10 @@
             {% endif %}
         </div>
 
+        {% if project.description %}
+            <p>{{project.description}}</p>
+        {% endif %}
+
         <ul class="nav nav-tabs">
             <li class="nav-item">
                 <a class="nav-link {% menu_active 'projects' 'project-detail' %}" href="{% url 'projects:project-detail' project.slug %}"><i class="fa fa-home fa-fw" aria-hidden="true"></i> {% trans "Overview" %} <span class="badge badge-pill badge-light ml-2">{{project.projects.count}}</span></a>

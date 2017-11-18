@@ -5,9 +5,9 @@ import tarfile
 from django.conf import settings as djsettings
 from django.db import models
 from django.db.models.signals import post_save
+from django.urls import reverse
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
-from django.urls import reverse
 
 from accounts.managers import CollaboratorManager
 from accounts.models import AccessLevel, CollaboratorMixin

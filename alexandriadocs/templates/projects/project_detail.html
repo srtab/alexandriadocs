@@ -19,32 +19,61 @@
     {% include "projects/includes/project_detail_header.html" %}
 
     <div class="container">
-
         <div class="row">
-            <div class="col-lg-8">
-                <p>{{project.description|linebreaks}}</p>
-            </div>
-            <div class="col-lg-4">
-                <div class="project-right">
-                    <h4>{% trans "Indexed files:" %} <span class="badge badge-dark pull-right">{{project.imported_files_count}}</span></h4>
-                    <hr>
 
-                    <h4>{% trans "Repository" %}</h4>
-                    <a href="{{project.repo}}" target="_blank" rel="noopener"><i class="fa fa-external-link" aria-hidden="true"></i> {{project.repo}}</a>
-                    <hr>
-
-                    <h4>{% trans "Last update" %}</h4>
-                    {% if project.last_imported_archive_date %}
-                        <time datetime="{{project.last_imported_archive_date|date:'c'}}">{{project.last_imported_archive_date|naturaltime}}</time>
-                    {% else %}
-                        <span class="text-muted">{% trans "No documentation uploaded yet." %}</span>
-                    {% endif %}
-                    <hr>
-
-                    <h4>{% trans "Tags" %}</h4>
-                    {% include "projects/includes/project_tags.html" with tags=project.tags.all %}
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        {% trans "Repository" %}
+                        <a href="{{project.repo}}" target="_blank" class="btn btn-outline-dark btn-sm pull-right" rel="noopener" title="{{project.repo}}">{% trans "View source" %}</a>
+                    </div>
+                    <div class="card-body text-center">
+                        {{project.repo|repo_icon}}
+                    </div>
                 </div>
             </div>
+
+            <div class="col-12 col-sm-6 col-md-5 col-lg-3">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        {% trans "Last update" %}
+                        <a href="{% url 'projects:project-uploads' project.slug %}" class="btn btn-outline-success btn-sm pull-right">{% trans "Upload" %}</a>
+                    </div>
+                    <div class="card-body">
+                        {% if project.last_imported_archive_date %}
+                            <time datetime="{{project.last_imported_archive_date|date:'c'}}" title="{{project.last_imported_archive_date}}">{{project.last_imported_archive_date|naturaltime}}</time>
+                        {% else %}
+                            <span class="text-muted">{% trans "No docs uploaded yet" %}</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-md-3 col-lg-2">
+                <div class="card mb-4">
+                    <div class="card-header">{% trans "Indexed files" %}</div>
+                    <div class="card-body text-center">
+                        <span class="badge badge-dark">{{project.imported_files_count}}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-md-6 col-lg-4">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        {% trans "Tags" %}
+                        <a href="{% url 'projects:project-settings' project.slug %}" class="btn btn-outline-success btn-sm pull-right">{% trans "Add more" %}</a>
+                    </div>
+                    <div class="card-body">
+                        {% if project.tags.exists %}
+                            {% include "projects/includes/project_tags.html" with tags=project.tags.all %}
+                        {% else %}
+                            <span class="text-muted">{% trans "No tags defined" %}</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 
