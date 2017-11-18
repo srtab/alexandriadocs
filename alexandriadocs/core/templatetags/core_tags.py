@@ -5,8 +5,14 @@ from django import template
 from django.conf import settings
 from django.utils.html import escape
 from django.utils.http import urlencode
+from django.utils.safestring import mark_safe
 
 register = template.Library()
+
+
+GITHUB_HOSTNAME = 'github'
+GITLAB_HOSTNAME = 'gitlab'
+BITBUCKET_HOSTNAME = 'bitbucket'
 
 
 @register.assignment_tag(takes_context=True)
@@ -74,3 +80,16 @@ def visibility_icon(visibility_obj):
 def absolute_uri(context, location):
     request = context.get('request')
     return request.build_absolute_uri(location)
+
+
+@register.filter()
+def repo_icon(value):
+    icon = 'fa-git-square', 'Source'
+    if GITHUB_HOSTNAME in value:
+        icon = 'fa-github-alt', 'Github'
+    elif GITLAB_HOSTNAME in value:
+        icon = 'fa-gitlab', 'Gitlab'
+    elif BITBUCKET_HOSTNAME in value:
+        icon = 'fa-bitbucket', 'Bitbucket'
+    return mark_safe(
+        '<i class="fa fa-fw {}" aria-hidden="true"></i> {}'.format(*icon))
