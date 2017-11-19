@@ -25,29 +25,34 @@
         </p>
 
         <div class="card mb-4">
-            <h4 class="card-header">{% trans "Upload" %}</h4>
+            <h4 class="card-header">{% trans "Upload docs" %}</h4>
             <div class="card-body">
-                <p>
-                    {% trans 'Before upload, make sure the archive:' %}
-                    <ul>
-                        <li>
-                            {% blocktrans with mimetypes=allowed_mimetypes|join:',' %}
-                                has the correct format (valid formats: {{mimetypes}}).
-                            {% endblocktrans %}
-                        </li>
-                        <li>{% blocktrans %}contain the files resulting from the build in the root and not the folder.{% endblocktrans %}</li>
-                    </ul>
-                </p>
-                <form class="project-uploads" method="post" action="{% url 'projects:imported-archive-create' project.slug %}" enctype="multipart/form-data" novalidate data-ajax-submit>
-                    <div class="row">
-                        <div class="col-lg-10">
+
+                <div class="row">
+                    <div class="col-12 col-lg-6">
+                        <form class="project-uploads mb-4" method="post" action="{% url 'projects:imported-archive-create' project.slug %}" enctype="multipart/form-data" novalidate data-ajax-submit>
                             {% crispy form %}
-                        </div>
-                        <div class="col-lg-2">
-                            <button class="btn btn-success btn-block" type="submit">{% trans "Upload docs" %}</button>
+                            <button class="btn btn-success btn-block" type="submit">{% trans "Upload" %}</button>
+                        </form>
+                    </div>
+                    <div class="col-12 col-lg-6">
+                        <div class="alert alert-info" role="alert">
+                            {% trans 'Before upload your docs, make sure the archive:' %}
+                            <ol class="mb-0">
+                                <li>{% blocktrans %}contain a <code>index.html</code> file and all other docs files as root elements;{% endblocktrans %}</li>
+                                <li>
+                                    {% blocktrans %}has the correct mimetype. Supported:{% endblocktrans %}
+                                    <ul>
+                                        {% for mimetype in allowed_mimetypes %}
+                                            <li><code>{{mimetype}}</code></li>
+                                        {% endfor %}
+                                    </ul>
+                                </li>
+                            </ol>
                         </div>
                     </div>
-                </form>
+                </div>
+
             </div>
         </div>
 

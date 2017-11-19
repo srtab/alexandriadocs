@@ -8,7 +8,7 @@ from accounts.models import AccessLevel
 from core.forms import UntaggedFormMixin
 from core.widgets import Select2
 from crispy_forms.bootstrap import PrependedText
-from crispy_forms.layout import Div, Layout
+from crispy_forms.layout import Div, Layout, Field
 from groups.access_checkers import group_access_checker
 from projects.models import ImportedArchive, Project, ProjectCollaborator
 
@@ -116,9 +116,12 @@ class ImportedArchiveForm(UntaggedFormMixin, forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields['archive'].widget.attrs.update({
+            'class': 'custom-file-input'
+        })
         self.helper.form_show_labels = False
         self.helper.layout = Layout(
-            'archive'
+            Field('archive', template='core/layouts/fileinput.html')
         )
 
 
