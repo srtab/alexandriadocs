@@ -5,8 +5,9 @@
 [![Coverage Status](https://coveralls.io/repos/github/srtab/alexandriadocs/badge.svg?branch=master)](https://coveralls.io/github/srtab/alexandriadocs?branch=master)
 [![BCH compliance](https://bettercodehub.com/edge/badge/srtab/alexandriadocs?branch=master)](https://bettercodehub.com/)
 
-## Purpose
-AlexandriaDocs allows you to host, group, and easily search all you documentation. It supports static site generators like Sphinx, MkDocs, Jekyll, Hugo, ... and many [others](https://www.staticgen.com/). You can use your favorite continuous integration tool to generate and send new versions through the available API JSON, or you can just do it manually.
+Allows you to host, group, and easily search all you documentation. It supports static site generators like Sphinx, MkDocs, Jekyll, Hugo, ... and many [others](https://www.staticgen.com/). You can use your favorite continuous integration tool to generate and send new versions through the available API JSON, or you can just do it manually.
+
+AlexandriaDocs is built with Django 1.11 and supports Python 3.4, 3.5 and 3.6.
 
 ## Getting Started
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
