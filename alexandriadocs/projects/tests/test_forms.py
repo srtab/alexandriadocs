@@ -52,7 +52,6 @@ class ImportedArchiveFormTest(SimpleTestCase):
     def test_form_helper(self):
         form = ImportedArchiveForm()
         self.assertIsNotNone(form.helper.layout)
-        self.assertEqual(form.helper.layout[0], 'archive')
 
 
 class ProjectVisibilityFormTest(SimpleTestCase):
