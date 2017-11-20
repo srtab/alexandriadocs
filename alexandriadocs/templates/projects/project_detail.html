@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% load i18n humanize %}
-{% load core_tags django_bootstrap_breadcrumbs %}
+{% load accounts_tags core_tags django_bootstrap_breadcrumbs %}
 
 
 {% block head_title %}{{project.group}} / {{project}}{% endblock %}
@@ -17,6 +17,8 @@
 {% block container %}
 
     {% include "projects/includes/project_detail_header.html" %}
+
+    {% has_access ADMIN project as can_access %}
 
     <div class="container">
         <div class="row">
@@ -37,10 +39,12 @@
                 <div class="card mb-4">
                     <div class="card-header">
                         <strong>{% trans "Last update" %}</strong>
-                        <a href="{% url 'projects:project-uploads' project.slug %}" class="btn btn-outline-success btn-sm pull-right">{% trans "Upload" %}</a>
+                        {% if can_access %}
+                            <a href="{% url 'projects:project-uploads' project.slug %}" class="btn btn-outline-success btn-sm pull-right">{% trans "Upload" %}</a>
+                        {% endif %}
                     </div>
                     <div class="card-body">
-                        {% if project.last_imported_archive_date %}
+                        {% if project.imported_archive_exists %}
                             <time datetime="{{project.last_imported_archive_date|date:'c'}}" title="{{project.last_imported_archive_date}}">{{project.last_imported_archive_date|naturaltime}}</time>
                         {% else %}
                             <span class="text-muted">{% trans "No docs uploaded yet" %}</span>
@@ -51,9 +55,14 @@
 
             <div class="col-12 col-sm-4 col-lg-4">
                 <div class="card mb-4">
-                    <div class="card-header"><strong>{% trans "Indexed files" %}</strong></div>
+                    <div class="card-header">
+                        <strong>{% trans "Indexed files" %}</strong>
+                        {% if project.imported_archive_exists %}
+                            <a href="{{project.get_docs_url}}" class="btn btn-success btn-sm pull-right">{% trans "Read docs" %} <i class="fa fa-chevron-right fa-fw" aria-hidden="true"></i></a>
+                        {% endif %}
+                    </div>
                     <div class="card-body text-center">
-                        <span class="badge badge-dark">{{project.imported_files_count}}</span>
+                        <span class="badge badge-primary">{{project.imported_files_count}}</span>
                     </div>
                 </div>
             </div>
@@ -62,7 +71,9 @@
                 <div class="card mb-4">
                     <div class="card-header">
                         <strong>{% trans "Tags" %}</strong>
-                        <a href="{% url 'projects:project-settings' project.slug %}" class="btn btn-outline-success btn-sm pull-right">{% trans "Add more" %}</a>
+                        {% if can_access %}
+                            <a href="{% url 'projects:project-settings' project.slug %}" class="btn btn-outline-success btn-sm pull-right">{% trans "Add more" %}</a>
+                        {% endif %}
                     </div>
                     <div class="card-body">
                         {% if project.tags.exists %}
