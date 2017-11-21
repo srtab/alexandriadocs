@@ -12,7 +12,7 @@ from crispy_forms.layout import Div, Layout, Field
 from groups.access_checkers import group_access_checker
 from projects.models import ImportedArchive, Project, ProjectCollaborator
 
-PROJECT_COMMON_FIELDS = ('title', 'description', 'repo', 'tags')
+PROJECT_COMMON_FIELDS = ('name', 'description', 'repo', 'tags')
 
 
 class ProjectForm(UntaggedFormMixin, forms.ModelForm):
@@ -38,10 +38,9 @@ class ProjectForm(UntaggedFormMixin, forms.ModelForm):
         super().__init__(*args, **kwargs)
         if 'group' in self.fields:
             self.fields['group'].help_text = _(
-                'House several projects under the same namespace, just like a '
-                'folder. <a href="{url}">Create group</a>.'
+                'Group projects under the same namespace, just like a folder. '
+                '<a href="{url}">Create group</a>.'
             ).format(url=reverse_lazy('groups:group-create'))
-        self.fields['title'].label = _('Project name')
         self.fields['repo'].widget.attrs['placeholder'] = \
             'ex: https://github.com/srtab/alexandriadocs'
         self.fields['tags'].widget.attrs['placeholder'] = 'ex: django, python'
@@ -51,7 +50,7 @@ class ProjectForm(UntaggedFormMixin, forms.ModelForm):
         self.helper.layout = Layout(
             Div(
                 Div('group', css_class="col-4"),
-                Div('title', css_class="col-8"),
+                Div('name', css_class="col-8"),
                 css_class="row",
             ),
             'description',
@@ -86,8 +85,8 @@ class ProjectEditForm(ProjectForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # remove row element with group an title an replace by title only
-        self.helper.layout[0] = 'title'
+        # remove row element with group an name an replace by name only
+        self.helper.layout[0] = 'name'
         # remove visibility_level
         del self.helper.layout[-1]
 

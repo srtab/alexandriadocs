@@ -10,8 +10,8 @@ from groups.models import Group, GroupCollaborator
 class GroupModelTest(SimpleTestCase):
 
     def test_str(self):
-        group = Group(title="title")
-        self.assertEqual(str(group), group.title)
+        group = Group(name="name")
+        self.assertEqual(str(group), group.name)
 
     @patch.object(GroupCollaborator, 'objects')
     def test_post_save_with_created_true(self, mobjects):

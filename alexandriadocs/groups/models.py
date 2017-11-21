@@ -5,14 +5,15 @@ from django.db.models.signals import post_save
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
+from autoslug import AutoSlugField
 from accounts.managers import CollaboratorManager
 from accounts.models import AccessLevel, CollaboratorMixin
-from core.models import TitleSlugDescriptionMixin, VisibilityMixin
+from core.models import VisibilityMixin
 from django_extensions.db.models import TimeStampedModel
 from groups.managers import GroupManager
 
 
-class Group(VisibilityMixin, TitleSlugDescriptionMixin, TimeStampedModel):
+class Group(VisibilityMixin, TimeStampedModel):
     """
     House several projects under the same namespace, just like a folder
     """
@@ -21,14 +22,18 @@ class Group(VisibilityMixin, TitleSlugDescriptionMixin, TimeStampedModel):
     collaborators = models.ManyToManyField(
         settings.AUTH_USER_MODEL, through='GroupCollaborator',
         related_name='collaborate_groups')
+    name = models.CharField(_('group name'), max_length=64, unique=True)
+    slug = AutoSlugField(_('slug'), populate_from='name', always_update=True)
+    description = models.CharField(
+        _('description'), max_length=256, blank=True, null=True)
     objects = GroupManager()
 
     class Meta:
-        ordering = ['title', 'created']
+        ordering = ['name', 'created']
         verbose_name = _('group')
 
     def __str__(self):
-        return self.title
+        return self.name
 
     def get_absolute_url(self):
         return reverse('groups:group-detail', args=[self.slug])

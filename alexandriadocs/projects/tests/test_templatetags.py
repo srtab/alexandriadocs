@@ -9,7 +9,7 @@ from projects.models import Project
 class RenderInheritedCollaboratorsTest(TemplateTagsTest, SimpleTestCase):
 
     def setUp(self):
-        self.project = Project(group=Group(title='title', slug='slug'))
+        self.project = Project(group=Group(name='name', slug='slug'))
 
     def test_render(self):
         template = (
@@ -22,5 +22,5 @@ class RenderInheritedCollaboratorsTest(TemplateTagsTest, SimpleTestCase):
         })
         self.assertInHTML(
             'Collaborators inherited from group '
-            '<a href="/groups/slug/collaborators/">title</a>', result)
+            '<a href="/groups/slug/collaborators/">name</a>', result)
         self.assertInHTML('No associated collaborators.', result)

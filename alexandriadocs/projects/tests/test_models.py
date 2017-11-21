@@ -13,10 +13,10 @@ from projects.models import (
 class ProjectModelTest(SimpleTestCase):
 
     def setUp(self):
-        self.project = Project(title="title", slug="slug")
+        self.project = Project(name="name", slug="slug")
 
     def test_str(self):
-        self.assertEqual(str(self.project), self.project.title)
+        self.assertEqual(str(self.project), self.project.name)
 
     @patch.object(Group, 'is_private', new_callable=PropertyMock,
                   return_value=True)
@@ -105,12 +105,12 @@ class ProjectModelTest(SimpleTestCase):
 class ImportedArchiveModelTest(SimpleTestCase):
 
     def setUp(self):
-        self.project = Project(title="title", slug="slug")
+        self.project = Project(name="name", slug="slug")
         self.archive = ImportedArchive(project=self.project)
         self.archive.archive = MagicMock()
 
     def test_str(self):
-        self.assertEqual(str(self.archive), self.project.title)
+        self.assertEqual(str(self.archive), self.project.name)
 
     @patch.object(ImportedFile.objects, 'walk')
     @patch('projects.models.tarfile')

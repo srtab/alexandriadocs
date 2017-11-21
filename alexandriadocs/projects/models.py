@@ -3,16 +3,18 @@ import shutil
 import tarfile
 
 from django.conf import settings as djsettings
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models.signals import post_save
 from django.urls import reverse
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
+from autoslug import AutoSlugField
 from accounts.managers import CollaboratorManager
 from accounts.models import AccessLevel, CollaboratorMixin
 from core.conf import settings
-from core.models import TitleSlugDescriptionMixin, VisibilityMixin
+from core.models import VisibilityMixin
 from django_extensions.db.models import TimeStampedModel
 from groups.models import Group
 from projects.managers import ImportedFileManager, ProjectManager
@@ -22,7 +24,7 @@ from projects.validators import MimeTypeValidator
 from taggit.managers import TaggableManager
 
 
-class Project(VisibilityMixin, TitleSlugDescriptionMixin, TimeStampedModel):
+class Project(VisibilityMixin, TimeStampedModel):
     """
     An project represents a namespace
     """
@@ -36,7 +38,15 @@ class Project(VisibilityMixin, TitleSlugDescriptionMixin, TimeStampedModel):
     collaborators = models.ManyToManyField(
         djsettings.AUTH_USER_MODEL, through='ProjectCollaborator',
         related_name='collaborate_projects')
-    repo = models.CharField(_('repository URL'), max_length=255)
+    name = models.CharField(
+        _('project name'), max_length=128,
+        help_text=_('project name must be unique under the selected group'))
+    slug = AutoSlugField(
+        _('slug'), populate_from='name', always_update=True,
+        unique_with='group_id')
+    description = models.CharField(
+        _('description'), max_length=256, blank=True, null=True)
+    repo = models.URLField(_('repository URL'), max_length=255)
     tags = TaggableManager(blank=True)
 
     objects = ProjectManager()
@@ -46,7 +56,7 @@ class Project(VisibilityMixin, TitleSlugDescriptionMixin, TimeStampedModel):
         verbose_name = _('project')
 
     def __str__(self):
-        return self.title
+        return self.name
 
     @property
     def is_private(self):
@@ -86,6 +96,15 @@ class Project(VisibilityMixin, TitleSlugDescriptionMixin, TimeStampedModel):
 
     def get_docs_url(self, filename="index.html"):
         return reverse('serve-docs', args=[self.slug, filename])
+
+    def clean(self):
+        # Don't allow repeated titles in same group.
+        projects = Project.objects.filter(
+            group_id=self.group_id, name__iexact=self.name)
+        if projects.exists():
+            raise ValidationError({
+                'name': _("Project with this Project name already exists.")
+            })
 
     @staticmethod
     def post_save(sender, instance, created, **kwargs):
