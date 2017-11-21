@@ -6,7 +6,7 @@ from core.forms import UntaggedFormMixin
 from crispy_forms.layout import Div, Layout
 from groups.models import Group, GroupCollaborator
 
-GROUP_COMMON_FIELDS = ('title', 'description')
+GROUP_COMMON_FIELDS = ('name', 'description')
 
 
 class GroupForm(UntaggedFormMixin, forms.ModelForm):

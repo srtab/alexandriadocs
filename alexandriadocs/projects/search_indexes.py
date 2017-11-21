@@ -14,7 +14,7 @@ class ProjectIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(
         document=True, use_template=True,
         template_name="projects/search/project.txt")
-    title = indexes.CharField(model_attr='title', boost=1.125)
+    name = indexes.CharField(model_attr='name', boost=1.125)
     description = indexes.CharField(model_attr='description', null=True)
     project_id = indexes.CharField(model_attr='id')
     absolute_url = indexes.CharField()

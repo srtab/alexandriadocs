@@ -16,7 +16,6 @@ class ProjectFormTest(SimpleTestCase):
         self.form = ProjectForm()
 
     def test_init(self):
-        self.assertEqual(self.form.fields['title'].label, 'Project name')
         self.assertEqual(self.form.fields['repo'].widget.attrs['placeholder'],
                          'ex: https://github.com/srtab/alexandriadocs')
         self.assertEqual(self.form.fields['tags'].widget.attrs['placeholder'],
@@ -44,7 +43,7 @@ class ProjectEditFormTest(SimpleTestCase):
     def test_form_helper(self):
         form = ProjectEditForm()
         self.assertIsNotNone(form.helper.layout)
-        self.assertEqual(form.helper.layout[0], 'title')
+        self.assertEqual(form.helper.layout[0], 'name')
 
 
 class ImportedArchiveFormTest(SimpleTestCase):
