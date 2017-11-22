@@ -8,7 +8,7 @@ from accounts.models import AccessLevel
 from core.forms import UntaggedFormMixin
 from core.widgets import Select2
 from crispy_forms.bootstrap import PrependedText
-from crispy_forms.layout import Div, Layout, Field
+from crispy_forms.layout import Div, Field, Layout
 from groups.access_checkers import group_access_checker
 from projects.models import ImportedArchive, Project, ProjectCollaborator
 

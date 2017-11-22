@@ -10,9 +10,9 @@ from django.urls import reverse
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 
-from autoslug import AutoSlugField
 from accounts.managers import CollaboratorManager
 from accounts.models import AccessLevel, CollaboratorMixin
+from autoslug import AutoSlugField
 from core.conf import settings
 from core.models import VisibilityMixin
 from django_extensions.db.models import TimeStampedModel
