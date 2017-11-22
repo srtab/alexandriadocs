@@ -49,10 +49,10 @@ def analytics_tracking():
     }
 
 
-@register.inclusion_tag("includes/sentry-ravenjs.html")
+@register.inclusion_tag("includes/sentry_ravenjs.html")
 def sentry_ravenjs():
     return {
-        'SENTRY': getattr(settings, 'SENTRY_CONFIG', None)
+        'SENTRY': bool(getattr(settings, 'RAVEN_CONFIG', False))
     }
 
 

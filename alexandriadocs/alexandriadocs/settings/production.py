@@ -1,6 +1,7 @@
 import os
 
 from alexandriadocs.settings import *  # NOQA
+from alexandriadocs import __version__
 
 DEBUG = False
 COMPRESS_OFFLINE = True
@@ -58,7 +59,7 @@ ANALYTICS_TRACKING_ID = os.environ.get('ANALYTICS_TRACKING_ID')
 
 RAVEN_CONFIG = {
     'dsn': os.environ.get('SENTRY_DSN'),
-    'release': 'v0.1.0-alpha.1',
+    'release': __version__,
     'environment': 'production'
 }
 

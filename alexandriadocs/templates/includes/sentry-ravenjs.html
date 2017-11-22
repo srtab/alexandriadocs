@@ -1,5 +1,0 @@
-{% load raven %}
-
-{% if SENTRY %}
-    <script>Raven.config('{% sentry_public_dsn %}').install()</script>
-{% endif %}
