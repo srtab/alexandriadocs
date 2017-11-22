@@ -5,9 +5,9 @@ from django.db.models.signals import post_save
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
-from autoslug import AutoSlugField
 from accounts.managers import CollaboratorManager
 from accounts.models import AccessLevel, CollaboratorMixin
+from autoslug import AutoSlugField
 from core.models import VisibilityMixin
 from django_extensions.db.models import TimeStampedModel
 from groups.managers import GroupManager

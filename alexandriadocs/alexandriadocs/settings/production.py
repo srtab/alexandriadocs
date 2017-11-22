@@ -1,7 +1,7 @@
 import os
 
-from alexandriadocs.settings import *  # NOQA
 from alexandriadocs import __version__
+from alexandriadocs.settings import *  # NOQA
 
 DEBUG = False
 COMPRESS_OFFLINE = True
