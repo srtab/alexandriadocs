@@ -9,7 +9,7 @@
 
     {% is_current_url namespace='search' url_name='pages' as is_search_pages %}
     {% if is_search_pages %}
-        {% breadcrumb "Pages" "search:pages" %}
+        {% breadcrumb "Docs" "search:pages" %}
     {% endif %}
 {% endblock breadcrumbs %}
 
@@ -19,7 +19,9 @@
         <div class="jumbotron jumbotron-fluid jumbotron-header jumbotron-header-tabs">
             <div class="container">
                 <h1 class="display-4">{% trans 'Search' %}</h1>
-                <p class="lead">{% trans "Explore available public projects documentations." %}</p>
+                <p class="lead">
+                    {% blocktrans %}Explore available projects and documentations. Introduce a term in the form below to start searching.{% endblocktrans %}
+                </p>
                 <hr>
                 {% trans 'Search term...' as search_placeholder %}
                 {% include "search/includes/search_form.html" with query=query placeholder=search_placeholder only %}
@@ -41,36 +43,34 @@
                 </ul>
             </div>
         </div>
-        {% if query %}
-            <div class="container">
+        <div class="container">
 
-                {% if object_list %}
+            {% if object_list %}
 
-                    {% if is_search_projects %}
-                        {% include "projects/includes/project_list.html" with project_list=object_list|extract_objects:'only_objects' show_group_name=1 query=query %}
-                    {% endif %}
-
-                    {% if is_search_pages %}
-                        {% include "projects/includes/importedfile_list.html" with importedfile_list=object_list|extract_objects query=query %}
-                    {% endif %}
-
-                {% else %}
-                    <p class="lead text-center text-muted mt-5">
-
-                        {% if is_search_projects %}
-                            {% trans "We couldn't find any project matching" %}
-                        {% elif is_search_pages %}
-                            {% trans "We couldn't find any documentation matching" %}
-                        {% endif %}
-
-                        <strong>"{{query|safe}}"</strong>
-                    </p>
+                {% if is_search_projects %}
+                    {% include "projects/includes/project_list.html" with project_list=object_list|extract_objects:'only_objects' show_group_name=1 query=query %}
                 {% endif %}
 
-                {% include "includes/pagination.html" %}
+                {% if is_search_pages %}
+                    {% include "projects/includes/importedfile_list.html" with importedfile_list=object_list|extract_objects query=query %}
+                {% endif %}
 
-            </div>
-        {% endif %}
+            {% else %}
+                <p class="lead text-center text-muted mt-5">
+
+                    {% if is_search_projects %}
+                        {% trans "We couldn't find any project matching" %}
+                    {% elif is_search_pages %}
+                        {% trans "We couldn't find any documentation matching" %}
+                    {% endif %}
+
+                    <strong>"{{query|safe}}"</strong>
+                </p>
+            {% endif %}
+
+            {% include "includes/pagination.html" %}
+
+        </div>
     </form>
 
 {% endblock container %}

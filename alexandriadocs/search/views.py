@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 from django.views.generic.list import ListView
+from django.utils.translation import ugettext_lazy as _
 
 from haystack.inputs import Clean
-from haystack.query import SQ, RelatedSearchQuerySet
+from haystack.query import SQ, RelatedSearchQuerySet, EmptySearchQuerySet
 from projects.models import ImportedFile, Project
+from core.views import AlexandriaDocsSEO
 
 
 class SearchView(ListView):
@@ -31,6 +33,8 @@ class SearchView(ListView):
         return context
 
     def search(self, query):
+        if not query:
+            return EmptySearchQuerySet()
         # OPTIMIZE: the number of public projects can increase substantially
         # causing a really high number of project_ids to be sended to
         # elasticsearch
@@ -41,11 +45,19 @@ class SearchView(ListView):
                     SQ(title__contains=Clean(query)))
 
 
-class SearchProjectView(SearchView):
+class SearchProjectView(AlexandriaDocsSEO, SearchView):
     """ """
     search_model = Project
+    title = _("Search for projects")
+
+    def get_meta_description(self, context=None):
+        return _("Explore available projects")
 
 
-class SearchPageView(SearchView):
+class SearchPageView(AlexandriaDocsSEO, SearchView):
     """ """
     search_model = ImportedFile
+    title = _("Search for docs")
+
+    def get_meta_description(self, context=None):
+        return _("Explore available documentations pages")

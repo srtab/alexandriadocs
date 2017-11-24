@@ -2,15 +2,37 @@
 from django.http import JsonResponse
 from django.views.generic import ListView
 from django.views.generic.list import BaseListView
+from django.utils.translation import ugettext_lazy as _
 
 from core.conf import settings
+from meta.views import MetadataMixin
 from projects.models import Project
 
 
-class HomepageView(ListView):
+class AlexandriaDocsSEO(MetadataMixin):
     """ """
-    template_name = "homepage.html"
+
+    def get_meta_title(self, context=None):
+        base_title = "AlexandriaDocs"
+        if self.title:
+            return "{} — {}".format(self.title, base_title)
+        return base_title
+
+    def get_meta_url(self, context=None):
+        return self.request.build_absolute_uri()
+
+    def get_meta_description(self, context=None):
+        return _(
+            "AlexandriaDocs is where you can host, group, and easily search "
+            "all your documentation generated with your favorite static site "
+            "generator like Sphinx, MkDocs, Jekyll, Hugo, etc..."
+        )
+
+
+class HomepageView(AlexandriaDocsSEO, ListView):
+    """ """
     model = Project
+    template_name = "homepage.html"
     paginate_by = settings.ALEXANDRIA_PAGINATE_BY
 
     def get_queryset(self):

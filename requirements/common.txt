@@ -16,6 +16,7 @@ django-crispy-forms~=1.7.0
 django-autoslug~=1.9.3
 django-bootstrap-breadcrumbs~=0.8.2
 django-appconf~=1.0.2
+django-meta~=1.4.0
 
 # API
 djangorestframework~=3.7.0

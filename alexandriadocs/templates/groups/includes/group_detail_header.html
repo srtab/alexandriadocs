@@ -10,7 +10,7 @@
 
         <ul class="nav nav-tabs">
             <li class="nav-item">
-                <a class="nav-link {% menu_active 'groups' 'group-detail' %}" href="{% url 'groups:group-detail' group.slug %}"><i class="fa fa-folder-open fa-fw" aria-hidden="true"></i> {% trans "Projects" %} <span class="badge badge-pill badge-light ml-2">{{group.projects.count}}</span></a>
+                <a class="nav-link {% menu_active 'groups' 'group-detail' %}" href="{% url 'groups:group-detail' group.slug %}"><i class="fa fa-folder-open fa-fw" aria-hidden="true"></i> {% trans "Projects" %} <span class="badge badge-pill badge-light ml-2">{{project_list.count}}</span></a>
             </li>
             {% has_access ADMIN group as can_access %}
             {% if can_access %}

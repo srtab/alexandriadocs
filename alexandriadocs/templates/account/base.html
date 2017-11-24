@@ -1,6 +1,11 @@
 {% extends "base.html" %}
 
 
+{% block head_meta %}
+    <title>{% block head_title %}{% endblock head_title %} — AlexandriaDocs</title>
+{% endblock head_meta %}
+
+
 {% block container %}
     {% block content %}{% endblock content %}
 {% endblock container %}
