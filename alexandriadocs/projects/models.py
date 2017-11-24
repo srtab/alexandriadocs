@@ -58,6 +58,10 @@ class Project(VisibilityMixin, TimeStampedModel):
     def __str__(self):
         return self.name
 
+    @cached_property
+    def fullname(self):
+        return "{group} / {name}".format(group=self.group, name=self)
+
     @property
     def is_private(self):
         return bool(self.group.is_private or
@@ -68,7 +72,7 @@ class Project(VisibilityMixin, TimeStampedModel):
         return bool(self.group.is_public or
                     self.visibility_level == self.Level.PUBLIC)
 
-    @property
+    @cached_property
     def serve_root_path(self):
         return os.path.join(settings.SENDFILE_ROOT, self.slug)
 

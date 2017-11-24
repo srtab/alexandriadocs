@@ -17,6 +17,7 @@ from django.views.generic.list import ListView
 from accounts.mixins import HasAccessLevelMixin
 from accounts.models import AccessLevel
 from core.conf import settings
+from core.views import AlexandriaDocsSEO
 from groups.models import Group
 from projects.forms import (
     ImportedArchiveForm, ProjectCollaboratorForm, ProjectEditForm, ProjectForm,
@@ -34,9 +35,10 @@ BADGE_URL = (
 
 
 @method_decorator(login_required, name='dispatch')
-class ProjectListView(ListView):
+class ProjectListView(AlexandriaDocsSEO, ListView):
     """ """
     model = Project
+    title = _("Projects")
     paginate_by = settings.ALEXANDRIA_PAGINATE_BY
 
     def get_queryset(self):
@@ -45,9 +47,10 @@ class ProjectListView(ListView):
 
 
 @method_decorator(login_required, name='dispatch')
-class ProjectCreateView(SuccessMessageMixin, CreateView):
+class ProjectCreateView(AlexandriaDocsSEO, SuccessMessageMixin, CreateView):
     """ """
     model = Project
+    title = _("Create project")
     form_class = ProjectForm
     success_message = _("%(title)s was created successfully")
 
@@ -68,29 +71,45 @@ class ProjectCreateView(SuccessMessageMixin, CreateView):
         return super().form_valid(form)
 
 
-class ProjectDetailView(DetailView):
-    """ """
-    model = Project
+class ProjectDetailMixin(AlexandriaDocsSEO):
 
     def get_queryset(self):
         return self.model._default_manager\
             .public_or_collaborate(self.request.user)\
             .select_related('group')
 
+    def get_meta_description(self, context=None):
+        if self.object.description:
+            return self.object.description
+        return None
 
-class ProjectBadgeView(DetailView):
+    def get_meta_keywords(self, context=None):
+        if self.object.tags.exists():
+            return self.object.tags.values_list('name', flat=True)
+        return None
+
+
+class ProjectDetailView(ProjectDetailMixin, DetailView):
+    """ """
+    model = Project
+
+    def get_meta_title(self, context=None):
+        self.title = self.object.fullname
+        return super().get_meta_title(context)
+
+
+class ProjectBadgeView(ProjectDetailMixin, DetailView):
     """ """
     model = Project
     template_name_suffix = '_badge'
 
-    def get_queryset(self):
-        return self.model._default_manager\
-            .public_or_collaborate(self.request.user)\
-            .select_related('group')
+    def get_meta_title(self, context=None):
+        self.title = _("Badge · {name}").format(name=self.object.fullname)
+        return super().get_meta_title(context)
 
 
 @method_decorator(login_required, name='dispatch')
-class ProjectUploadsView(HasAccessLevelMixin, DetailView):
+class ProjectUploadsView(HasAccessLevelMixin, ProjectDetailMixin, DetailView):
     """ """
     model = Project
     template_name_suffix = '_uploads'
@@ -110,9 +129,14 @@ class ProjectUploadsView(HasAccessLevelMixin, DetailView):
         })
         return context
 
+    def get_meta_title(self, context=None):
+        self.title = _("Uploads · {name}").format(name=self.object.fullname)
+        return super().get_meta_title(context)
+
 
 @method_decorator(login_required, name='dispatch')
-class ProjectCollaboratorsView(HasAccessLevelMixin, DetailView):
+class ProjectCollaboratorsView(HasAccessLevelMixin, ProjectDetailMixin,
+                               DetailView):
     """ """
     model = Project
     template_name_suffix = '_collaborators'
@@ -127,10 +151,15 @@ class ProjectCollaboratorsView(HasAccessLevelMixin, DetailView):
         context.update({'form': ProjectCollaboratorForm()})
         return context
 
+    def get_meta_title(self, context=None):
+        self.title = _("Collaborators · {name}").format(
+            name=self.object.fullname)
+        return super().get_meta_title(context)
+
 
 @method_decorator(login_required, name='dispatch')
 class ProjectSettingsView(HasAccessLevelMixin, SuccessMessageMixin,
-                          UpdateView):
+                          ProjectDetailMixin, UpdateView):
     """ """
     model = Project
     form_class = ProjectEditForm
@@ -151,6 +180,10 @@ class ProjectSettingsView(HasAccessLevelMixin, SuccessMessageMixin,
 
     def get_success_url(self):
         return reverse('projects:project-settings', args=[self.object.slug])
+
+    def get_meta_title(self, context=None):
+        self.title = _("Settings · {name}").format(name=self.object.fullname)
+        return super().get_meta_title(context)
 
 
 class ProjectBadgeUrlView(View):

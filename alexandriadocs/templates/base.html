@@ -1,15 +1,19 @@
 {% load i18n staticfiles %}
-{% load compress core_tags django_bootstrap_breadcrumbs %}
+{% load compress core_tags django_bootstrap_breadcrumbs meta %}
 
 <!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE|default:"pt" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    {% block head_meta %}
+        {% include "meta/meta.html" %}
+    {% endblock head_meta %}
+
+    {% if meta.url %}<link rel="canonical" href="{{meta.url}}" />{% endif %}
+
     <link rel="shortcut icon" type="image/ico" href="{% static 'images/favicon.ico' %}"/>
-
-    <title>{% block head_title %} AlexandriaDocs{% endblock head_title %}</title>
-
     <link href="https://fonts.googleapis.com/css?family=Raleway:400,600,700,800" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
 

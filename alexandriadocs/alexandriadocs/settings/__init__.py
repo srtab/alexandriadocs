@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'django_bootstrap_breadcrumbs',
     'ajax_cbv',
+    'meta',
 
     'accounts',
     'core',
@@ -212,6 +213,12 @@ HAYSTACK_SIGNAL_PROCESSOR = 'search.signals.AlexandriaSignalProcessor'
 SENDFILE_BACKEND = "sendfile.backends.nginx"
 SENDFILE_ROOT = os.path.join(DATA_DIR, 'protected')
 SENDFILE_URL = '/protected'
+
+
+# DJANGO META
+META_USE_TITLE_TAG = True
+META_DEFAULT_KEYWORDS = ("hosting", "documentation", "alexandriadocs")
+META_INCLUDE_KEYWORDS = META_DEFAULT_KEYWORDS
 
 
 # LOGGING
