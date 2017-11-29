@@ -35,7 +35,7 @@ class GroupCreateView(AlexandriaDocsSEO, SuccessMessageMixin, CreateView):
     model = Group
     title = _("Create group")
     form_class = GroupForm
-    success_message = _("%(title)s was created successfully")
+    success_message = _("%(name)s was created successfully")
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -102,7 +102,7 @@ class GroupSettingsView(HasAccessLevelMixin, SuccessMessageMixin,
     model = Group
     form_class = GroupEditForm
     template_name_suffix = '_settings'
-    success_message = _("%(title)s was updated successfully")
+    success_message = _("%(name)s was updated successfully")
     allowed_access_level = AccessLevel.ADMIN
 
     def get_queryset(self):

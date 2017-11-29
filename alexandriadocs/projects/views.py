@@ -52,7 +52,7 @@ class ProjectCreateView(AlexandriaDocsSEO, SuccessMessageMixin, CreateView):
     model = Project
     title = _("Create project")
     form_class = ProjectForm
-    success_message = _("%(title)s was created successfully")
+    success_message = _("%(name)s was created successfully")
 
     def get_form_kwargs(self):
         kwargs = super(ProjectCreateView, self).get_form_kwargs()
@@ -164,7 +164,7 @@ class ProjectSettingsView(HasAccessLevelMixin, SuccessMessageMixin,
     model = Project
     form_class = ProjectEditForm
     template_name_suffix = '_settings'
-    success_message = _("%(title)s was updated successfully")
+    success_message = _("%(name)s was updated successfully")
     allowed_access_level = AccessLevel.ADMIN
 
     def get_queryset(self):
