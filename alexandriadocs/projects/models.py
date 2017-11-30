@@ -103,8 +103,9 @@ class Project(VisibilityMixin, TimeStampedModel):
 
     def clean(self):
         # Don't allow repeated titles in same group.
-        projects = Project.objects.filter(
-            group_id=self.group_id, name__iexact=self.name)
+        projects = Project.objects\
+            .filter(group_id=self.group_id, name__iexact=self.name)\
+            .exclude(id=self.pk)
         if projects.exists():
             raise ValidationError({
                 'name': _("Project with this Project name already exists.")
