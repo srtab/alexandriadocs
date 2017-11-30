@@ -1,6 +1,8 @@
 <div class="input-group">
-    <input class="form-control form-control-lg" type="search" name="q" value="{{query|safe}}" placeholder="{{placeholder}}">
+    <input class="form-control form-control-lg" type="search" name="q" value="{{query|safe}}" placeholder="{{placeholder}}" aria-label="{{placeholder}}">
     <span class="input-group-btn">
-        <button type="submit" class="btn btn-dark btn-lg"><i class="fa fa-search" aria-hidden="true"></i></button>
+        <button type="submit" class="btn btn-dark btn-lg" aria-label="{% trans 'Search' %}">
+            <i class="fa fa-search" aria-hidden="true"></i>
+        </button>
     </span>
 </div>
