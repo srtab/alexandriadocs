@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.http import JsonResponse
+from django.utils.translation import ugettext_lazy as _
 from django.views.generic import ListView
 from django.views.generic.list import BaseListView
-from django.utils.translation import ugettext_lazy as _
 
 from core.conf import settings
 from meta.views import MetadataMixin

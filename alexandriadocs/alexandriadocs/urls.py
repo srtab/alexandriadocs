@@ -6,8 +6,8 @@ from django.contrib import admin
 from django.contrib.auth.decorators import login_required
 from django.contrib.sitemaps.views import sitemap
 
-from core.views import HomepageView
 from core.sitemaps import sitemaps
+from core.views import HomepageView
 from projects.views import ProjectServeDocs
 
 # https://django-allauth.readthedocs.io/en/latest/advanced.html#admin
