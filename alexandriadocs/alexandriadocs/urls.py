@@ -4,8 +4,10 @@ from django.conf import settings
 from django.conf.urls import include, url
 from django.contrib import admin
 from django.contrib.auth.decorators import login_required
+from django.contrib.sitemaps.views import sitemap
 
 from core.views import HomepageView
+from core.sitemaps import sitemaps
 from projects.views import ProjectServeDocs
 
 # https://django-allauth.readthedocs.io/en/latest/advanced.html#admin
@@ -50,6 +52,12 @@ urlpatterns = [
     url(
         regex=r'^api/(?P<version>v1)/',
         view=include('api.urls', namespace='api')
+    ),
+    url(
+        regex=r'^sitemap\.xml$',
+        view=sitemap,
+        kwargs={'sitemaps': sitemaps},
+        name='django.contrib.sitemaps.views.sitemap'
     )
 ]
 
