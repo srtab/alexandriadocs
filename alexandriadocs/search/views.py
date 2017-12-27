@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
-from django.views.generic.list import ListView
 from django.utils.translation import ugettext_lazy as _
+from django.views.generic.list import ListView
 
-from haystack.inputs import Clean
-from haystack.query import SQ, RelatedSearchQuerySet, EmptySearchQuerySet
-from projects.models import ImportedFile, Project
 from core.views import AlexandriaDocsSEO
+from haystack.inputs import Clean
+from haystack.query import SQ, EmptySearchQuerySet, RelatedSearchQuerySet
+from projects.models import ImportedFile, Project
 
 
 class SearchView(ListView):

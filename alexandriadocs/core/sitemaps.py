@@ -2,8 +2,8 @@
 from django.contrib.sitemaps import Sitemap
 from django.urls import reverse
 
-from projects.models import Project
 from groups.models import Group
+from projects.models import Project
 
 
 class StaticViewSitemap(Sitemap):
