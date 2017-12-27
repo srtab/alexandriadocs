@@ -37,3 +37,19 @@
     </div>
 
 {% endblock container %}
+
+
+{% block extrajs %}
+    <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "WebSite",
+      "url": "https://alexandriadocs.io/",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://alexandriadocs.io/search/?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+{% endblock extrajs %}

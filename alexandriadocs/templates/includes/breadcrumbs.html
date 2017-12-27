@@ -7,3 +7,22 @@
         {% endif %}
     {% endfor %}
 </nav>
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {% for url, label in breadcrumbs %}
+      {
+        "@type": "ListItem",
+        "position": {{ forloop.counter }},
+        "item": {
+          "@id": "{{ url }}",
+          "name": "{{ label }}"
+        }
+      }{% if not forloop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+</script>
