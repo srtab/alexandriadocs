@@ -1,20 +1,20 @@
 # -*- coding: utf-8 -*-
-from django.conf.urls import url
+from django.urls import path
 
 from accounts.ajax import UserAutocompleteView
 from accounts.views import ProfileUpdateView
 
 base_urlpatterns = [
-    url(
-        regex=r'^(?P<slug>[-\w]+)/$',
+    path(
+        route='<slug:slug>/',
         view=ProfileUpdateView.as_view(),
         name='index'
     ),
 ]
 
 ajax_urlpatterns = [
-    url(
-        regex=r'^search/user/$',
+    path(
+        route='search/user/',
         view=UserAutocompleteView.as_view(),
         name='user-search'
     ),

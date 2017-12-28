@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from django.conf.urls import url
+from django.urls import path
 
 from projects.ajax import (
     ImportedArchiveCreateView, ProjectCollaboratorCreateView,
@@ -13,71 +13,71 @@ from projects.views import (
 )
 
 base_urlpatterns = [
-    url(
-        regex=r'^$',
+    path(
+        route='',
         view=ProjectListView.as_view(),
         name='project-list'
     ),
-    url(
-        regex=r'^new/$',
+    path(
+        route='new/',
         view=ProjectCreateView.as_view(),
         name='project-create'
     ),
-    url(
-        regex=r'^(?P<slug>[-\w]+)/$',
+    path(
+        route='<slug:slug>/',
         view=ProjectDetailView.as_view(),
         name='project-detail'
     ),
-    url(
-        regex=r'^(?P<slug>[-\w]+)/badge/$',
+    path(
+        route='<slug:slug>/badge/',
         view=ProjectBadgeView.as_view(),
         name='project-badge'
     ),
-    url(
-        regex=r'^(?P<slug>[-\w]+)/uploads/$',
+    path(
+        route='<slug:slug>/uploads/',
         view=ProjectUploadsView.as_view(),
         name='project-uploads'
     ),
-    url(
-        regex=r'^(?P<slug>[-\w]+)/collaborators/$',
+    path(
+        route='<slug:slug>/collaborators/',
         view=ProjectCollaboratorsView.as_view(),
         name='project-collaborators'
     ),
-    url(
-        regex=r'^(?P<slug>[-\w]+)/settings/$',
+    path(
+        route='<slug:slug>/settings/',
         view=ProjectSettingsView.as_view(),
         name='project-settings'
     ),
-    url(
-        regex=r'^(?P<slug>[-\w]+)/badge-url/$',
+    path(
+        route='<slug:slug>/badge-url/',
         view=ProjectBadgeUrlView.as_view(),
         name='project-badge-url'
     )
 ]
 
 ajax_urlpatterns = [
-    url(
-        regex=r'^(?P<project_slug>[-\w]+)/uploads/new/$',
+    path(
+        route='<slug:project_slug>/uploads/new/',
         view=ImportedArchiveCreateView.as_view(),
         name='imported-archive-create'
     ),
-    url(
-        regex=r'^(?P<project_slug>[-\w]+)/collaborators/new/$',
+    path(
+        route='<slug:project_slug>/collaborators/new/',
         view=ProjectCollaboratorCreateView.as_view(),
         name='project-collaborator-create'
     ),
-    url(
-        regex=r'^(?P<project_slug>[-\w]+)/collaborators/(?P<pk>\d+)/delete/$',
+    path(
+        route='<slug:project_slug>/collaborators/<int:pk>/delete/',
         view=ProjectCollaboratorDeleteView.as_view(),
         name='project-collaborator-delete'
     ),
-    url(
-        regex=r'^(?P<slug>[-\w]+)/settings/visibility/$',
+    path(
+        route='<slug:slug>/settings/visibility/',
         view=ProjectVisibilityUpdateView.as_view(),
         name='project-visibility-update'
     ),
-    url(
-        regex=r'^(?P<slug>[-\w]+)/delete/$',
+    path(
+        route='<slug:slug>/delete/',
         view=ProjectDeleteView.as_view(),
         name='project-delete'
     )

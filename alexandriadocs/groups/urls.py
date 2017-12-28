@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from django.conf.urls import url
+from django.urls import path
 
 from groups.ajax import (
     GroupAutocompleteView, GroupCollaboratorCreateView,
@@ -11,56 +11,56 @@ from groups.views import (
 )
 
 base_urlpatterns = [
-    url(
-        regex=r'^$',
+    path(
+        route='',
         view=GroupListView.as_view(),
         name='group-list'
     ),
-    url(
-        regex=r'^new/$',
+    path(
+        route='new/',
         view=GroupCreateView.as_view(),
         name='group-create'
     ),
-    url(
-        regex=r'^(?P<slug>[-\w]+)/$',
+    path(
+        route='<slug:slug>/',
         view=GroupDetailView.as_view(),
         name='group-detail'
     ),
-    url(
-        regex=r'^(?P<slug>[-\w]+)/collaborators/$',
+    path(
+        route='<slug:slug>/collaborators/',
         view=GroupCollaboratorsView.as_view(),
         name='group-collaborators'
     ),
-    url(
-        regex=r'^(?P<slug>[-\w]+)/settings/$',
+    path(
+        route='<slug:slug>/settings/',
         view=GroupSettingsView.as_view(),
         name='group-settings'
     )
 ]
 
 ajax_urlpatterns = [
-    url(
-        regex=r'^search/group/$',
+    path(
+        route='search/group/',
         view=GroupAutocompleteView.as_view(),
         name='group-search'
     ),
-    url(
-        regex=r'^(?P<group_slug>[-\w]+)/collaborators/new/$',
+    path(
+        route='<slug:group_slug>/collaborators/new/',
         view=GroupCollaboratorCreateView.as_view(),
         name='group-collaborator-create'
     ),
-    url(
-        regex=r'^(?P<group_slug>[-\w]+)/collaborators/(?P<pk>\d+)/delete/$',
+    path(
+        route='<slug:group_slug>/collaborators/<int:pk>/delete/',
         view=GroupCollaboratorDeleteView.as_view(),
         name='group-collaborator-delete'
     ),
-    url(
-        regex=r'^(?P<slug>[-\w]+)/settings/visibility/$',
+    path(
+        route='<slug:slug>/settings/visibility/',
         view=GroupVisibilityUpdateView.as_view(),
         name='group-visibility-update'
     ),
-    url(
-        regex=r'^(?P<slug>[-\w]+)/settings/delete/$',
+    path(
+        route='<slug:slug>/settings/delete/',
         view=GroupDeleteView.as_view(),
         name='group-delete'
     )

@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
-from django.conf.urls import url
+from django.urls import path
 
 from search.views import SearchPageView, SearchProjectView
 
 urlpatterns = [
-    url(
-        regex=r'^$',
+    path(
+        route='',
         view=SearchProjectView.as_view(),
         name='index'
     ),
-    url(
-        regex=r'^pages/$',
+    path(
+        route='pages/',
         view=SearchPageView.as_view(),
         name='pages'
     ),
