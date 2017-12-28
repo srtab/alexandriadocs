@@ -15,7 +15,7 @@ GITLAB_HOSTNAME = 'gitlab'
 BITBUCKET_HOSTNAME = 'bitbucket'
 
 
-@register.assignment_tag(takes_context=True)
+@register.simple_tag(takes_context=True)
 def is_current_url(context, namespace=None, url_name=None):
     request = context.get('request')
     if request.resolver_match:

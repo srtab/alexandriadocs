@@ -19,7 +19,7 @@ def get_providers_unconnected(user):
     return unconnected
 
 
-@register.assignment_tag(takes_context=True)
+@register.simple_tag(takes_context=True)
 def has_access(context, access_level, obj):
     request = context.get('request')
     if request.user.is_authenticated:
