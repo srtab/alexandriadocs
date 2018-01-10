@@ -136,12 +136,12 @@ class ImportedFileModelTest(SimpleTestCase):
 
     def setUp(self):
         self.imported_file = ImportedFile(
-            path="/unit/test.html", project=Project(slug='slug'))
+            path="/protected/unit/test.html", project=Project(slug='slug'))
 
     def test_str(self):
-        self.assertEqual(str(self.imported_file), "/unit/test.html")
+        self.assertEqual(str(self.imported_file), "/protected/unit/test.html")
 
     def test_get_absolute_url(self):
-        with self.settings(SENDFILE_ROOT="/unit/"):
+        with self.settings(SENDFILE_ROOT="/protected/"):
             self.assertEqual(self.imported_file.get_absolute_url(),
                              "/docs/slug/test.html")
