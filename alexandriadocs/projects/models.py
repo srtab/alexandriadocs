@@ -1,6 +1,7 @@
 import os
 import shutil
 import tarfile
+from pathlib import Path
 
 from django.conf import settings as djsettings
 from django.core.exceptions import ValidationError
@@ -224,5 +225,6 @@ class ImportedFile(TimeStampedModel):
     def get_absolute_url(self):
         relpath = os.path.relpath(self.path, settings.SENDFILE_ROOT)
         # remove first step of path
-        filepath = os.path.join(*os.path.split(relpath)[1:])
+        path_parts = Path(relpath).parts
+        filepath = os.path.join(*path_parts[1:])
         return self.project.get_docs_url(filepath)
