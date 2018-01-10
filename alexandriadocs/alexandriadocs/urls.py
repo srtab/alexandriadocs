@@ -1,10 +1,10 @@
 """alexandriadocs URL Configuration
 """
 from django.conf import settings
-from django.conf.urls import include, url
 from django.contrib import admin
 from django.contrib.auth.decorators import login_required
 from django.contrib.sitemaps.views import sitemap
+from django.urls import include, path, re_path
 
 from core.sitemaps import sitemaps
 from core.views import HomepageView
@@ -15,46 +15,46 @@ admin.site.login = login_required(admin.site.login)
 
 
 urlpatterns = [
-    url(
-        regex=r'^$',
+    path(
+        route='',
         view=HomepageView.as_view(),
         name="homepage"
     ),
-    url(
-        regex=r'^docs/(?P<slug>[-\w]+)/(?P<path>.*)$',
+    path(
+        route='docs/<slug:slug>/<path:path>',
         view=ProjectServeDocs.as_view(),
         name="serve-docs"
     ),
-    url(
-        regex=r'^accounts/',
+    path(
+        route='accounts/',
         view=include('allauth.urls')
     ),
-    url(
-        regex=r'^accounts/',
-        view=include('accounts.urls', namespace='accounts')
+    path(
+        route='accounts/',
+        view=include(('accounts.urls', 'accounts'), namespace='accounts')
     ),
-    url(
-        regex=r'^groups/',
-        view=include('groups.urls', namespace='groups')
+    path(
+        route='groups/',
+        view=include(('groups.urls', 'groups'), namespace='groups')
     ),
-    url(
-        regex=r'^projects/',
-        view=include('projects.urls', namespace='projects')
+    path(
+        route='projects/',
+        view=include(('projects.urls', 'projects'), namespace='projects')
     ),
-    url(
-        regex=r'^search/',
-        view=include('search.urls', namespace='search')
+    path(
+        route='search/',
+        view=include(('search.urls', 'search'), namespace='search')
     ),
-    url(
-        regex=r'^admin/',
+    path(
+        route='admin/',
         view=admin.site.urls
     ),
-    url(
-        regex=r'^api/(?P<version>v1)/',
-        view=include('api.urls', namespace='api')
+    re_path(
+        route=r'^api/(?P<version>v1)/',
+        view=include(('api.urls', 'api'), namespace='api')
     ),
-    url(
-        regex=r'^sitemap\.xml$',
+    path(
+        route='sitemap.xml',
         view=sitemap,
         kwargs={'sitemaps': sitemaps},
         name='django.contrib.sitemaps.views.sitemap'
@@ -67,7 +67,10 @@ if settings.DEBUG:  # pragma: no cover
     from django.conf.urls.static import static
     from django.contrib.staticfiles.urls import staticfiles_urlpatterns
     urlpatterns += [
-        url(r'^__debug__/', include(debug_toolbar.urls)),
+        path(
+            route='__debug__/',
+            view=include(debug_toolbar.urls)
+        ),
     ]
     # Serve static and media files from development server
     urlpatterns += staticfiles_urlpatterns()

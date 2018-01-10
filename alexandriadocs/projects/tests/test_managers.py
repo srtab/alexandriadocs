@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 from hashlib import md5
+from unittest import skipIf
 from unittest.mock import Mock, mock_open, patch
 
 from django.test import SimpleTestCase, TestCase
 
-from autofixture import create_one
+from autofixture import __version__ as autofixture_version, create_one
 from projects.managers import ProjectQuerySet
 from projects.models import ImportedFile, Project
 
@@ -47,6 +48,7 @@ class ProjectQuerySetTest(SimpleTestCase):
         self.assertTrue(mfilter.called)
 
 
+@skipIf(autofixture_version == "0.12.1", "don't support django v2.0")
 @patch('projects.managers.hashlib.md5', return_value=md5(b"unit"))
 @patch('projects.managers.open', mock_open(), create=True)
 @patch('projects.managers.os.walk',

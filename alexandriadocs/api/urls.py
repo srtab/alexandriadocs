@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
-from django.conf.urls import url
+from django.urls import path
 
 from api.views import ImportedArchiveView
 
 urlpatterns = [
-    url(
-        regex=r'^projects/upload/$',
+    path(
+        route='projects/upload/',
         view=ImportedArchiveView.as_view(),
         name='project-imported-archive'
     )
