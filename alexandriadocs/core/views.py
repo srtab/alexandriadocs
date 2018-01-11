@@ -23,9 +23,10 @@ class AlexandriaDocsSEO(MetadataMixin):
 
     def get_meta_description(self, context=None):
         return _(
-            "AlexandriaDocs is where you can host, group, and easily search "
-            "all your documentation generated with your favorite static site "
-            "generator like Sphinx, MkDocs, Jekyll, Hugo, etc..."
+            "AlexandriaDocs is where you can host all your documentation, "
+            "making it groupable and fully searchable by you and others. "
+            "You can upload your static site generated with your favorite "
+            "tools like Sphinx, MkDocs, Jekyll, Hugo..."
         )
 
 
