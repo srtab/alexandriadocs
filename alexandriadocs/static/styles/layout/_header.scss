@@ -2,7 +2,7 @@
 
 .navbar {
   .navbar-nav .nav-link {
-    padding: .6rem 1rem .40rem;
+    padding: .6rem 1rem .4rem;
 
     &.active {
       font-weight: 600;
@@ -11,6 +11,7 @@
 
   .form-search {
     position: relative;
+    margin-top: 10px;
   }
 
   .form-control {
@@ -18,7 +19,7 @@
     background-color: rgba(255, 255, 255, .2);
     border-color: transparent;
     color: #fff;
-    width: 20rem;
+    width: 100%;
 
     @include placeholder {
       color: rgba(255, 255, 255, .8);
@@ -29,18 +30,19 @@
       background-color: rgba(255, 255, 255, .3);
     }
 
-    &:focus {
-      width: 25rem;
-    }
   }
 
   .search-icon {
+    background: none;
+    border: none;
     color: #fff;
-    margin-top: -12px;
+    height: 38px;
+    margin-top: -19px;
     opacity: .8;
     position: absolute;
-    right: 20px;
+    right: 10px;
     top: 50%;
+    width: 45px;
   }
 
   .btn-outline-light:hover {
@@ -49,5 +51,22 @@
 
   .dropdown-profile .dropdown-menu {
     font-size: 90%;
+  }
+}
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) {
+  .navbar {
+    .form-search {
+      margin-top: 0;
+
+      .form-control {
+        width: 20rem;
+      }
+
+      .form-control:focus {
+        width: 25rem;
+      }
+    }
   }
 }

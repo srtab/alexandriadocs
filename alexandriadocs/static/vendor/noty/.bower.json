@@ -17,15 +17,14 @@
   "authors": [
     "Nedim Arabacı <nedimarabaci@gmail.com>"
   ],
-  "version": "3.1.2",
-  "_release": "3.1.2",
+  "version": "3.1.4",
+  "_release": "3.1.4",
   "_resolution": {
     "type": "version",
-    "tag": "v3.1.2",
-    "commit": "8cac04259d9fe5e5aa8b83639c9000bc08e94a57"
+    "tag": "v3.1.4",
+    "commit": "77268c46b6db6a1eb7a920ed7c859fbc8de17993"
   },
   "_source": "https://github.com/needim/noty.git",
   "_target": "^3.1.2",
-  "_originalSource": "noty",
-  "_direct": true
+  "_originalSource": "noty"
 }

@@ -14,6 +14,13 @@
         {% is_current_url url_name='homepage' as is_homepage %}
         {% is_current_url namespace='search' as is_search %}
 
+        {% if not is_homepage and not is_search %}
+            <form action="{% url 'search:index' %}" class="form-inline form-search d-lg-none">
+                <input class="form-control mr-sm-2" name="q" type="text" placeholder="{% trans 'Search' %}" aria-label="{% trans 'Search' %}">
+                <button type="submit" class="search-icon"><i class="fa fa-search" aria-hidden="true"></i></button>
+            </form>
+        {% endif %}
+
         {% if user.is_authenticated %}
             <ul class="navbar-nav">
                 <li class="nav-item">
@@ -31,9 +38,9 @@
         {% endif %}
 
         {% if not is_homepage and not is_search %}
-            <form action="{% url 'search:index' %}" class="form-inline ml-auto form-search">
+            <form action="{% url 'search:index' %}" class="form-inline ml-auto form-search d-none d-lg-block">
                 <input class="form-control mr-sm-2" name="q" type="text" placeholder="{% trans 'Search' %}" aria-label="{% trans 'Search' %}">
-                <span class="search-icon"><i class="fa fa-search" aria-hidden="true"></i></span>
+                <button type="submit" class="search-icon"><i class="fa fa-search" aria-hidden="true"></i></button>
             </form>
         {% endif %}
 
