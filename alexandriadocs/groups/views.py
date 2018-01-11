@@ -47,7 +47,7 @@ class GroupDetailMixin(AlexandriaDocsSEO):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update({
-            'project_list': self.object.projects.collaborate(
+            'project_list': self.object.projects.public_or_collaborate(
                 self.request.user)
         })
         return context
