@@ -2,6 +2,7 @@
 from unittest.mock import patch
 
 from django.test import SimpleTestCase
+from django.urls import reverse
 
 from accounts.models import AccessLevel
 from groups.models import Group, GroupCollaborator
@@ -12,6 +13,11 @@ class GroupModelTest(SimpleTestCase):
     def test_str(self):
         group = Group(name="name")
         self.assertEqual(str(group), group.name)
+
+    def test_get_absolute_url(self):
+        group = Group(slug="name")
+        expected = reverse('groups:group-detail', args=[group.slug])
+        self.assertEqual(expected, group.get_absolute_url())
 
     @patch.object(GroupCollaborator, 'objects')
     def test_post_save_with_created_true(self, mobjects):

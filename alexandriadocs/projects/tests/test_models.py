@@ -18,6 +18,10 @@ class ProjectModelTest(SimpleTestCase):
     def test_str(self):
         self.assertEqual(str(self.project), self.project.name)
 
+    def test_fullname(self):
+        self.project.group = Group(name="Group")
+        self.assertEqual("Group / name", self.project.fullname)
+
     @patch.object(Group, 'is_private', new_callable=PropertyMock,
                   return_value=True)
     def test_is_private_with_group_private(self, mis_private):
@@ -79,6 +83,11 @@ class ProjectModelTest(SimpleTestCase):
         mimported_archives.latest.side_effect = ImportedArchive.DoesNotExist
         result = self.project.last_imported_archive_date
         self.assertIsNone(result)
+
+    @patch.object(Project, 'imported_archives')
+    def test_imported_archive_exists(self, mimported_archives):
+        self.project.imported_archive_exists
+        mimported_archives.exists.assert_called_with()
 
     @patch.object(Project, 'imported_files')
     def test_imported_files_count(self, mimported_files):

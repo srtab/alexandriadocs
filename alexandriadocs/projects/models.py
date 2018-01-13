@@ -109,7 +109,7 @@ class Project(VisibilityMixin, TimeStampedModel):
             .exclude(id=self.pk)
         if projects.exists():
             raise ValidationError({
-                'name': _("Project with this Project name already exists.")
+                'name': _("Project with this name already exists.")
             })
 
     @staticmethod
