@@ -12,6 +12,7 @@ skip_covered = True
 show_missing = True
 ignore_errors = True
 sort = Cover
+precision = 2
 exclude_lines =
     # Have to re-enable the standard pragma
     pragma: no cover
