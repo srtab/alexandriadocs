@@ -25,6 +25,12 @@ class ProjectIndexTest(SimpleTestCase):
         result = self.project_index.prepare_absolute_url(project)
         self.assertEqual(result, "/docs/index.html")
 
+    @patch.object(ProjectIndex, 'get_model')
+    def test_load_all_queryset(self, mget_model):
+        """ """
+        self.project_index.load_all_queryset()
+        mget_model().objects.all().select_related.assert_called_with('group')
+
 
 class ImportedFileIndexTest(SimpleTestCase):
     """ """
@@ -36,6 +42,13 @@ class ImportedFileIndexTest(SimpleTestCase):
     def test_get_model(self):
         """ """
         self.assertEqual(self.imported_file_index.get_model(), ImportedFile)
+
+    @patch.object(ImportedFileIndex, 'get_model')
+    def test_load_all_queryset(self, mget_model):
+        """ """
+        self.imported_file_index.load_all_queryset()
+        mget_model().objects.all().select_related\
+            .assert_called_with('project__group')
 
     @patch.object(ImportedFile, 'get_absolute_url', return_value="/test.html")
     def test_prepare_absolute_url(self, mget_absolute_url):
