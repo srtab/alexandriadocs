@@ -3,8 +3,8 @@ from unittest.mock import Mock, patch
 
 from django.test import SimpleTestCase
 
-from core.tests.utils import TemplateTagsTest
 from accounts.templatetags.accounts_tags import get_providers_unconnected
+from core.tests.utils import TemplateTagsTest
 
 
 class GetProvidersUnconnectedTest(SimpleTestCase):

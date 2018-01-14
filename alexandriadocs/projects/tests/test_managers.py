@@ -8,7 +8,6 @@ from model_mommy import mommy
 from projects.managers import ProjectQuerySet
 from projects.models import ImportedFile, Project
 
-
 mommy.generators.add(
     'autoslug.fields.AutoSlugField', 'model_mommy.random_gen.gen_slug')
 

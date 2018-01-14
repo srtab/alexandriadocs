@@ -8,7 +8,6 @@ from projects.models import ImportedArchive, ImportedFile, Project
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-
 mommy.generators.add(
     'autoslug.fields.AutoSlugField', 'model_mommy.random_gen.gen_slug')
 

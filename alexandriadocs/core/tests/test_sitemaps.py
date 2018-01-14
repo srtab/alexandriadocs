@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-from unittest.mock import patch, Mock
+from unittest.mock import Mock, patch
 
 from django.test import SimpleTestCase
 
 from core.sitemaps import (
-    StaticViewSitemap, ProjectViewSitemap, GroupViewSitemap
+    GroupViewSitemap, ProjectViewSitemap, StaticViewSitemap
 )
 
 

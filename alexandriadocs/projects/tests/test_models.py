@@ -1,8 +1,8 @@
 from unittest.mock import MagicMock, PropertyMock, patch
 
+from django.core.exceptions import ValidationError
 from django.test import SimpleTestCase
 from django.urls import reverse
-from django.core.exceptions import ValidationError
 
 from accounts.models import AccessLevel
 from groups.models import Group

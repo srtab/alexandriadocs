@@ -1,7 +1,7 @@
 import os
 import shutil
-from zipfile import ZipFile
 from pathlib import Path
+from zipfile import ZipFile
 
 from django.conf import settings as djsettings
 from django.core.exceptions import ValidationError
@@ -21,7 +21,7 @@ from groups.models import Group
 from projects.managers import ImportedFileManager, ProjectManager
 from projects.tokens import token_generator
 from projects.utils import projects_upload_to
-from projects.validators import StructureValidator, MimeTypeValidator
+from projects.validators import MimeTypeValidator, StructureValidator
 from taggit.managers import TaggableManager
 
 
