@@ -1,3 +1,5 @@
+from zipfile import ZipFile
+
 from django.core.exceptions import ValidationError
 from django.utils.deconstruct import deconstructible
 from django.utils.translation import ugettext_lazy as _
@@ -28,3 +30,26 @@ class MimeTypeValidator(object):
                 'allowed_mimetypes': ', '.join(self.allowed_mimetypes)
             }
             raise ValidationError(message)
+
+
+@deconstructible
+class StructureValidator(object):
+    """Validates archives structures."""
+
+    message = _(
+        "The archive structure is not as expected. Must contain at least an "
+        "index.html as root element."
+    )
+
+    def __init__(self, message=None):
+        if message is not None:
+            self.message = message
+
+    def __call__(self, value):
+        with ZipFile(value) as myzip:
+            if myzip.testzip():
+                raise ValidationError(_("Invalid zip file provided."))
+            try:
+                myzip.getinfo("index.html")
+            except KeyError:
+                raise ValidationError(self.message)
