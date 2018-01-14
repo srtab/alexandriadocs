@@ -2,6 +2,7 @@ from unittest.mock import MagicMock, PropertyMock, patch
 
 from django.test import SimpleTestCase
 from django.urls import reverse
+from django.core.exceptions import ValidationError
 
 from accounts.models import AccessLevel
 from groups.models import Group
@@ -98,6 +99,19 @@ class ProjectModelTest(SimpleTestCase):
     def test_api_token(self, mmake_token):
         self.assertEqual(self.project.api_token, 'token')
         mmake_token.assert_called_with(self.project)
+
+    @patch.object(Project, 'objects')
+    def test_clean(self, mobjects):
+        mobjects.filter().exclude().exists.return_value = False
+        Project(pk=1, name="name", group_id=10).clean()
+        mobjects.filter.assert_called_with(group_id=10, name__iexact='name')
+        mobjects.filter().exclude.assert_called_with(id=1)
+
+    @patch.object(Project, 'objects')
+    def test_clean_invalid(self, mobjects):
+        mobjects.filter().exclude().exists.return_value = True
+        with self.assertRaises(ValidationError):
+            Project(pk=1, name="name", group_id=10).clean()
 
     @patch.object(ProjectCollaborator, 'objects')
     def test_post_save_with_created_true(self, mobjects):

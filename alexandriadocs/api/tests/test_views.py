@@ -1,21 +1,23 @@
-from unittest import skipIf
 from unittest.mock import patch
 
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db.models.signals import post_save
 from django.urls import reverse
 
-from autofixture import __version__ as autofixture_version, create_one
+from model_mommy import mommy
 from projects.models import ImportedArchive, Project
 from rest_framework import status
 from rest_framework.test import APITestCase
 
 
-@skipIf(autofixture_version == "0.12.1", "don't support django v2.0")
+mommy.generators.add(
+    'autoslug.fields.AutoSlugField', 'model_mommy.random_gen.gen_slug')
+
+
 class ImportedArchiveViewTest(APITestCase):
 
     def setUp(self):
-        self.project = create_one(Project, generate_fk=True)
+        self.project = mommy.make(Project)
         self.headers = {'HTTP_API_KEY': self.project.api_token}
         self.url = reverse('api:project-imported-archive', args=['v1'])
 
