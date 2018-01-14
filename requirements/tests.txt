@@ -1,6 +1,4 @@
 -r common.txt
 
-django-autofixture
-tblib
-
+model_mommy~=1.5.0
 django-ajax-cbv~=0.1.1

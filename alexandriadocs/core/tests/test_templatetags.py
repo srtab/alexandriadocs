@@ -68,6 +68,16 @@ class IsCurrentUrlTagTest(TemplateTagsTest, SimpleTestCase):
         rendered = self.render_template(template, {'request': self.request})
         self.assertEqual(rendered, "False")
 
+    def test_request_without_resolver(self):
+        template = (
+            "{% load core_tags %}"
+            "{% is_current_url url_name='dummy' as val %}"
+            "{{val}}"
+        )
+        self.request.resolver_match = None
+        rendered = self.render_template(template, {'request': self.request})
+        self.assertEqual(rendered, "False")
+
 
 class MenuActiveTagTest(TemplateTagsTest, SimpleTestCase):
 
@@ -142,6 +152,12 @@ class BodyClassTagTest(TemplateTagsTest, SimpleTestCase):
         rendered = self.render_template(template, {'request': self.request})
         self.assertEqual(rendered, 'view-url_name')
 
+    def test_without_resolver_match(self):
+        self.request.resolver_match = None
+        template = "{% load core_tags %}{% body_class %}"
+        rendered = self.render_template(template, {'request': self.request})
+        self.assertEqual(rendered, 'view-noresolver-match')
+
 
 class VisibilityIconTagTest(TemplateTagsTest, SimpleTestCase):
     """ """
@@ -181,3 +197,35 @@ class AbsoluteUriTagTest(TemplateTagsTest, SimpleTestCase):
         template = "{% load core_tags %}{% absolute_uri '/unit/' %}"
         rendered = self.render_template(template, {'request': self.request})
         self.assertEqual(rendered, 'http://testserver/unit/')
+
+
+class RepoIconTagTest(TemplateTagsTest, SimpleTestCase):
+
+    def test_default_icon(self):
+        template = "{% load core_tags %}{{ 'dummy'|repo_icon }}"
+        rendered = self.render_template(template)
+        self.assertEqual(
+            rendered,
+            '<i class="fa fa-fw fa-git-square" aria-hidden="true"></i> Source')
+
+    def test_github_icon(self):
+        template = "{% load core_tags %}{{ 'github'|repo_icon }}"
+        rendered = self.render_template(template)
+        self.assertEqual(
+            rendered,
+            '<i class="fa fa-fw fa-github" aria-hidden="true"></i> Github')
+
+    def test_gitlab_icon(self):
+        template = "{% load core_tags %}{{ 'gitlab'|repo_icon }}"
+        rendered = self.render_template(template)
+        self.assertEqual(
+            rendered,
+            '<i class="fa fa-fw fa-gitlab" aria-hidden="true"></i> Gitlab')
+
+    def test_bitbucket_icon(self):
+        template = "{% load core_tags %}{{ 'bitbucket'|repo_icon }}"
+        rendered = self.render_template(template)
+        self.assertEqual(
+            rendered,
+            '<i class="fa fa-fw fa-bitbucket" aria-hidden="true"></i> '
+            'Bitbucket')
