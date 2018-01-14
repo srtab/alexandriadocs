@@ -11,7 +11,7 @@ class AlexandriaAppConf(AppConf):
     # number of elements to show on history uploads
     UPLOADS_HISTORY_LIMIT = 10
     # upload allowed mimetypes
-    ALLOWED_MIMETYPES = ('application/x-gzip',)
+    ALLOWED_MIMETYPES = ('application/zip',)
     # valid file extensions to be indexed and registered
     VALID_IMPORT_EXT = ['.html']
 

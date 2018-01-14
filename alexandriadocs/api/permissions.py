@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
+from django.utils.translation import ugettext_lazy as _
+
 from projects.tokens import token_generator
 from rest_framework import permissions
-from django.utils.translation import ugettext_lazy as _
 
 
 class HasAPIAccess(permissions.BasePermission):

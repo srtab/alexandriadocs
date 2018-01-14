@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-from unittest.mock import patch, call
+from unittest.mock import call, patch
 
 from django.test import SimpleTestCase
 
-from search.signals import AlexandriaSignalProcessor
 from projects.models import ImportedFile, Project
+from search.signals import AlexandriaSignalProcessor
 
 
 class AlexandriaSignalProcessorTest(SimpleTestCase):

@@ -1,8 +1,8 @@
 from unittest.mock import MagicMock, PropertyMock, patch
 
+from django.core.exceptions import ValidationError
 from django.test import SimpleTestCase
 from django.urls import reverse
-from django.core.exceptions import ValidationError
 
 from accounts.models import AccessLevel
 from groups.models import Group
@@ -136,23 +136,23 @@ class ImportedArchiveModelTest(SimpleTestCase):
         self.assertEqual(str(self.archive), self.project.name)
 
     @patch.object(ImportedFile.objects, 'walk')
-    @patch('projects.models.tarfile')
-    def test_fileify(self, tarfile, walk):
-        self.archive.fileify()
-        tarfile.open.assert_called_with(self.archive.archive.path, 'r:gz')
-        tarfile.open().__enter__().extractall.assert_called_with(
+    @patch('projects.models.ZipFile')
+    def test_filesify(self, zipfile, walk):
+        self.archive.filesify()
+        zipfile.assert_called_with(self.archive.archive.path)
+        zipfile().__enter__().extractall.assert_called_with(
             self.project.serve_root_path)
         walk.assert_called_with(self.project.pk, self.project.serve_root_path)
 
     def test_post_save(self):
-        self.archive.fileify = MagicMock()
+        self.archive.filesify = MagicMock()
         ImportedArchive.post_save(ImportedArchive, self.archive, True)
-        self.assertTrue(self.archive.fileify.called)
+        self.assertTrue(self.archive.filesify.called)
 
     def test_post_save_not_created(self):
-        self.archive.fileify = MagicMock()
+        self.archive.filesify = MagicMock()
         ImportedArchive.post_save(ImportedArchive, self.archive, False)
-        self.archive.fileify.assert_not_called()
+        self.archive.filesify.assert_not_called()
 
 
 class ImportedFileModelTest(SimpleTestCase):

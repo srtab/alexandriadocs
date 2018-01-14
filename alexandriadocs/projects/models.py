@@ -1,7 +1,7 @@
 import os
 import shutil
-import tarfile
 from pathlib import Path
+from zipfile import ZipFile
 
 from django.conf import settings as djsettings
 from django.core.exceptions import ValidationError
@@ -21,7 +21,7 @@ from groups.models import Group
 from projects.managers import ImportedFileManager, ProjectManager
 from projects.tokens import token_generator
 from projects.utils import projects_upload_to
-from projects.validators import MimeTypeValidator
+from projects.validators import MimeTypeValidator, StructureValidator
 from taggit.managers import TaggableManager
 
 
@@ -170,16 +170,18 @@ class ImportedArchive(TimeStampedModel):
         help_text=_('archive with project documentation.'),
         validators=[
             MimeTypeValidator(
-                allowed_mimetypes=settings.ALEXANDRIA_ALLOWED_MIMETYPES)
+                allowed_mimetypes=settings.ALEXANDRIA_ALLOWED_MIMETYPES),
+            StructureValidator()
         ])
 
     class Meta:
+        ordering = ('-created',)
         verbose_name = _('imported archive')
 
     def __str__(self):
         return self.project.__str__()
 
-    def fileify(self):
+    def filesify(self):
         """
         Extract tarfile and launch walk through valid imported files to
         create entries on database with file info to be indexed.
@@ -187,8 +189,8 @@ class ImportedArchive(TimeStampedModel):
         # clean directory
         shutil.rmtree(self.project.serve_root_path, ignore_errors=True)
         # extract all files
-        with tarfile.open(self.archive.path, "r:gz") as tar:
-            tar.extractall(self.project.serve_root_path)
+        with ZipFile(self.archive.path) as myzip:
+            myzip.extractall(self.project.serve_root_path)
         # register file on database
         ImportedFile.objects.walk(self.project_id,
                                   self.project.serve_root_path)
@@ -199,7 +201,7 @@ class ImportedArchive(TimeStampedModel):
         Fileyfi the imported archive on each ImportedArchive object creation
         """
         if created:
-            instance.fileify()
+            instance.filesify()
 
 
 post_save.connect(ImportedArchive.post_save, sender=ImportedArchive)
